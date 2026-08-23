@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "purpose": "Prior-work cases that every v2 migration stage must preserve or explicitly supersede with evidence.",
+  "pdf": "pdfs/NEP-2027-VOLUME-2B_OCR.pdf",
+  "pages": [
+    {"page": 8, "gates": ["extract", "zones", "schema", "rows"], "facts": ["paddle_splits_regional_mega_label", "clean_ilocos_ivb", "multi_zone", "money_commas_intact"]},
+    {"page": 11, "gates": ["schema", "prose"], "facts": ["special_provisions_remain_prose"]},
+    {"page": 13, "gates": ["layout", "cells", "schema", "rows", "money"], "facts": ["lattice", "roles_ps_mooe_co_total", "prexc_not_money", "row_sum_gold"]},
+    {"page": 14, "gates": ["schema", "carry", "hierarchy"], "facts": ["lattice_continuation", "contiguous_carry"]},
+    {"page": 29, "gates": ["schema", "rows"], "facts": ["co_total_only_without_role_collapse"]},
+    {"page": 108, "gates": ["zones", "schema"], "facts": ["lattice_then_years"]},
+    {"page": 109, "gates": ["zones", "schema", "units"], "facts": ["years_prose_passthrough", "thousand_pesos_inherit"]},
+    {"page": 114, "gates": ["schema", "money"], "facts": ["coe_lattice", "currency_p_prefix"]},
+    {"page": 115, "gates": ["rows", "anatomy", "hierarchy", "carry"], "facts": ["pap_start", "amount_anchored"]},
+    {"page": 116, "gates": ["rows", "hierarchy", "carry"], "facts": ["pap_continuation", "inherits_open_parents"]},
+    {"page": 134, "gates": ["hierarchy"], "facts": ["large_leftward_transition", "must_not_runaway_levels"]},
+    {"page": 138, "gates": ["hybrid", "money"], "facts": ["source_amount_15100000", "paddle_amount_preserved", "v1_pdf_patch_rejected"]},
+    {"page": 147, "gates": ["hybrid", "bullet"], "facts": ["source_bullet_3_period", "paddle_bullet_preserved", "v1_pdf_patch_rejected"]},
+    {"page": 149, "gates": ["hybrid", "money"], "facts": ["source_amount_21000000", "paddle_amount_preserved", "v1_pdf_patch_rejected"]},
+    {"page": 195, "gates": ["rows", "anatomy"], "facts": ["chainage_wrap_attached", "title_is_maharlika_highway_lz", "three_chainages"]},
+    {"page": 247, "gates": ["hybrid", "rows", "anatomy"], "facts": ["source_raster_reads_424", "paddle_424_preserved", "v1_pdf_patch_rejected"]},
+    {"page": 446, "gates": ["rows", "money"], "facts": ["km_station_noise_contextual"]},
+    {"page": 452, "gates": ["rows"], "facts": ["deep_wrap_stays_in_previous_amount_band"]},
+    {"page": 480, "gates": ["raster", "hybrid", "rows"], "facts": ["row_loss_at_150_dpi", "source_district_1_hyphen", "paddle_label_preserved", "v1_pdf_patch_rejected"]},
+    {"page": 680, "gates": ["rows", "anatomy"], "facts": ["gps_digit_only_continuation"]},
+    {"page": 688, "gates": ["extract", "rows", "domain"], "facts": ["paddle_money_letters_clean", "fap_funding_fold"]}
+  ],
+  "contiguous_spans": [
+    {"pages": "13-20", "purpose": "By-OU carry and early lattice assembly"},
+    {"pages": "115-130", "purpose": "PAP row, carry, and hierarchy assembly"}
+  ],
+  "cross_volume_sources": [
+    "paddle_pdf_ocr/fixtures/vol1_smoke.json",
+    "paddle_pdf_ocr/fixtures/vol2a_smoke.json",
+    "paddle_pdf_ocr/fixtures/vol3_smoke.json"
+  ]
+}

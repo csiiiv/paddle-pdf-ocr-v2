@@ -1,0 +1,28 @@
+:root { color-scheme: dark; font-family: system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #15171b; color: #e8e8e8; }
+header { height: 48px; display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #22262d; border-bottom: 1px solid #3a404a; }
+header input { width: 130px; padding: 4px; }
+#page { width: 65px; }
+#status { margin-left: auto; color: #aab4c3; font-size: 12px; }
+button { background: #303744; color: #eee; border: 1px solid #4a5362; border-radius: 4px; padding: 5px 9px; cursor: pointer; }
+button.active { background: #3b6592; }
+main { height: calc(100vh - 48px); display: grid; grid-template-columns: minmax(420px, 58%) 1fr; }
+#document-pane { overflow: auto; padding: 14px; background: #101216; }
+#page-stage { position: relative; margin: 0 auto; width: max-content; box-shadow: 0 2px 16px #000; }
+#pdf-canvas { display: block; background: white; }
+#overlay { position: absolute; inset: 0; pointer-events: none; }
+.box-paddle { fill: #38e08a18; stroke: #28d17c; stroke-width: 0.8; }
+.box-layout { fill: #bd63ff12; stroke: #bd63ff; stroke-width: 1.1; }
+.label-layout { fill: #bd63ff; font: 9px system-ui, sans-serif; paint-order: stroke; stroke: #fff; stroke-width: 2px; }
+.box-cell { fill: #ffde5910; stroke: #e7b900; stroke-width: 0.65; }
+aside { min-width: 0; border-left: 1px solid #3a404a; display: flex; flex-direction: column; }
+nav { display: flex; gap: 5px; padding: 8px; border-bottom: 1px solid #3a404a; flex-wrap: wrap; }
+#panel { padding: 10px; overflow: auto; min-height: 0; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th, td { border-bottom: 1px solid #343a43; padding: 5px; text-align: left; vertical-align: top; }
+th { position: sticky; top: 0; background: #22262d; }
+.pass { color: #66d98b; }.review { color: #ffd166; }.regression { color: #ff6b6b; }
+.card { border: 1px solid #3c4450; border-radius: 5px; padding: 9px; margin-bottom: 9px; }
+pre { white-space: pre-wrap; word-break: break-word; font-size: 11px; }
+.muted { color: #9ca8b8; }

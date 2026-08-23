@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "pdf": "pdfs/NEP-2027-VOLUME-2B_OCR.pdf",
+  "reviews": [
+    {
+      "page": 138,
+      "status": "rejected",
+      "v1_replacement": "100 ← 15!100,000",
+      "paddle_text": "15,100,000",
+      "pdf_text": "15!100,000",
+      "reviewed_text": "15,100,000",
+      "evidence": "Source raster reviewed with full row context at 300/600 DPI.",
+      "consequence": "Keep Paddle amount; reject PDF replacement."
+    },
+    {
+      "page": 147,
+      "status": "rejected",
+      "v1_replacement": ". ← !",
+      "paddle_text": "3.",
+      "pdf_text": "!",
+      "reviewed_text": "3.",
+      "evidence": "Source raster shows numbered bullet 3.; Paddle line is correct.",
+      "consequence": "Keep Paddle bullet; reject PDF replacement."
+    },
+    {
+      "page": 149,
+      "status": "rejected",
+      "v1_replacement": "000 ← 21!0001000",
+      "paddle_text": "21,000,000",
+      "pdf_text": "21!0001000",
+      "reviewed_text": "21,000,000",
+      "evidence": "Source raster reviewed with full row context at 300/600 DPI.",
+      "consequence": "Keep Paddle amount; reject PDF replacement."
+    },
+    {
+      "page": 247,
+      "status": "rejected",
+      "v1_replacement": "424 ← 4?4; then ? normalized to 7",
+      "paddle_text": "424",
+      "pdf_text": "4?4",
+      "reviewed_text": "424",
+      "bbox_pt": [229.32, 483.12, 244.8, 491.76],
+      "evidence": "Source raster reviewed at 600 DPI on 2026-08-23; middle digit is visibly 2.",
+      "consequence": "Keep Paddle 424. Do not apply the v1 PDF replacement or ?→7 normalization."
+    },
+    {
+      "page": 480,
+      "status": "rejected",
+      "v1_replacement": "1- ← !-",
+      "paddle_text": "District 1-",
+      "pdf_text": "District !-",
+      "reviewed_text": "District 1-",
+      "evidence": "Source raster shows District 1-; Paddle line is correct.",
+      "consequence": "Keep Paddle label; reject PDF replacement."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "paddle-pdf-ocr-v2"
+version = "0.1.0"
+description = "Structured NEP budget extraction from PDF"
+requires-python = ">=3.11"
+dependencies = [
+  "pymupdf>=1.24",
+  "numpy>=1.24",
+  "Pillow>=10.0",
+]
+
+[project.optional-dependencies]
+gpu = [
+  "paddleocr>=3.0",
+  "opencv-python-headless>=4.8",
+]
+test = ["pytest>=8.0"]
+
+[tool.setuptools]
+py-modules = []
+
+[tool.pytest.ini_options]
+testpaths = ["etl/tests"]
+addopts = "-ra"
