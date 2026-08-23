@@ -1,10 +1,17 @@
 # V1 assessment and v2 build plan
 
-**Status:** Working plan  
+**Status:** Historical assessment; implementation plan superseded
 **Recorded at:** 2026-08-23T08:07:49+08:00  
 **Timestamp source:** reconstructed from document modification time  
-**Last updated:** 2026-08-23T09:14:46+08:00  
+**Last updated:** 2026-08-23T20:17:55+08:00
 **Decision:** Clean sibling project; fresh GPU burns are allowed.
+
+> This document records the plan at project inception. It is not the current
+> runbook. The active graph is in [`ETL_DAG.md`](ETL_DAG.md), the implemented
+> measurement model is in
+> [`TOKEN_GEOMETRY_IMPLEMENTATION.md`](TOKEN_GEOMETRY_IMPLEMENTATION.md), and
+> ADR-017 records why model layout/cell stages were retired from the canonical
+> DAG.
 
 **Promotion policy:** Architectural purity has no independent value. See
 [`PROMOTION_GATES.md`](PROMOTION_GATES.md). V2 replaces a reviewed v1 component
@@ -46,8 +53,8 @@ source for rasterization and visual review only.
 |---------------|-----------|
 | PDF-point coordinate normalization | Reimplement from the small proven helper |
 | Paddle OCR parsing with word boxes | Port with captured model-output fixtures |
-| Layout regions and chrome filtering | Port with page-level overlay QA |
-| Table-cell detection and quality fallback | Port after lattice fixtures exist |
+| Layout regions and chrome filtering | Superseded by deterministic token geometry and planned table sections |
+| Table-cell detection and quality fallback | Retained only as archived A/B evidence; deterministic cells are downstream |
 | Historical PDF/Paddle patch evidence | Preserve only as archived decision evidence |
 | Money clustering and slot assignment | Port as tested pure geometry functions |
 | Amount-anchored row bands | Port only with real wrap/attachment fixtures |

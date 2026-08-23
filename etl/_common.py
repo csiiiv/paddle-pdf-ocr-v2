@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import argparse
+import json
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 PROJECT = Path(__file__).resolve().parents[1]
 REPO = PROJECT.parent
@@ -40,6 +42,13 @@ def resolve_pdf(path: Path) -> Path:
     return project_candidate
 
 
+def resolve_project_path(path: Path) -> Path:
+    """Resolve a project-relative path (fixtures, configs) against PROJECT."""
+    if path.is_absolute():
+        return path
+    return PROJECT / path
+
+
 def parse_pages(spec: str) -> list[int]:
     pages: set[int] = set()
     for part in spec.split(","):
@@ -55,6 +64,50 @@ def parse_pages(spec: str) -> list[int]:
             pages.add(int(part))
     if not pages or min(pages) < 1:
         raise ValueError(f"invalid page selection: {spec!r}")
+    return sorted(pages)
+
+
+def _collect_page_values(value: Any, *, path: str) -> set[int]:
+    pages: set[int] = set()
+    if isinstance(value, int):
+        pages.add(value)
+    elif isinstance(value, str):
+        pages.update(parse_pages(value))
+    elif isinstance(value, dict):
+        if "page" in value:
+            pages.add(int(value["page"]))
+        elif "pages" in value:
+            pages.update(_collect_page_values(value["pages"], path=f"{path}.pages"))
+        else:
+            raise ValueError(
+                f"{path}: object needs 'page' or 'pages' (keys: {sorted(value)})"
+            )
+    elif isinstance(value, list):
+        if not value:
+            raise ValueError(f"{path}: empty page list")
+        for index, item in enumerate(value):
+            pages.update(_collect_page_values(item, path=f"{path}[{index}]"))
+    else:
+        raise ValueError(f"{path}: unsupported page value type {type(value).__name__}")
+    return pages
+
+
+def load_pages_from_json(path: Path, obj_name: str) -> list[int]:
+    """Load a named page set from JSON (e.g. migration_gold edge_pages)."""
+    resolved = resolve_project_path(path)
+    if not resolved.is_file():
+        raise ValueError(f"pages JSON not found: {resolved}")
+    payload = json.loads(resolved.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"{resolved}: top-level JSON must be an object")
+    if obj_name not in payload:
+        keys = ", ".join(sorted(map(str, payload))) or "(none)"
+        raise ValueError(
+            f"pages object {obj_name!r} not in {resolved}; available: {keys}"
+        )
+    pages = _collect_page_values(payload[obj_name], path=obj_name)
+    if not pages or min(pages) < 1:
+        raise ValueError(f"invalid page selection from {obj_name!r} in {resolved}")
     return sorted(pages)
 
 

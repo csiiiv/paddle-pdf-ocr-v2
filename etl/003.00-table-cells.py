@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Stage 003.00: upstream OCR/layout JSON to optional table-cell JSON.
+"""Archived comparison stage: model-proposed table-cell JSON.
+
+This script is not registered in the canonical ACTIVE_STAGES sequence.
 
 Inputs: 001.00 Paddle, 002.00 layout, and source PDF pages
 Outputs: 003.00-table-cells/pages/*.json and qa/summary.json

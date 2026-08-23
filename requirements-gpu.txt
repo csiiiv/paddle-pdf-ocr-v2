@@ -1,0 +1,12 @@
+# GPU OCR/layout stack for paddle_pdf_ocr_v2.
+#
+# 1) Install the CUDA framework from Paddle's index (not stock PyPI):
+#    python -m pip install paddlepaddle-gpu==3.3.1 \
+#      -i https://www.paddlepaddle.org.cn/packages/stable/cu130/
+#
+#    Verified on this machine: GTX 1650, driver CUDA 13.x, Python 3.13.
+#    Do not install the CPU `paddlepaddle` wheel into the same environment.
+#
+# 2) Then install the OCR extras from this file (or `pip install -e '.[gpu]'`):
+paddleocr>=3.7
+opencv-python-headless>=4.8

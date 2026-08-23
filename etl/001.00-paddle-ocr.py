@@ -20,6 +20,8 @@ from _shared.contracts import stamp_meta
 from _shared.raster import render_page_rgb
 from _shared.timestamps import iso_now
 
+TEXT_DET_BOX_THRESH = 0.55
+
 
 def build_ocr(*, lang: str = "en", device: str = "gpu:0") -> Any:
     """Construct the reviewed PaddleOCR 3.x configuration used by v2."""
@@ -30,6 +32,7 @@ def build_ocr(*, lang: str = "en", device: str = "gpu:0") -> Any:
         use_doc_orientation_classify=False,
         use_doc_unwarping=False,
         use_textline_orientation=False,
+        text_det_box_thresh=TEXT_DET_BOX_THRESH,
         return_word_box=True,
         device=device,
     )
@@ -41,9 +44,16 @@ def run_ocr(engine: Any, image_rgb: np.ndarray) -> Any:
     if not hasattr(engine, "predict"):
         raise TypeError("PaddleOCR v2 requires the PaddleOCR 3.x predict API")
     try:
-        return engine.predict(image_bgr, return_word_box=True)
+        return engine.predict(
+            image_bgr,
+            return_word_box=True,
+            text_det_box_thresh=TEXT_DET_BOX_THRESH,
+        )
     except TypeError:
-        return engine.predict(image_bgr)
+        try:
+            return engine.predict(image_bgr, return_word_box=True)
+        except TypeError:
+            return engine.predict(image_bgr)
 
 
 def _get(payload: Any, key: str) -> Any:
@@ -247,7 +257,9 @@ def run_stage(context, *, engine: Any | None = None) -> dict[str, Any]:
         "n_pages": len(results), "n_fail": n_fail,
         "started_at": started_at, "completed_at": iso_now(),
         "timestamp_source": "captured", "elapsed_s": round(time.perf_counter() - started, 3),
-        "settings": {"dpi": context.dpi, "device": context.device, "return_word_box": True},
+        "settings": {"dpi": context.dpi, "device": context.device,
+                     "return_word_box": True,
+                     "text_det_box_thresh": TEXT_DET_BOX_THRESH},
         "pages": results, "pass": n_fail == 0}
     write_json_atomic(context.store.stage_qa_path("paddle"), summary)
     return summary

@@ -10,6 +10,8 @@ working behavior from `paddle_ocr`, `pdf_ocr`, and `paddle_pdf_ocr`.
 - **RETEST:** promising or partially validated; must pass retained v2 gates.
 - **REPLACE:** known design failure; preserve only its test cases and lessons.
 - **HISTORICAL:** useful context, not a current design requirement.
+- **SUPERSEDED:** once adopted, but replaced by a later reviewed decision;
+  retain its evidence and failure cases.
 
 ## 1. Extraction and geometry
 
@@ -21,10 +23,10 @@ working behavior from `paddle_ocr`, `pdf_ocr`, and `paddle_pdf_ocr`.
 | Paddle fixes Acrobat mega-blocks and common OCR dirt | **PRESERVE** | `paddle_ocr/docs/edge-compare.md`: p.8 regions, `!locos`, comma spacing; p.688 money letters | Port word/line Paddle parsing and retain the cited pages as gold |
 | Paddle can drop rare numeric wraps | **RETEST** | Historical p.247 claim was disproven by v2 source-raster review; other continuation risks remain | Hybrid hole probes still include chainage/GPS cases, but do not cite p.247 as a Paddle omission |
 | 200 DPI is the production default | **PRESERVE** | ADR-007: 150 DPI saved ~5% but lost rows at p.480 | Do not retune DPI without fidelity evidence; default 200 |
-| OCR, layout, and cell detection are separate models | **PRESERVE** | Pipeline modules M3/M4/M5; layout/cells add signals OCR cannot derive | Separate layers and invalidation; do not treat one Paddle call as the pipeline |
-| LayoutDetection is valuable for multi-zone pages | **PRESERVE** | p.8, 108, 109 zones; p.13 lattice uses layout + cells | Port after OCR with viewer overlays and zone fixtures |
-| Table cells matter chiefly on lattice/By-OU pages | **PRESERVE** | p.13 cells; measured PAP savings; `--tables-pages 13-108` | Do not burn cell model across PAP by default |
-| Cell boxes can precede merge; cell text cannot | **PRESERVE** | Pipeline modules open question M5/M6 | Separate cell geometry from text fill in the contract |
+| OCR, layout, and cell detection are separate models | **SUPERSEDED** | Archived M3/M4/M5 layering; model lines joined markers and labels | Paddle remains the text model; deterministic geometry is an independent artifact stage |
+| LayoutDetection is valuable for multi-zone pages | **SUPERSEDED/RETEST** | p.8, 108, 109 exposed useful cases but inconsistent line grouping | Preserve fixtures and archived overlays; derive sections transparently from token geometry |
+| Table cells matter chiefly on lattice/By-OU pages | **SUPERSEDED/RETEST** | p.13 grid remains comparison evidence | Materialize cells later from reviewed deterministic boundaries; do not use model cells canonically |
+| Cell boxes can precede merge; cell text cannot | **HISTORICAL** | Earlier M5/M6 contract question | Current design preserves token/phrase evidence first; semantic cell assembly belongs downstream |
 | Raw Paddle prediction capture may aid parser migration | **RETEST** | Pipeline modules open question | Capture bounded parser fixtures for selected pages, not necessarily every volume page |
 
 ### Historical fallback baseline — closed
@@ -48,7 +50,7 @@ reproduce them. PDF fallback is out of scope under ADR-002; the archived
 | Finding | Class | Evidence | V2 consequence |
 |---------|-------|----------|----------------|
 | Geometry/schema mode replaces Kind as builder router | **PRESERVE** | ADR-001 and cross-volume smoke | Use `lattice`, `amount_anchored`, `years`, `prose`, `passthrough`; Kind may be a QA label only |
-| Multi-zone pages cannot have one page-wide builder | **PRESERVE** | p.8, 108, 109 fixtures | Infer and build per zone; retain zone identity in output |
+| Multi-section pages cannot have one page-wide builder | **PRESERVE** | p.8, 108, 109 fixtures | Infer deterministic table sections; retain section identity in output |
 | Prose mentioning money/OU terms must remain prose | **PRESERVE** | p.11 special-provision failure | Prose evidence can override superficial currency/OU cues |
 | Thin continuation pages need schema carry | **PRESERVE** | By-OU p.14 and PAP p.116 G3 results | Carry only through contiguous ascending pages |
 | `years`, `prose`, and `passthrough` policies were incomplete in v1 builders | **RETEST** | v1 inference emitted modes but builders mainly handled lattice/PAP | V2 must explicitly build, pass through, or flag unsupported output; never silently empty |

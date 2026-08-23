@@ -36,8 +36,8 @@ The default human-override insertion is `.90` after the owning major stage:
 001.00-paddle-ocr
   └─→ 001.90-ocr-human-overrides
 
-002.00-layout
-  └─→ 002.90-layout-human-overrides
+002.10-token-geometry
+  └─→ 002.90-geometry-human-overrides
 
 006.00-rows
   └─→ 006.90-row-human-overrides
@@ -45,6 +45,9 @@ The default human-override insertion is `.90` after the owning major stage:
 008.00-hierarchy
   └─→ 008.90-hierarchy-human-overrides
 ```
+
+Archived `002.00-layout` and `003.00-table-cells` artifacts are not eligible
+canonical override targets unless a later ADR explicitly reactivates them.
 
 Slots `.90`–`.99` are reserved for reviewed human intervention. Do not create
 an override node until at least one approved override exists. A node consumes

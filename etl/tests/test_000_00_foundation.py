@@ -193,5 +193,8 @@ def test_assemble_requires_no_pdf_text_layer() -> None:
         _assert_captured_timing(summary["pages"][0])
         assert not (run_dir / "layers").exists()
         extract = read_json(store.extract_path(1))
-        assert extract["source_mode"] == "paddle_primary"
+        assert extract["source_mode"] == "paddle_geometry_primary"
+        assert extract["regions"] == []
+        assert extract["tables"] == []
+        assert extract["extract_stats"]["model_layout_used"] is False
         assert "pdf_patch" not in extract

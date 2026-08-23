@@ -19,8 +19,8 @@ at that exact second. Future records capture their creation time directly.
 | [ADR-002](#adr-002-paddle-is-the-only-text-extraction-source) | Paddle is the only text extraction source | Implemented | 2026-08-23T08:08:07+08:00 |
 | [ADR-003](#adr-003-use-200-dpi-for-production-extraction) | Use 200 DPI for production extraction | Accepted | 2026-08-23T08:08:07+08:00 |
 | [ADR-004](#adr-004-own-artifacts-by-stage-and-write-json-atomically) | Stage-owned artifacts and atomic JSON | Implemented | 2026-08-23T08:08:07+08:00 |
-| [ADR-005](#adr-005-run-gpu-models-as-independent-tier-barriers) | Independent GPU tier barriers | Implemented | 2026-08-23T08:08:07+08:00 |
-| [ADR-006](#adr-006-run-table-cell-detection-selectively) | Selective table-cell detection | Implemented | 2026-08-23T08:08:07+08:00 |
+| [ADR-005](#adr-005-run-gpu-models-as-independent-tier-barriers) | Independent GPU tier barriers | Partially superseded by ADR-017 | 2026-08-23T08:08:07+08:00 |
+| [ADR-006](#adr-006-run-table-cell-detection-selectively) | Selective table-cell detection | Superseded by ADR-017 | 2026-08-23T08:08:07+08:00 |
 | [ADR-007](#adr-007-retain-run-scoped-qa-and-use-the-viewer-as-a-gate) | Retained QA and viewer gate | Implemented | 2026-08-23T08:08:07+08:00 |
 | [ADR-008](#adr-008-carry-exists-only-across-contiguous-pages) | Carry only across contiguous pages | Implemented | 2026-08-23T08:08:07+08:00 |
 | [ADR-009](#adr-009-persist-pre-hierarchy-rows-as-a-stage-boundary) | Persist pre-hierarchy rows | Accepted | 2026-08-23T08:08:07+08:00 |
@@ -31,6 +31,7 @@ at that exact second. Future records capture their creation time directly.
 | [ADR-014](#adr-014-numbered-etl-nodes-own-their-transformations) | Numbered ETL nodes own their transformations | Implemented | 2026-08-23T08:32:37+08:00 |
 | [ADR-015](#adr-015-model-human-overrides-as-explicit-dag-nodes) | Human overrides are explicit DAG nodes | Accepted | 2026-08-23T08:40:17+08:00 |
 | [ADR-016](#adr-016-use-one-explicit-ordered-etl-runner) | One explicit ordered ETL runner | Implemented | 2026-08-23T09:03:30+08:00 |
+| [ADR-017](#adr-017-use-deterministic-token-geometry-and-retire-model-layoutcells) | Deterministic token geometry; retire model layout/cells | Implemented | 2026-08-23T20:17:55+08:00 |
 
 ## ADR-001: Build v2 as a clean sibling
 
@@ -56,7 +57,7 @@ algorithms and gold expectations, not the generated tree or orchestration.
 
 ## ADR-002: Paddle is the only text extraction source
 
-**Status:** Implemented  
+**Status:** Implemented
 **Recorded at:** 2026-08-23T08:08:07+08:00
 
 ### Context
@@ -481,6 +482,54 @@ are removed from the active sequence rather than discovered or selected by a
   fingerprint validation remains ISS-012.
 - The active tuple and structural tests make execution order visible.
 
+## ADR-017: Use deterministic token geometry and retire model layout/cells
+
+**Status:** Implemented
+**Recorded at:** 2026-08-23T20:17:55+08:00
+
+### Context
+
+Reviewed pages showed that model line/layout output could join bullet markers
+to labels, omit small markers, and vary in ways that were difficult to explain
+or reproduce. Correcting those results required returning to the token text and
+fine bounding boxes anyway. PAP and By-OU tables also use different wrap
+ownership, so model rectangles did not remove the need for domain-aware,
+inspectable geometry.
+
+Stage `002.10-token-geometry` now reconstructs baseline bands and phrases from
+stage-001 tokens, preserves gaps and marker/money evidence, estimates page
+drift, and emits amount anchors/bands, label indents, separator candidates, and
+alignment fits. Its behavior is deterministic and each object retains source
+IDs and measurements. The expanded 53-page fixture set and viewer overlays
+provided the reviewed implementation evidence.
+
+### Decision
+
+- Make `001.00-paddle-ocr → 002.10-token-geometry → 004.00-extract →
+  005.00-schema` the active implemented sequence.
+- Remove `002.00-layout` and `003.00-table-cells` from `ACTIVE_STAGES` and from
+  canonical extract dependencies.
+- Retain their scripts and bounded outputs only as explicitly labeled archived
+  A/B evidence.
+- Let stage 004 emit a deterministic page fallback zone until a promoted table
+  structure stage supplies sections.
+- Build semantic sections, PAP/By-OU classification, row ownership, columns,
+  and cells in a later deterministic stage; do not hide model fallbacks inside
+  it.
+
+### Consequences
+
+- PaddleOCR is the only active model and owns text recognition, not structural
+  line or table truth.
+- ADR-005 still applies to the remaining GPU OCR tier but no longer mandates
+  layout/cell model tiers. ADR-006 is superseded.
+- Stage-002.10 candidates are canonical measurement evidence, not semantic
+  rows or cells.
+- Archived overlays remain useful for diagnosis but cannot change canonical
+  output.
+- Currency-prefixed amount recognition and deterministic table structure remain
+  tracked follow-up work.
+
 ## Adding or changing a decision
 
 1. Add the next ADR number and index entry.
@@ -488,4 +537,4 @@ are removed from the active sequence rather than discovered or selected by a
 3. Cite retained evidence or an issue ID.
 4. Supersede accepted history rather than silently rewriting it.
 
-*Last updated: 2026-08-23T09:14:46+08:00*
+*Last updated: 2026-08-23T20:17:55+08:00*

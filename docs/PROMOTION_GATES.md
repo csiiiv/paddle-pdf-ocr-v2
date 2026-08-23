@@ -17,7 +17,7 @@ For each stage:
 - If v2 is cleaner but less accurate, keep or port the v1 implementation.
 - If evidence is incomplete, the stage remains experimental.
 
-Every comparison is retained as `output/<run>/qa/comparison.json`; terminal
+Every comparison is retained under `output/<run>/999.00-run-qa/`; terminal
 output or a test count alone cannot promote a stage.
 
 ## Comparison unit
@@ -27,7 +27,8 @@ Use the same PDF pages and evaluate stage-specific canonical artifacts:
 | Stage | Compared evidence |
 |-------|-------------------|
 | OCR | word coverage, text agreement, confidence, boxes, missed gold text |
-| Layout | region labels, chrome mistakes, token-region assignment, overlays |
+| Token geometry | token coverage, baseline bands, phrase splits, marker/money evidence, anchors, overlays |
+| Table structure | section bounds, PAP/By-OU classification, row ownership, column roles, cells |
 | Schema | reviewed mode, column roles/centers, unsupported-mode diagnostics |
 | Rows | labels, wraps, bullets, amount attachment, row boxes, row order |
 | Domain | normalized values, anatomy fields, money sums, provenance |
@@ -44,6 +45,10 @@ relationship- or field-based, not implementation-specific.
 
 At least one contiguous By-OU slice and one contiguous PAP slice. This catches
 carry and table-scale failures that isolated pages cannot expose.
+
+Current measurement coverage includes the 53-page `token_geometry_spans`
+selection. Pages 109–114 form the separate `table_structure_spans` transition
+sample for the next stage; inclusion is evidence coverage, not automatic gold.
 
 ### Cross-volume smoke
 

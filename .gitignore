@@ -4,3 +4,23 @@ __pycache__/
 *.py[cod]
 .venv/
 pdfs/
+
+# Local source datasets and editor lock files
+xlsx/
+*.xlsx
+.~lock.*#
+
+# React dependencies, caches, test output, and production builds
+viewer-react/node_modules/
+viewer-react/dist/
+viewer-react/.vite/
+coverage/
+
+# Local recovery copy of the retired static viewer
+viewer (defunct - replaced by viewer-react)/
+
+# Local environment and OS/editor metadata
+.env
+.env.*
+!.env.example
+.DS_Store

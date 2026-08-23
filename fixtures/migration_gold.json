@@ -2,12 +2,17 @@
   "version": 1,
   "purpose": "Prior-work cases that every v2 migration stage must preserve or explicitly supersede with evidence.",
   "pdf": "pdfs/NEP-2027-VOLUME-2B_OCR.pdf",
-  "pages": [
+  "edge_pages": [
     {"page": 8, "gates": ["extract", "zones", "schema", "rows"], "facts": ["paddle_splits_regional_mega_label", "clean_ilocos_ivb", "multi_zone", "money_commas_intact"]},
     {"page": 11, "gates": ["schema", "prose"], "facts": ["special_provisions_remain_prose"]},
     {"page": 13, "gates": ["layout", "cells", "schema", "rows", "money"], "facts": ["lattice", "roles_ps_mooe_co_total", "prexc_not_money", "row_sum_gold"]},
     {"page": 14, "gates": ["schema", "carry", "hierarchy"], "facts": ["lattice_continuation", "contiguous_carry"]},
+    {"page": 18, "gates": ["token_geometry", "schema", "rows", "money"], "facts": ["by_ou_ps_total_only", "mooe_and_co_blank", "by_ou_mooe_total_only"]},
+    {"page": 23, "gates": ["token_geometry", "schema", "rows", "money"], "facts": ["by_ou_ps_total_only", "by_ou_mooe_total_only", "by_ou_total_only"]},
+    {"page": 26, "gates": ["token_geometry", "schema", "rows", "money"], "facts": ["by_ou_ps_mooe_total", "co_blank", "by_ou_mooe_total_only"]},
+    {"page": 27, "gates": ["token_geometry", "schema", "rows", "money"], "facts": ["by_ou_ps_mooe_total", "by_ou_co_total_only", "by_ou_mooe_total_only"]},
     {"page": 29, "gates": ["schema", "rows"], "facts": ["co_total_only_without_role_collapse"]},
+    {"page": 107, "gates": ["token_geometry", "schema", "table_structure"], "facts": ["by_ou_end", "transition_toward_by_year"]},
     {"page": 108, "gates": ["zones", "schema"], "facts": ["lattice_then_years"]},
     {"page": 109, "gates": ["zones", "schema", "units"], "facts": ["years_prose_passthrough", "thousand_pesos_inherit"]},
     {"page": 114, "gates": ["schema", "money"], "facts": ["coe_lattice", "currency_p_prefix"]},
@@ -23,11 +28,27 @@
     {"page": 452, "gates": ["rows"], "facts": ["deep_wrap_stays_in_previous_amount_band"]},
     {"page": 480, "gates": ["raster", "hybrid", "rows"], "facts": ["row_loss_at_150_dpi", "source_district_1_hyphen", "paddle_label_preserved", "v1_pdf_patch_rejected"]},
     {"page": 680, "gates": ["rows", "anatomy"], "facts": ["gps_digit_only_continuation"]},
-    {"page": 688, "gates": ["extract", "rows", "domain"], "facts": ["paddle_money_letters_clean", "fap_funding_fold"]}
+    {"page": 688, "gates": ["extract", "rows", "domain", "token_geometry"], "facts": ["paddle_money_letters_clean", "fap_funding_fold", "marker_detection_recovery"]},
+    {"page": 689, "gates": ["extract", "rows", "hierarchy", "token_geometry"], "facts": ["pap_fap_continuation", "letter_and_number_markers", "wrapped_loan_labels", "outcome_transition"]},
+    {"page": 690, "gates": ["extract", "rows", "hierarchy", "carry", "token_geometry"], "facts": ["pap_fap_continuation", "wrapped_loan_labels", "new_program_transition", "end_of_span"]}
   ],
   "contiguous_spans": [
-    {"pages": "13-20", "purpose": "By-OU carry and early lattice assembly"},
-    {"pages": "115-130", "purpose": "PAP row, carry, and hierarchy assembly"}
+    {"pages": "13-108", "purpose": "By-OU carry and early lattice assembly"},
+    {"pages": "115-690", "purpose": "PAP row, carry, and hierarchy assembly"}
+  ],
+  "token_geometry_spans": [
+    {"pages": "13-18", "purpose": "By-OU four-column anchors and PS/MOOE/CO sparse occupancy, including PS plus Total with MOOE and CO blank"},
+    {"pages": "23-29", "purpose": "By-OU PS-only, MOOE-only, CO-only, Total-only, and mixed occupied-column variations"},
+    {"pages": "115-130", "purpose": "PAP start, continuation, marker fragments, and stable right amount anchors"},
+    {"pages": "144-146", "purpose": "Retained marker plus wrapped-item candidates; raster review required"},
+    {"pages": "176-179", "purpose": "Retained dense numbered and lettered multi-line candidates; raster review required"},
+    {"pages": "195-200", "purpose": "PAP wrapped project labels and chainage continuations"},
+    {"pages": "446-452", "purpose": "PAP station noise and deep wraps bounded by consecutive amount anchors"},
+    {"pages": 680, "purpose": "Digit-only continuation geometry"},
+    {"pages": "688-690", "purpose": "PAP/FAP continuation, recovered markers, wrapped loan labels, hierarchy transitions, and end-of-span carry"}
+  ],
+  "table_structure_spans": [
+    {"pages": "105-120", "purpose": "Multi-table transition sample: late By-OU tables, the pages 107-108 By-OU to By-Year boundary, performance-indicator year/target tables, compact PS/MOOE/CO/Total summary lattice, and the start of PAP"}
   ],
   "cross_volume_sources": [
     "paddle_pdf_ocr/fixtures/vol1_smoke.json",

@@ -25,7 +25,7 @@ introduced; future issues capture their creation time directly.
 | ISS-004 | Page 247 was incorrectly documented as a Paddle omission | High | Disproven | Gold data |
 | ISS-005 | Simplified cell clustering created a seventh column | High | Resolved | Cells |
 | ISS-006 | Raw Paddle result fixtures are not yet retained | Medium | Active | Extraction |
-| ISS-007 | Extraction overlays lack broader reviewed dispositions | High | Active | QA |
+| ISS-007 | Extraction overlays lacked broader reviewed dispositions | High | Resolved/reframed | QA |
 | ISS-008 | Schema modes have incomplete builder policies | High | Active | Schema |
 | ISS-009 | Pre-hierarchy row fidelity is promising but incompletely proven | Critical | Active | Rows |
 | ISS-010 | V1 hierarchy parent accuracy is not established | Critical | Active | Hierarchy |
@@ -37,7 +37,9 @@ introduced; future issues capture their creation time directly.
 | ISS-016 | Cells depended on extract before extract consumed cells | High | Resolved | Pipeline |
 | ISS-017 | Multiplexed ETL runner obscured stage ownership | High | Resolved | ETL |
 | ISS-018 | Thin ETL adapters obscured single-owner transformations | High | Resolved | ETL |
-| ISS-019 | Current Paddle environment cannot execute the OCR smoke | High | Active | Runtime |
+| ISS-019 | Paddle environment could not execute the OCR smoke | High | Resolved | Runtime |
+| ISS-020 | Currency-prefixed amounts are absent from money geometry | High | Active | Geometry |
+| ISS-021 | Canonical table sections and cells are not implemented | High | Active | Structure |
 
 ## Detailed records
 
@@ -124,23 +126,24 @@ boxes, confidence, and coordinate scaling. They do not retain bounded real
 Paddle result payloads. Capture sanitized, compact result fragments for selected
 pages so future Paddle upgrades can be tested without GPU inference.
 
-**Exit criteria:** versioned real-result fixtures for OCR, layout, and cells;
+**Exit criteria:** versioned real-result fixtures for active OCR result shapes;
 parser tests load them; no model internals or page-sized images are embedded.
 
-### ISS-007: Extraction overlays lack broader reviewed dispositions
+### ISS-007: Extraction overlays lacked broader reviewed dispositions
 
 **Severity:** High  
-**Status:** Active  
+**Status:** Resolved/reframed
 **Recorded at:** 2026-08-23T08:08:07+08:00  
-**Reason:** Successful model execution and complete assignment counts do not
-prove that token boxes, chrome labels, and region boundaries are spatially correct.
+**Reason:** The model-region question was superseded by deterministic geometry;
+the React viewer now exposes each measurement layer independently.
 
-The six-page smoke runs successfully and the viewer exposes Paddle, layout,
-zones, cells, and QA. Runtime success and token counts do not establish spatial
-fidelity.
+The viewer exposes Paddle tokens/lines plus bands, gaps, phrases, markers,
+money, amount anchors/bands, label indents, separators, and fits. The expanded
+53-page selection was processed and visually reviewable. Semantic table
+structure remains a separate open issue, ISS-021.
 
-**Exit criteria:** retained reviewed dispositions for pages 8, 13, 115, 195,
-247, and 680 covering OCR boxes, chrome, region boundaries, and zones.
+**Resolution evidence:** `TOKEN_GEOMETRY_IMPLEMENTATION.md`, stage-local QA,
+and viewer overlays for `token_geometry_spans`.
 
 ### ISS-008: Schema modes have incomplete builder policies
 
@@ -271,6 +274,10 @@ Stage 003 now consumes immutable Paddle and layout layers and performs region
 assignment in memory. Stage 004 consumes the optional cell artifact exactly
 once. The graph is now `001 + 002 → optional 003 → 004`.
 
+**Superseding note:** ADR-017 subsequently removed stages 002.00 and 003.00
+from the canonical DAG. Stage 004 now consumes stage 001 and ignores archived
+model artifacts, eliminating the cycle rather than merely reordering it.
+
 ### ISS-017: Multiplexed ETL runner obscured stage ownership
 
 **Severity:** High  
@@ -298,10 +305,10 @@ removed the central `Pipeline`. `_shared` now contains only modules with at
 least two unchanged numbered consumers. Tests carry matching stage prefixes
 and enforce the isolation boundary.
 
-### ISS-019: Current Paddle environment cannot execute the OCR smoke
+### ISS-019: Paddle environment could not execute the OCR smoke
 
 **Severity:** High  
-**Status:** Active  
+**Status:** Resolved
 **Recorded at:** 2026-08-23T09:05:04+08:00  
 **Reason:** Paddle 3.3.1 is compiled without CUDA in the current interpreter;
 its automatic CPU fallback fails inside the oneDNN executor on both reviewed
@@ -312,6 +319,47 @@ Paddle reported that GPU was unavailable, switched to CPU, then raised
 `ConvertPirAttribute2RuntimeAttribute not support
 [pir::ArrayAttribute<pir::DoubleAttribute>]` on pages 8 and 13. The runner
 correctly retained stage/run QA and stopped before stages 002–004.
+
+**Progress (2026-08-23):** dependencies and docs now require
+`paddlepaddle-gpu==3.3.1` from the CUDA 13 index plus `paddleocr>=3.7`
+(`README` Setup, `requirements-gpu.txt`, `pyproject.toml` `[gpu]`). The active
+interpreter reports `paddle.is_compiled_with_cuda() == True` on 3.3.1.
+
+**Resolution (2026-08-23):** the CUDA-enabled environment completed the full
+53-page OCR and token-geometry span. This supersedes the failed CPU-fallback
+smoke as the current runtime evidence; model layout/cell stages are no longer
+part of the required run under ADR-017.
+
+### ISS-020: Currency-prefixed amounts are absent from money geometry
+
+**Severity:** High
+**Status:** Active
+**Recorded at:** 2026-08-23T20:17:55+08:00
+**Reason:** Page 114 contains `P`-prefixed monetary values, but the current
+money-phrase grammar accepts only digit/comma phrases. The page therefore has
+no amount anchors even though its token geometry was processed.
+
+**Exit criteria:** recognize reviewed currency-prefix forms without admitting
+ordinary alphanumeric labels; add lexical and page-114 regression tests; expose
+the recognized phrase and anchor in the viewer.
+
+### ISS-021: Canonical table sections and cells are not implemented
+
+**Severity:** High
+**Status:** Active
+**Recorded at:** 2026-08-23T20:17:55+08:00
+**Reason:** Stage 002.10 deliberately emits measurement evidence, not semantic
+sections, PAP/By-OU classification, row ownership, column roles, or cells.
+Stage 004 consequently uses a page-wide fallback zone.
+
+Pages 105–120 are retained as `table_structure_spans` to cover late By-OU,
+the pages 107–108 By-OU → By-Year transition, performance indicators, a
+summary lattice, and PAP startup. They are sampling input, not asserted
+structure gold.
+
+**Exit criteria:** implement and promote a deterministic table-structure stage
+with source provenance, explicit review findings, PAP/By-OU wrap ownership,
+empty amount-role handling, viewer layers, and reviewed fixtures.
 
 **Exit criteria:** use a verified CUDA-enabled Paddle environment or a supported
 CPU configuration; rerun pages 8 and 13 through stages 001–004; retain a passing
@@ -324,4 +372,4 @@ execution record and verify that the reported device matches the requested one.
 3. When resolved, retain the record and add the verifying artifact or test.
 4. Link architectural resolutions to `ADR.md`.
 
-*Last updated: 2026-08-23T09:14:46+08:00*
+*Last updated: 2026-08-23T20:17:55+08:00*

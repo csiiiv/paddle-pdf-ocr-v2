@@ -3,15 +3,18 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from conftest import load_etl_node
+
 
 ROOT = Path(__file__).resolve().parents[2]
+COMMON = load_etl_node("_common.py")
 
 
 def test_migration_gold_is_well_formed_and_unique() -> None:
     fixture = json.loads(
         (ROOT / "fixtures/migration_gold.json").read_text(encoding="utf-8")
     )
-    pages = fixture["pages"]
+    pages = fixture["edge_pages"]
     page_numbers = [entry["page"] for entry in pages]
     assert page_numbers == sorted(page_numbers)
     assert len(page_numbers) == len(set(page_numbers))
@@ -22,7 +25,7 @@ def test_non_negotiable_prior_cases_are_present() -> None:
     fixture = json.loads(
         (ROOT / "fixtures/migration_gold.json").read_text(encoding="utf-8")
     )
-    by_page = {entry["page"]: entry for entry in fixture["pages"]}
+    by_page = {entry["page"]: entry for entry in fixture["edge_pages"]}
     required = {8, 11, 13, 115, 134, 195, 247, 452, 480, 680, 688}
     assert required.issubset(by_page)
     assert "source_raster_reads_424" in by_page[247]["facts"]
@@ -48,4 +51,28 @@ def test_carry_has_both_lattice_and_pap_spans() -> None:
         (ROOT / "fixtures/migration_gold.json").read_text(encoding="utf-8")
     )
     spans = {entry["pages"] for entry in fixture["contiguous_spans"]}
-    assert {"13-20", "115-130"}.issubset(spans)
+    assert {"13-108", "115-690"}.issubset(spans)
+
+
+def test_load_pages_from_migration_gold_edge_pages() -> None:
+    pages = COMMON.load_pages_from_json(
+        Path("fixtures/migration_gold.json"), "edge_pages"
+    )
+    assert pages[0] == 8
+    assert 247 in pages
+    assert 688 in pages
+    assert pages == sorted(set(pages))
+
+
+def test_load_pages_from_migration_gold_contiguous_spans() -> None:
+    pages = COMMON.load_pages_from_json(
+        Path("fixtures/migration_gold.json"), "contiguous_spans"
+    )
+    assert pages == list(range(13, 109)) + list(range(115, 691))
+
+
+def test_load_pages_from_migration_gold_table_structure_spans() -> None:
+    pages = COMMON.load_pages_from_json(
+        Path("fixtures/migration_gold.json"), "table_structure_spans"
+    )
+    assert pages == list(range(105, 121))

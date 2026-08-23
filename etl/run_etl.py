@@ -8,12 +8,12 @@ import subprocess
 import sys
 import time
 from dataclasses import dataclass
-from datetime import datetime
 from pathlib import Path
 
-from _common import PROJECT, parse_pages, resolve_pdf
+from _common import PROJECT, load_pages_from_json, parse_pages, resolve_pdf
 from _shared.artifacts import write_json_atomic
 from _shared.timestamps import iso_now
+from storage_estimate import estimate_run_storage, format_storage_estimate
 
 ETL = Path(__file__).resolve().parent
 
@@ -38,15 +38,13 @@ class ActiveStage:
 # remove a defunct insertion explicitly and rebuild every downstream stage.
 ACTIVE_STAGES = (
     ActiveStage(1, 0, "001.00-paddle-ocr.py", ("device",)),
-    ActiveStage(2, 0, "002.00-layout.py", ("device", "layout_score")),
-    ActiveStage(3, 0, "003.00-table-cells.py", ("device", "cells_score")),
+    ActiveStage(2, 10, "002.10-token-geometry.py"),
     ActiveStage(4, 0, "004.00-extract.py"),
+    ActiveStage(5, 0, "005.00-schema.py"),
 )
 
 SETTING_FLAGS = {
     "device": "--device",
-    "layout_score": "--layout-score",
-    "cells_score": "--cells-score",
 }
 
 
@@ -73,18 +71,16 @@ def select_stages(start: tuple[int, int], end: tuple[int, int]) -> list[ActiveSt
 
 
 def default_run_name(pdf: Path) -> str:
-    timestamp = datetime.now().astimezone().strftime("%Y%m%dT%H%M%S%z")
-    return f"{pdf.stem}-etl-{timestamp}"
+    """Stable run folder so smokes and partial stage reruns overwrite in place."""
+    return pdf.stem
 
 
 def build_command(stage: ActiveStage, *, pdf: Path, pages: list[int], run: str,
-                  dpi: float, device: str, layout_score: float,
-                  cells_score: float) -> list[str]:
+                  dpi: float, device: str) -> list[str]:
     command = [sys.executable, str(ETL / stage.script),
                "--pdf", str(pdf), "--pages", ",".join(map(str, pages)),
                "--run", run, "--dpi", str(dpi)]
-    settings = {"device": device, "layout_score": layout_score,
-                "cells_score": cells_score}
+    settings = {"device": device}
     for setting in stage.accepted_settings:
         command.extend([SETTING_FLAGS[setting], str(settings[setting])])
     return command
@@ -98,18 +94,44 @@ def main() -> None:
     parser.add_argument("--pdf-source", type=Path, required=True)
     parser.add_argument("--pages", default="1",
                         help="One-based pages and inclusive ranges, e.g. 1-2,3,5-7")
+    parser.add_argument(
+        "--pages-json", type=Path,
+        help="JSON file with named page sets (overrides --pages when set)",
+    )
+    parser.add_argument(
+        "--pages-obj",
+        help="Object name inside --pages-json (e.g. edge_pages, contiguous_spans)",
+    )
     parser.add_argument("--start-stage", default="1")
-    parser.add_argument("--end-stage", default="4")
-    parser.add_argument("--run", help="Output run name (default: PDF stem + timestamp)")
+    parser.add_argument("--end-stage", default="5")
+    parser.add_argument(
+        "--run",
+        help="Output run name under output/ (default: PDF stem; overwrites in place)",
+    )
     parser.add_argument("--dpi", type=float, default=200.0)
     parser.add_argument("--device", default="gpu:0")
-    parser.add_argument("--layout-score", type=float, default=0.4)
-    parser.add_argument("--cells-score", type=float, default=0.3)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--allow-storage-overcommit",
+        action="store_true",
+        help="Proceed even when estimated output size exceeds free disk (+ headroom)",
+    )
     args = parser.parse_args()
 
     try:
-        pages = parse_pages(args.pages)
+        if args.pages_json is not None or args.pages_obj is not None:
+            if args.pages_json is None or not args.pages_obj:
+                raise ValueError("--pages-json and --pages-obj must be used together")
+            pages = load_pages_from_json(args.pages_json, args.pages_obj)
+            page_selection = {
+                "source": "pages_json",
+                "pages_json": str(args.pages_json),
+                "pages_obj": args.pages_obj,
+                "ignored_pages_arg": args.pages,
+            }
+        else:
+            pages = parse_pages(args.pages)
+            page_selection = {"source": "pages", "pages": args.pages}
         start = stage_bound(args.start_stage, end=False)
         end = stage_bound(args.end_stage, end=True)
         stages = select_stages(start, end)
@@ -123,19 +145,32 @@ def main() -> None:
         raise SystemExit("--run must be one folder name")
 
     commands = [build_command(stage, pdf=pdf, pages=pages, run=run,
-                              dpi=args.dpi, device=args.device,
-                              layout_score=args.layout_score,
-                              cells_score=args.cells_score)
+                              dpi=args.dpi, device=args.device)
                 for stage in stages]
     print(f"ETL run: {run}")
     print(f"PDF: {pdf.resolve()}")
+    if page_selection["source"] == "pages_json":
+        print(f"Pages from {page_selection['pages_json']} "
+              f"object {page_selection['pages_obj']!r} "
+              f"(overrides --pages={page_selection['ignored_pages_arg']!r})")
     print(f"Pages (1-based): {','.join(map(str, pages))}")
-    print(f"Settings: dpi={args.dpi:g} device={args.device} "
-          f"layout_score={args.layout_score:g} cells_score={args.cells_score:g}")
+    print(f"Settings: dpi={args.dpi:g} device={args.device}")
     for index, stage in enumerate(stages, 1):
         print(f"{index:02d}. {stage.name}")
+    output_root = PROJECT / "output"
+    storage = estimate_run_storage(
+        pages=pages,
+        stages=[stage.name for stage in stages],
+        output_root=output_root,
+    )
+    print(format_storage_estimate(storage), flush=True)
     if args.dry_run:
         return
+    if not storage.ok_to_run and not args.allow_storage_overcommit:
+        raise SystemExit(
+            "Refusing to start: estimated output storage exceeds free disk "
+            "(plus headroom). Pass --allow-storage-overcommit to override."
+        )
 
     started_at, started = iso_now(), time.perf_counter()
     executions = []
@@ -158,9 +193,10 @@ def main() -> None:
     summary = {
         "artifact_version": 1, "gate": "RUN_ETL", "name": "ordered_etl_slice",
         "run": run, "pdf": str(pdf.resolve()), "pages": pages,
-        "page_selection": args.pages,
+        "page_selection": page_selection,
         "start_stage": args.start_stage, "end_stage": args.end_stage,
         "active_sequence": [stage.name for stage in stages],
+        "storage_estimate": storage.as_dict(),
         "started_at": started_at, "completed_at": iso_now(),
         "timestamp_source": "captured",
         "elapsed_s": round(time.perf_counter() - started, 3),

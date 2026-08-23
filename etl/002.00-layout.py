@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Stage 002.00: PDF pages to layout-region JSON and local QA.
+"""Archived comparison stage: PDF pages to model layout-region proposals.
+
+This script is not registered in the canonical ACTIVE_STAGES sequence.
 
 Inputs: source PDF pages
 Outputs: 002.00-layout/pages/*.json and qa/summary.json

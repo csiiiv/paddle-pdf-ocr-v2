@@ -9,9 +9,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
 
-LayerName = Literal["paddle", "layout", "cells"]
+LayerName = Literal["paddle", "layout", "token_geometry", "cells"]
 StageName = Literal[
-    "foundation", "paddle", "layout", "cells", "extract", "schema",
+    "foundation", "paddle", "layout", "token_geometry", "cells", "extract", "schema",
     "rows", "domain", "hierarchy", "collation",
 ]
 
@@ -19,6 +19,7 @@ STAGE_DIRS: dict[StageName, str] = {
     "foundation": "000.00-foundation",
     "paddle": "001.00-paddle-ocr",
     "layout": "002.00-layout",
+    "token_geometry": "002.10-token-geometry",
     "cells": "003.00-table-cells",
     "extract": "004.00-extract",
     "schema": "005.00-schema",
@@ -43,6 +44,9 @@ class ArtifactStore:
 
     def extract_path(self, page_no: int) -> Path:
         return self.stage_root("extract") / "pages" / f"page-{page_no:04d}.json"
+
+    def schema_path(self, page_no: int) -> Path:
+        return self.stage_root("schema") / "pages" / f"page-{page_no:04d}.json"
 
     def structured_path(self, page_no: int) -> Path:
         return self.stage_root("hierarchy") / "pages" / f"page-{page_no:04d}.json"

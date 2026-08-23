@@ -1,0 +1,14 @@
+.pdf-error {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  max-width: 720px;
+  margin: 0 auto 10px;
+  padding: 10px;
+  border: 1px solid #853f45;
+  border-radius: 6px;
+  background: #481f25;
+  color: #ffb0b0;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}

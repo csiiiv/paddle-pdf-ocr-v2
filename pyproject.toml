@@ -14,8 +14,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# OCR/layout GPU stages. Install the Paddle *framework* from the CUDA index
+# first — it is not listed here because a plain PyPI `paddlepaddle` CPU wheel
+# silently breaks `--device gpu:0` (ISS-019). See README Setup.
 gpu = [
-  "paddleocr>=3.0",
+  "paddleocr>=3.7",
   "opencv-python-headless>=4.8",
 ]
 test = ["pytest>=8.0"]

@@ -72,8 +72,10 @@ def test_nested_payload_offsets_lines_and_tokens_stably() -> None:
 
 def test_run_ocr_converts_rgb_to_bgr() -> None:
     class Engine:
-        def predict(self, image: np.ndarray, *, return_word_box: bool) -> list[dict]:
+        def predict(self, image: np.ndarray, *, return_word_box: bool,
+                    text_det_box_thresh: float) -> list[dict]:
             assert return_word_box is True
+            assert text_det_box_thresh == 0.55
             assert image.tolist() == [[[30, 20, 10]]]
             return []
 

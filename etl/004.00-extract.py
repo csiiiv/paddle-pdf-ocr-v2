@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Stage 004.00: upstream layer JSON to canonical extract JSON and QA.
+"""Stage 004.00: canonical Paddle evidence to page extract JSON and QA.
 
-Inputs: 001.00 Paddle, 002.00 layout, optional 003.00 cells
+Inputs: 001.00 Paddle
 Outputs: 004.00-extract/pages/*.json and qa/summary.json
 """
 
@@ -15,7 +15,6 @@ from typing import Any
 from _common import add_stage_arguments, make_context, require_pass
 from _shared.artifacts import read_json, write_json_atomic
 from _shared.contracts import stamp_meta, validate_extract
-from _shared.regions import assign_regions
 from _shared.timestamps import iso_now
 
 
@@ -23,44 +22,46 @@ def merge_layers(
     *,
     page_no: int,
     paddle: dict[str, Any],
-    layout: dict[str, Any],
     dpi: float,
-    cells: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Assemble canonical extract without unreviewed automatic PDF patches."""
+    """Assemble a model-layout-free extract from canonical OCR evidence."""
     tokens = deepcopy(paddle.get("tokens") or [])
     lines = deepcopy(paddle.get("lines") or [])
-    regions = deepcopy(layout.get("regions") or [])
-    assigned = assign_regions(tokens, lines, regions)
+    size = paddle.get("page_size_pt") or [720, 864]
+    for token in tokens:
+        token.pop("region_id", None)
+        token.pop("chrome", None)
+    for line in lines:
+        line.pop("region_id", None)
+        line.pop("chrome", None)
+    zone = {"zone_id": 0, "region_id": None, "label": "page",
+            "bbox": [0, 0, *size],
+            "token_ids": list(range(len(tokens))),
+            "line_ids": [line.get("line_id", index) for index, line in enumerate(lines)],
+            "n_tokens": len(tokens), "n_lines": len(lines)}
     paddle_stats = paddle.get("stats") or {}
-    layout_stats = layout.get("stats") or {}
     extract = {
         "page": page_no,
         "dpi": float(dpi),
-        "page_size_pt": paddle.get("page_size_pt") or layout.get("page_size_pt"),
-        "image_size_px": paddle.get("image_size_px") or layout.get("image_size_px"),
-        "source_mode": "paddle_primary",
+        "page_size_pt": size,
+        "image_size_px": paddle.get("image_size_px"),
+        "source_mode": "paddle_geometry_primary",
         "tokens": tokens,
         "lines": lines,
-        "regions": regions,
-        "zones": assigned["zones"],
-        "tables": deepcopy((cells or {}).get("tables") or []),
+        "regions": [],
+        "zones": [zone],
+        "tables": [],
         "extract_stats": {
             "n_tokens": len(tokens),
             "n_lines": len(lines),
             "n_tokens_paddle": int(paddle_stats.get("n_tokens", len(tokens))),
             "mean_confidence": paddle_stats.get("mean_confidence"),
-            "n_regions": int(layout_stats.get("n_regions", len(regions))),
-            "n_chrome_regions": int(layout_stats.get("n_chrome", 0)),
-            "n_table_regions": int(layout_stats.get("n_table", 0)),
-            "n_text_regions": int(layout_stats.get("n_text", 0)),
-            "n_zones": len(assigned["zones"]),
-            "n_chrome_tokens": assigned["n_chrome_tokens"],
-            "n_unassigned_tokens": assigned["n_unassigned_tokens"],
-            "n_active_tokens": len(tokens) - assigned["n_chrome_tokens"],
-            "n_cell_tables": int((cells or {}).get("stats", {}).get("n_tables", 0)),
-            "n_cells": int((cells or {}).get("stats", {}).get("n_cells", 0)),
-            "n_ok_tables": int((cells or {}).get("stats", {}).get("n_ok", 0)),
+            "n_regions": 0, "n_chrome_regions": 0,
+            "n_table_regions": 0, "n_text_regions": 0,
+            "n_zones": 1, "n_chrome_tokens": 0,
+            "n_unassigned_tokens": 0, "n_active_tokens": len(tokens),
+            "n_cell_tables": 0, "n_cells": 0, "n_ok_tables": 0,
+            "model_layout_used": False, "model_cells_used": False,
         },
     }
     stamp_meta(extract, stage="extract", producer="paddle_first_merge_v1")
@@ -75,11 +76,7 @@ def run_stage(context) -> dict[str, Any]:
         page_started_at, page_started = iso_now(), time.perf_counter()
         try:
             paddle = read_json(context.store.layer_path("paddle", page_no))
-            layout = read_json(context.store.layer_path("layout", page_no))
-            cells_path = context.store.layer_path("cells", page_no)
-            cells = read_json(cells_path) if cells_path.is_file() else None
-            extract = merge_layers(page_no=page_no, paddle=paddle, layout=layout,
-                                   dpi=context.dpi, cells=cells)
+            extract = merge_layers(page_no=page_no, paddle=paddle, dpi=context.dpi)
             write_json_atomic(context.store.extract_path(page_no), extract)
             result = {"page": page_no, "pass": True, **extract["extract_stats"]}
         except Exception as error:

@@ -2,7 +2,7 @@
 
 **Status:** Canonical architecture and execution contract  
 **Recorded at:** 2026-08-23T08:42:39+08:00  
-**Last updated:** 2026-08-23T09:14:46+08:00
+**Last updated:** 2026-08-23T20:17:55+08:00
 
 This document is the map for `paddle_pdf_ocr_v2`: what each numbered node
 consumes, what it produces, which edges exist, and how changes propagate. ADRs
@@ -26,43 +26,36 @@ flowchart LR
     PDF[(Source PDF)]
     F[000.00 Foundation QA]
     P[001.00 Paddle OCR]
-    L[002.00 Layout]
-    C[003.00 Table Cells]
+    G[002.10 Token Geometry]
     E[004.00 Extract]
+    S[005.00 Schema]
     Q[999.00 Cross-stage QA]
 
     PDF --> P
-    PDF --> L
-    PDF --> C
-    P --> C
-    L --> C
+    P --> G
     P --> E
-    L --> E
-    C --> E
+    E --> S
     F -. repository evidence .-> Q
     P -. QA .-> Q
-    L -. QA .-> Q
-    C -. QA .-> Q
     E -. QA .-> Q
+    S -. QA .-> Q
 ```
 
 Equivalent dependency notation:
 
 ```text
-PDF ──→ 001.00-paddle-ocr ───────────────┐
-  ├──→ 002.00-layout ────────────────────┼──→ 004.00-extract
-  └──→ 003.00-table-cells ───────────────┘
-          ↑ consumes 001.00 + 002.00
+PDF ──→ 001.00-paddle-ocr ──→ 002.10-token-geometry
+                    └────────→ 004.00-extract ──→ 005.00-schema
+
+002.00-layout and 003.00-table-cells are archived comparison scripts only.
+004.00-extract does not read their artifacts.
 
 000.00-foundation and stage QA ──→ 999.00-run-qa
 ```
 
-The logical graph has multiple PDF inputs, but the active scripts use one fixed
-topological execution order: 001, 002, 003, 004. Stage 003 performs region
-assignment using shared geometry; it does not call stage 004. Stage 004 reads
-the exact known `003.00-table-cells` path when that page artifact exists and
-otherwise assembles without cells. It never searches for an arbitrary later
-insertion.
+The active scripts use one fixed topological execution order: 001.00, 002.10,
+004.00, 005.00. Extract emits one deterministic page-level fallback zone until
+the planned table-structure stage supplies geometry-derived sections.
 
 ## Planned graph after extraction
 
@@ -90,10 +83,11 @@ row construction.
 |---|---|---|---|---|
 | `000.00-foundation` | Implemented | ETL source and `etl/tests/` | Test records | `000.00-foundation/qa/` |
 | `001.00-paddle-ocr` | Implemented | Source PDF pages | Tokens and lines | `001.00-paddle-ocr/qa/` |
-| `002.00-layout` | Implemented | Source PDF pages | Layout regions | `002.00-layout/qa/` |
-| `003.00-table-cells` | Implemented | PDF, 001, 002 | Table cell grids | `003.00-table-cells/qa/` |
-| `004.00-extract` | Implemented | 001, 002, optional 003 | Canonical page extract | `004.00-extract/qa/` |
-| `005.00-schema` | Reserved | 004 | Explicit schema decision | Local QA required |
+| `002.00-layout` | Archived comparison, inactive | Source PDF pages | Model layout proposals | `002.00-layout/qa/` |
+| `002.10-token-geometry` | Implemented, measurement-only | 001 tokens | Deterministic bands, gaps, phrases, right-edge groups, and fits | `002.10-token-geometry/qa/` |
+| `003.00-table-cells` | Archived comparison, inactive | PDF, 001, archived 002 | Model cell proposals | `003.00-table-cells/qa/` |
+| `004.00-extract` | Implemented, model-layout-free | 001 | Canonical page extract with page fallback zone | `004.00-extract/qa/` |
+| `005.00-schema` | Implemented | 004 | Per-zone modes, roles, confidence, findings | `005.00-schema/qa/` |
 | `006.00-rows` | Reserved | 005 | Canonical pre-hierarchy rows | Local QA required |
 | `007.00-domain` | Reserved | 006 | Domain annotations | Local QA required |
 | `008.00-hierarchy` | Reserved | 007 | Parent/level structure | Local QA required |
@@ -131,6 +125,9 @@ output/<run>/
 ├── 002.00-layout/
 │   ├── pages/page-0008.json
 │   └── qa/summary.json
+├── 002.10-token-geometry/
+│   ├── pages/page-0008.json
+│   └── qa/summary.json
 ├── 003.00-table-cells/
 │   ├── pages/page-0013.json
 │   └── qa/summary.json
@@ -151,6 +148,7 @@ The implementation mirrors the artifact graph:
 ```text
 etl/001.00-paddle-ocr.py  → output/<run>/001.00-paddle-ocr/
 etl/002.00-layout.py      → output/<run>/002.00-layout/
+etl/002.10-token-geometry.py → output/<run>/002.10-token-geometry/
 etl/003.00-table-cells.py → output/<run>/003.00-table-cells/
 etl/004.00-extract.py     → output/<run>/004.00-extract/
 ```
@@ -211,34 +209,55 @@ runner expands multiple comma-separated pages and inclusive ranges, so
 passing the same one-based pages to every selected ETL script. The original
 selection and expanded pages are retained in run QA.
 
+`--pages-json` plus `--pages-obj` load a named page set from a project JSON
+file and **override** `--pages`. Supported object shapes include
+`migration_gold.json` `edge_pages` (objects with `"page"`) and
+`contiguous_spans` (objects with `"pages": "13-20"`). Example:
+
+```bash
+python etl/run_etl.py --pdf-source pdfs/NEP-2027-VOLUME-2B_OCR.pdf \
+  --pages-json fixtures/migration_gold.json --pages-obj edge_pages --dry-run
+```
+
 Major bounds include active insertions: stage range `1` to `3` means keys
 `001.00` through `003.99`. An explicit bound such as `2.10` may target an
 insertion directly. `--dry-run` prints the ordered slice without creating
-output. `--run` selects an existing/new run name; otherwise a unique
-PDF-and-timestamp name is generated.
+output. `--run` selects an existing/new run name; otherwise the PDF stem is
+used so smokes and partial stage reruns overwrite the same folder in place.
+Pass an explicit distinct `--run` when you need to retain a comparison copy.
 
 ### Runner defaults
 
 | Parameter | Default | Reason |
 |---|---:|---|
 | `--pages` | `1` | Safest bounded smoke; page 1 is the first PDF page |
+| `--pages-json` | unset | Optional JSON file of named page sets; overrides `--pages` |
+| `--pages-obj` | unset | Object name inside `--pages-json` (required with it) |
 | `--start-stage` | `1` | Begin with the first active extraction node |
-| `--end-stage` | `4` | Produce the current canonical extract |
-| `--run` | PDF stem + ISO-like timestamp | Avoid accidental reuse of retained runs |
+| `--end-stage` | `5` | Produce the current canonical schema artifact |
+| `--run` | PDF stem | Reuse/overwrite the same `output/<stem>/` for smokes and partial reruns |
 | `--dpi` | `200` | Reviewed production extraction resolution |
 | `--device` | `gpu:0` | Intended production Paddle execution device |
-| `--layout-score` | `0.4` | Current reviewed layout threshold |
-| `--cells-score` | `0.3` | Current reviewed cell threshold |
 | `--dry-run` | false | Execute unless explicitly inspecting the plan |
+| `--allow-storage-overcommit` | false | Override refusal when estimated outputs exceed free disk |
 
 `--pdf-source` has no default because choosing the wrong volume would produce
 valid-looking artifacts from the wrong source. The runner prints all resolved
 defaults before it launches the first subprocess.
 
+Before execution it also prints a **storage estimate** for retained outputs:
+per-page JSON size across selected stages (from `extraction-smoke` averages),
+run total, per-stage breakdown, and free space on `output/`. Page count scales
+disk use; rasters are not written. If free space is below the estimate plus
+512 MiB headroom, the runner refuses to start unless
+`--allow-storage-overcommit` is set. `--dry-run` still prints the estimate
+without starting stages.
+
 Relative PDF paths resolve against the v2 project first and its parent workspace
-second. `gpu:0` is the intended production default, but the current interpreter
-is compiled without CUDA and its Paddle CPU fallback fails (ISS-019); therefore
-the retained failed smoke is environment evidence, not a successful GPU run.
+second. `gpu:0` is the intended production default and requires
+`paddlepaddle-gpu` from Paddle's CUDA index (see README Setup). A CPU-only
+`paddlepaddle` wheel falls into a broken oneDNN path (ISS-019);
+`ordered-etl-smoke-20260823T0905+0800` is retained as that failure evidence.
 
 Starting after stage 1 is allowed only when the chosen run already contains
 compatible upstream artifacts. Automatic compatibility validation is not yet
@@ -264,7 +283,7 @@ numeric position and therefore runs automatically when its key falls within
 the requested bounds. For example:
 
 ```text
-001.00 → 001.90-ocr-human-overrides → 002.00
+001.00 → 001.90-ocr-human-overrides → 002.10
 ```
 
 A defunct insertion is removed from `ACTIVE_STAGES`; its decision and evidence
