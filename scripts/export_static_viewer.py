@@ -1,0 +1,410 @@
+#!/usr/bin/env python3
+"""Export a frozen pack for viewer-react-static (public read-only viewer).
+
+Reads canonical stage artifacts from output/<run>/ and slim trees + a
+manifest + optionally the PDF into static-export/<doc>/. Never writes into
+output/ or pdfs/. Flags, phrase/token provenance, calibration, and QA detail
+are intentionally dropped; see docs/STATIC_VIEWER_CONTRACT.md.
+"""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import re
+import shutil
+import sys
+from pathlib import Path
+from typing import Any
+
+PROJECT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT))
+
+from etl._shared.artifacts import STAGE_DIRS  # noqa: E402
+from etl._shared.timestamps import iso_now  # noqa: E402
+
+MANIFEST_FORMAT = 1
+TREE_FORMAT = 1
+AMOUNT_KEYS = ("text", "value")
+TOTAL_KEYS = ("role", "text", "value")
+# Semantic reading is anchored at the rightmost amount column and assigned
+# leftward (root page headers only; Total is the anchor, then CO, MOOE, PS).
+BY_OU_ANCHOR_ROLES = ("Total", "CO", "MOOE", "PS")
+# The PAP table carries a single amount column; its root-page header text is
+# the canonical name for it.
+PAP_COLUMN_NAME = "AMOUNT (Php)"
+TREE_STAGES = {
+    "by-ou": ("by_ou_tree", "By Operating Unit"),
+    "pap": ("pap_tree", "PAP"),
+}
+# Public downloadable data files, one JSON + CSV pair per tree. The filename
+# prefix is document-specific (volume + department) and passed via
+# --file-prefix; both prefix and stem are kebab-cased into the final name.
+DATA_SPECS = {
+    "by-ou": {
+        "stem": "by-operating-units",
+        "columns": ["page", "tier", "code", "label", "ps", "mooe", "co", "total"],
+        "amount_columns": {"ps": "PS", "mooe": "MOOE", "co": "CO", "total": "Total"},
+    },
+    "pap": {
+        "stem": "by-pap",
+        "columns": ["page", "tier", "label", "amounts"],
+        "amount_columns": {"amounts": "AMOUNT (Php)"},
+    },
+}
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--run", required=True,
+                        help="run directory name under output/")
+    parser.add_argument("--doc", default=None,
+                        help="public document id (defaults to the run name)")
+    parser.add_argument("--title", default=None,
+                        help="human-readable document title")
+    parser.add_argument("--out", default="static-export",
+                        help="export root directory (default: static-export)")
+    parser.add_argument("--trees", default="by-ou,pap",
+                        help="comma-separated tree ids to export (by-ou,pap)")
+    parser.add_argument("--pdf", choices=("copy", "url", "none"), default="copy",
+                        help="copy the PDF into the pack, record a remote URL, or omit")
+    parser.add_argument("--pdf-url", default=None,
+                        help="absolute URL used with --pdf url")
+    parser.add_argument("--file-prefix", "--csv-prefix", dest="file_prefix",
+                        default=None,
+                        help="public data filename prefix, e.g. 'NEP-VOL2B DPWH'"
+                             " (kebab-cased into both .json and .csv names;"
+                             " omit for short ids)")
+    return parser.parse_args()
+
+
+def kebab_slug(value: str) -> str:
+    """Lowercase, drop commas, collapse non-alnum runs into single hyphens."""
+    return re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
+
+
+def read_json(path: Path) -> dict[str, Any]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError(f"Expected JSON object in {path}")
+    return value
+
+
+def slim_amount(amount: Any) -> dict[str, Any] | None:
+    if not isinstance(amount, dict):
+        return None
+    slim = {key: amount.get(key) for key in AMOUNT_KEYS}
+    return slim if any(slim.values()) else None
+
+
+def slim_total(total: Any) -> dict[str, Any] | None:
+    if not isinstance(total, dict):
+        return None
+    slim = {key: total.get(key) for key in TOTAL_KEYS}
+    return slim if slim.get("text") else None
+
+
+def resolve_by_ou_columns(nodes: list[dict[str, Any]]) -> dict[int, dict[str, str]]:
+    """Map generic `Amount N` keys to semantic roles per page.
+
+    `Amount N` ordinals encode left-to-right column order on each page. The
+    semantic reading is anchored at the rightmost data-carrying column and
+    assigned leftward: Total, CO, MOOE, PS (root-page headers only exist on
+    the seed page, so every other page is resolved by this anchor rule).
+    Ordinals that carry no data on the page are placeholders and are ignored,
+    which handles terminal pages with detected-but-empty OCR columns.
+    """
+    ordinal = lambda role: (int(role.rsplit(" ", 1)[-1]) if role.rsplit(" ", 1)[-1].isdigit() else 0)
+    per_page: dict[int, set[str]] = {}
+    for node in nodes:
+        page = node.get("page")
+        if not isinstance(page, int):
+            continue
+        for role in (node.get("amounts") or {}):
+            if role not in BY_OU_ANCHOR_ROLES:
+                per_page.setdefault(page, set()).add(role)
+    pages: dict[int, dict[str, str]] = {}
+    for page, roles in per_page.items():
+        ordered = sorted(roles, key=ordinal)
+        mapping = {role: BY_OU_ANCHOR_ROLES[offset]
+                   for offset, role in enumerate(reversed(ordered))
+                   if offset < len(BY_OU_ANCHOR_ROLES)}
+        pages[page] = mapping
+    return pages
+
+
+def rewrite_amounts(node: dict[str, Any],
+                    mapping: dict[str, str]) -> tuple[dict[str, Any], dict[str, Any] | None]:
+    amounts = {mapping.get(role, role): slim
+               for role, value in (node.get("amounts") or {}).items()
+               if (slim := slim_amount(value))}
+    total = slim_total(node.get("total"))
+    if total and total.get("role"):
+        total["role"] = mapping.get(total["role"], total["role"])
+    return amounts, total
+
+
+def slim_node(node: dict[str, Any], mapping: dict[str, str] | None = None) -> dict[str, Any]:
+    key_map = mapping or {}
+    amounts, total = rewrite_amounts(node, key_map)
+    return {
+        "id": node.get("id"),
+        "parent": node.get("parent"),
+        "kind": node.get("kind"),
+        "tier": node.get("tier"),
+        "label": node.get("label"),
+        "code": node.get("code"),
+        "page": node.get("page"),
+        "bbox": node.get("bbox"),
+        "amounts": amounts,
+        "total": total,
+        "children": node.get("children") or [],
+    }
+
+
+def validate_tree(slim: dict[str, Any], source: Path) -> None:
+    nodes = slim["nodes"]
+    ids = {node["id"] for node in nodes}
+    if len(ids) != len(nodes):
+        raise ValueError(f"Duplicate node ids in {source}")
+    roots = slim["roots"]
+    if not roots:
+        raise ValueError(f"Tree has no roots: {source}")
+    by_id = {node["id"]: node for node in nodes}
+    for node in nodes:
+        if node["id"] in roots and node["parent"] is not None:
+            raise ValueError(f"Root {node['id']} has a parent in {source}")
+        if node["id"] not in roots and node["parent"] not in ids:
+            raise ValueError(f"Node {node['id']} has unresolvable parent "
+                             f"{node['parent']!r} in {source}")
+        for child in node["children"]:
+            if child not in ids:
+                raise ValueError(f"Node {node['id']} references missing child "
+                                 f"{child!r} in {source}")
+            if by_id[child]["parent"] != node["id"]:
+                raise ValueError(f"Child {child!r} disagrees about its parent "
+                                 f"in {source}")
+        if node["bbox"] is not None and node["page"] is None:
+            raise ValueError(f"Node {node['id']} has bbox without page in {source}")
+
+
+def csv_amount(node: dict[str, Any], amount_role: str) -> Any:
+    """Numeric value of one amount role, preferring the row's total if it
+    carries the same role (OCR sometimes splits a row into several)."""
+    total = node.get("total")
+    if isinstance(total, dict) and total.get("role") == amount_role:
+        value = total.get("value")
+        if value is not None:
+            return value
+    amount = (node.get("amounts") or {}).get(amount_role)
+    return amount.get("value") if isinstance(amount, dict) else None
+
+
+def write_tree_csv(slim: dict[str, Any], tree_id: str, basename: str,
+                   out_dir: Path) -> str:
+    """Write the public CSV companion for one tree; returns its pack path."""
+    spec = DATA_SPECS[tree_id]
+    target = out_dir / "trees" / f"{basename}.csv"
+    with target.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(spec["columns"])
+        for node in slim["nodes"]:
+            if node.get("kind") == "table_root":
+                continue
+            row = {
+                "page": node.get("page"),
+                "tier": node.get("tier"),
+                "code": node.get("code") or "",
+                "label": node.get("label") or "",
+            }
+            for column, role in spec["amount_columns"].items():
+                row[column] = csv_amount(node, role)
+            writer.writerow([row.get(column) for column in spec["columns"]])
+    return f"trees/{target.name}"
+
+
+def tree_basename(tree_id: str, prefix: str | None) -> str:
+    """Public filename stem for one tree (no extension), kebab-case."""
+    if prefix and tree_id in DATA_SPECS:
+        return f"{kebab_slug(prefix)}-{DATA_SPECS[tree_id]['stem']}"
+    return tree_id
+
+
+def export_tree(tree_id: str, stage_name: str, run_root: Path, out_dir: Path,
+                label: str, file_prefix: str | None = None) -> dict[str, Any]:
+    source = run_root / STAGE_DIRS[stage_name] / "tree.json"
+    tree = read_json(source)
+    raw_nodes = tree.get("nodes") or []
+    column_map = (resolve_by_ou_columns(raw_nodes) if tree_id == "by-ou" else {})
+    pap_name = PAP_COLUMN_NAME if tree_id == "pap" else None
+    nodes = []
+    for node in raw_nodes:
+        mapping = column_map.get(int(node.get("page") or -1), {}) if node.get("page") else {}
+        if pap_name:
+            mapping = {role: pap_name for role in (node.get("amounts") or {})}
+        slim = slim_node(node, mapping)
+        if pap_name and slim["total"] and slim["total"].get("role"):
+            slim["total"]["role"] = pap_name
+        nodes.append(slim)
+    slim = {
+        "format": TREE_FORMAT,
+        "id": tree_id,
+        "title": tree.get("table", {}).get("title") or label,
+        "roots": tree.get("roots") or [],
+        "nodes": nodes,
+    }
+    present = {role for node in nodes for role in (node.get("amounts") or {})}
+    present.update(node["total"]["role"] for node in nodes
+                   if node.get("total") and node["total"].get("role"))
+    slim["columns"] = [role for role in (*BY_OU_ANCHOR_ROLES[::-1], *sorted(
+        present - set(BY_OU_ANCHOR_ROLES), key=str)) if role in present]
+    validate_tree(slim, source)
+    trees_dir = out_dir / "trees"
+    trees_dir.mkdir(parents=True, exist_ok=True)
+    basename = tree_basename(tree_id, file_prefix)
+    target = trees_dir / f"{basename}.json"
+    target.write_text(json.dumps(slim, ensure_ascii=False, separators=(",", ":")),
+                      encoding="utf-8")
+    csv_file = (write_tree_csv(slim, tree_id, basename, out_dir)
+                if file_prefix and tree_id in DATA_SPECS else None)
+    return {
+        "id": tree_id,
+        "label": label,
+        "title": slim["title"],
+        "file": f"trees/{target.name}",
+        "csv": csv_file,
+        "pages": sorted({node["page"] for node in slim["nodes"]
+                         if isinstance(node["page"], int)}),
+        "n_nodes": len(slim["nodes"]),
+    }
+
+
+def human_size(size: int) -> str:
+    value = float(size)
+    for unit in ("B", "KB", "MB", "GB"):
+        if value < 1024:
+            return f"{value:.1f} {unit}"
+        value /= 1024
+    return f"{value:.1f} TB"
+
+
+def main() -> int:
+    args = parse_args()
+    run_root = PROJECT / "output" / args.run
+    if not run_root.is_dir():
+        raise SystemExit(f"Run not found: {run_root}")
+    doc = args.doc or args.run
+    pack_dir = (PROJECT / args.out).expanduser().resolve() / doc
+    if pack_root_conflict(pack_dir, run_root):
+        raise SystemExit("Refusing to export into the pipeline output tree")
+
+    requested = [item.strip() for item in args.trees.split(",") if item.strip()]
+    unknown = [item for item in requested if item not in TREE_STAGES]
+    if unknown:
+        raise SystemExit(f"Unknown tree ids: {', '.join(unknown)}")
+
+    pack_dir.mkdir(parents=True, exist_ok=True)
+    trees = []
+    for tree_id in requested:
+        stage_name, label = TREE_STAGES[tree_id]
+        trees.append(export_tree(tree_id, stage_name, run_root, pack_dir, label,
+                                 file_prefix=args.file_prefix))
+    prune_stale_tree_files(pack_dir / "trees", trees)
+
+    viewer = read_json(run_root / "viewer.json")
+    pages = sorted({page for tree in trees for page in tree.pop("pages")})
+    pdf_name = Path(viewer.get("pdf", "")).name
+    pdf_href, pdf_remote, n_pdf_pages = "pdf/document.pdf", None, None
+    pdf_source = PROJECT / "pdfs" / pdf_name
+    if args.pdf == "copy":
+        if not pdf_source.is_file():
+            raise SystemExit(f"PDF not found: {pdf_source}")
+        target = pack_dir / "pdf" / "document.pdf"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(pdf_source, target)
+        n_pdf_pages = len(viewer.get("pages") or [])
+    elif args.pdf == "url":
+        if not args.pdf_url:
+            raise SystemExit("--pdf url requires --pdf-url")
+        pdf_href, pdf_remote = None, args.pdf_url
+    else:
+        pdf_href = None
+
+    manifest = {
+        "format": MANIFEST_FORMAT,
+        "doc": doc,
+        "title": args.title or doc,
+        "run": args.run,
+        "generated_at": iso_now(),
+        "source": {tree_id: f"{STAGE_DIRS[stage]}/tree.json"
+                   for tree_id, (stage, _label) in TREE_STAGES.items()
+                   if tree_id in requested},
+        "pages": pages,
+        "trees": trees,
+        "pdf": {"href": pdf_href, "remote": pdf_remote, "pages": n_pdf_pages},
+    }
+    (pack_dir / "manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    write_index((PROJECT / args.out).expanduser().resolve(), doc, manifest)
+
+    total = sum(path.stat().st_size for path in pack_dir.rglob("*") if path.is_file())
+    print(f"Exported {doc} -> {pack_dir.relative_to(PROJECT)}")
+    for tree in trees:
+        size = (pack_dir / tree["file"]).stat().st_size
+        print(f"  {tree['file']}  {tree['n_nodes']} nodes  {human_size(size)}")
+        if tree.get("csv"):
+            print(f"  {tree['csv']}  {human_size((pack_dir / tree['csv']).stat().st_size)}")
+    if pdf_href:
+        print(f"  pdf/document.pdf  {human_size((pack_dir / 'pdf' / 'document.pdf').stat().st_size)}")
+    print(f"  pages: {len(pages)} ({pages[0]}..{pages[-1]})" if pages else "  pages: none")
+    print(f"  pack total: {human_size(total)}")
+    return 0
+
+
+def pack_root_conflict(pack_dir: Path, run_root: Path) -> bool:
+    return pack_dir == run_root or run_root in pack_dir.parents
+
+
+def prune_stale_tree_files(trees_dir: Path, trees: list[dict[str, Any]]) -> None:
+    """Remove leftover tree artifacts that are not part of this export."""
+    if not trees_dir.is_dir():
+        return
+    keep = set()
+    for tree in trees:
+        for key in ("file", "csv"):
+            relative = tree.get(key)
+            if relative:
+                keep.add((trees_dir.parent / relative).resolve())
+    for path in trees_dir.iterdir():
+        if path.is_file() and path.suffix in {".json", ".csv"} and path.resolve() not in keep:
+            path.unlink()
+
+
+def write_index(root: Path, doc: str, manifest: dict[str, Any]) -> None:
+    root.mkdir(parents=True, exist_ok=True)
+    index_path = root / "index.json"
+    entries = {}
+    if index_path.exists():
+        try:
+            existing = json.loads(index_path.read_text(encoding="utf-8"))
+            entries = {entry["doc"]: entry for entry in existing.get("docs", [])}
+        except (json.JSONDecodeError, KeyError, TypeError):
+            entries = {}
+    entries[doc] = {
+        "doc": doc,
+        "title": manifest["title"],
+        "generated_at": manifest["generated_at"],
+        "trees": [tree["id"] for tree in manifest["trees"]],
+    }
+    index = {"format": 1, "docs": [entries[doc] for doc in sorted(entries)]}
+    index_path.write_text(json.dumps(index, ensure_ascii=False, indent=2) + "\n",
+                          encoding="utf-8")
+    (root / doc / "index.json").write_text(
+        json.dumps({"format": 1, "docs": [entries[doc]]}, ensure_ascii=False,
+                   indent=2) + "\n", encoding="utf-8")
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

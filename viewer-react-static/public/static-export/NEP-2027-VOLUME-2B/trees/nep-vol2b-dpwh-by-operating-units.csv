@@ -1,0 +1,2262 @@
+page,tier,code,label,ps,mooe,co,total
+13,0,,A. REGULAR PROGRAMS,,,,
+13,1,100000000000000,General Administration and Support,13794990000,1505758000,2777545000,18078293000
+13,1,100000100001000,General Management and Supervision,13213299000,1505758000,2777545000,17496602000
+13,1,,National Capital Region (NCR),3935495000,745976000,2777545000,7459016000
+13,2,,Central Office,3506063000,702704000,2777545000,6986312000
+13,2,,NCR Regional Office - Proper,78157000,24732000,,102889000
+13,2,,Las Pi ñ as-Muntinlupa District Engineering Office,28160000,2060000,,30220000
+13,2,,Malabon-Navotas District Engineering Office,28532000,2060000,,30592000
+13,2,,Metro Manila 1st District Engineering Office,44233000,2060000,,46293000
+13,2,,Metro Manila 2nd District Engineering Office,37378000,2060000,,39438000
+13,2,,Metro Manila 3rd District Engineering Office,36775000,2060000,,38835000
+13,2,,North Manila District Engineering Office,34609000,2060000,,36669000
+13,2,,Quezon City 1st District Engineering Office,45583000,2060000,,47643000
+13,2,,Quezon City 2nd District Engineering Office,48834000,2060000,,50894000
+13,2,,South Manila District Engineering Office,47171000,2060000,,49231000
+13,1,,Region I - Ilocos,556206000,45153000,,601359000
+13,2,,Regional Office I - Proper,136053000,24773000,,160826000
+13,2,,Ilocos Norte 1st District Engineering Office,46959000,2038000,,48997000
+13,2,,Ilocos Norte 2nd District Engineering Office,47854000,2038000,,49892000
+13,2,,Ilocos Sur 1st District Engineering Office,37096000,2038000,,39134000
+13,2,,Ilocos Sur 2nd District Engineering Office,44436000,2038000,,46474000
+14,2,,La Union 1st District Engineering Office,,37234000,2038000,39272000
+14,2,,La Union 2nd District Engineering Office,,37047000,2038000,39085000
+14,2,,Pangasinan 1st District Engineering Office,,37245000,2038000,39283000
+14,2,,Pangasinan 2nd District Engineering Office,,46545000,2038000,48583000
+14,2,,Pangasinan 3rd District Engineering Office,,48794000,2038000,50832000
+14,2,,Pangasinan 4th District Engineering Office,,36943000,2038000,38981000
+14,1,,Cordillera Administrative Region (CAR),,582005000,50191000,632196000
+14,2,,Regional Office CAR - Proper,,103078000,25759000,128837000
+14,2,,Abra District Engineering Office,,39227000,2036000,41263000
+14,2,,Apayao 1st District Engineering Office,,36781000,2036000,38817000
+14,2,,Apayao 2nd District Engineering Office,,47254000,2036000,49290000
+14,2,,Baguio City District Engineering Office,,34974000,2036000,37010000
+14,2,,Benguet 1st District Engineering Office,,45159000,2036000,47195000
+14,2,,Benguet 2nd District Engineering Office,,36974000,2036000,39010000
+14,2,,Ifugao 1st District Engineering Office,,35519000,2036000,37555000
+14,2,,Ifugao 2nd District Engineering Office,,34653000,2036000,36689000
+14,2,,Lower Kalinga District Engineering Office,,46902000,2036000,48938000
+14,2,,Mountain Province 2nd District Engineering Office,,37212000,2036000,39248000
+14,2,,Mountain Province First District Engineering Office,,48042000,2036000,50078000
+14,2,,Upper Kalinga District Engineering Office,,36230000,2036000,38266000
+14,1,,Region II - Cagayan Valley,,534558000,47084000,581642000
+14,2,,Regional Office II - Proper,,75155000,24644000,99799000
+14,2,,Batanes District Engineering Office,,30154000,2040000,32194000
+14,2,,Cagayan 1st District Engineering Office,,46281000,2040000,48321000
+14,2,,Cagayan 2nd District Engineering Office,,47087000,2040000,49127000
+15,2,,Cagayan 3rd District Engineering Office,,46892000,2040000,48932000
+15,2,,Isabela 1st District Engineering Office,,48672000,2040000,50712000
+15,2,,Isabela 2nd District Engineering Office,,36333000,2040000,38373000
+15,2,,Isabela 3rd District Engineering Office,,35444000,2040000,37484000
+15,2,,Isabela 4th District Engineering Office,,36501000,2040000,38541000
+15,2,,Nueva Vizcaya 2nd District Engineering Office,,47025000,2040000,49065000
+15,2,,Nueva Vizcaya District Engineering Office,,36469000,2040000,38509000
+15,2,,Quirino District Engineering Office,,48545000,2040000,50585000
+15,1,,Region III - Central Luzon,,844660000,63803000,908463000
+15,2,,Regional Office III - Proper,,216923000,30833000,247756000
+15,2,,Aurora District Engineering Office,,48536000,2086000,50622000
+15,2,,Bataan 1st District Engineering Office,,39147000,2086000,41233000
+15,2,,Bataan 2nd District Engineering Office,,47253000,2086000,49339000
+15,2,,Bataan 3rd District Engineering Office,,32475000,1883000,34358000
+15,2,,Bulacan 1st District Engineering Office,,30472000,2086000,32558000
+15,2,,Bulacan 2nd District Engineering Office,,35271000,2086000,37357000
+15,2,,Bulacan 3rd District Engineering Office,,36595000,1883000,38478000
+15,2,,Nueva Ecija 1st District Engineering Office,,50748000,2086000,52834000
+15,2,,Nueva Ecija 2nd District Engineering Office,,48659000,2086000,50745000
+15,2,,Pampanga 1st District Engineering Office,,45478000,2086000,47564000
+15,2,,Pampanga 2nd District Engineering Office,,34577000,2086000,36663000
+15,2,,Pampanga 3rd District Engineering Office,,26575000,2086000,28661000
+15,2,,Tarlac 2nd District Engineering Office,,36637000,2086000,38723000
+15,2,,Tarlac District Engineering Office,,44763000,2086000,46849000
+15,2,,Zambales 1st District Engineering Office,,35981000,2086000,38067000
+16,2,,Zambales 2nd District Engineering Office,,34570000,2086000,36656000
+16,1,,Region IVA - CALABARZON,,716715000,57783000,774498000
+16,2,,Regional Office IVA - Proper,,96940000,24503000,121443000
+16,2,,Batangas 1st District Engineering Office,,43374000,2080000,45454000
+16,2,,Batangas 2nd District Engineering Office,,36603000,2080000,38683000
+16,2,,Batangas 3rd District Engineering Office,,37025000,2080000,39105000
+16,2,,Batangas 4th District Engineering Office,,35357000,2080000,37437000
+16,2,,Cavite 2nd District Engineering Office,,42587000,2080000,44667000
+16,2,,Cavite District Engineering Office,,41200000,2080000,43280000
+16,2,,Cavite Third District Engineering Office,,33266000,2080000,35346000
+16,2,,Laguna 1st District Engineering Office,,37071000,2080000,39151000
+16,2,,Laguna 2nd District Engineering Office,,34450000,2080000,36530000
+16,2,,Laguna 3rd District Engineering Office,,34236000,2080000,36316000
+16,2,,Quezon 1st District Engineering Office,,36746000,2080000,38826000
+16,2,,Quezon 2nd District Engineering Office,,44545000,2080000,46625000
+16,2,,Quezon 3rd District Engineering Office,,47391000,2080000,49471000
+16,2,,Quezon 4th District Engineering Office,,47695000,2080000,49775000
+16,2,,Rizal 1st District Engineering Office,,35697000,2080000,37777000
+16,2,,Rizal 2nd District Engineering Office,,32532000,2080000,34612000
+16,1,,Region IVB - MIMAROPA,,438817000,40959000,479776000
+16,2,,MIMAROPA Regional Office - Proper,,95295000,24447000,119742000
+16,2,,Marinduque District Engineering Office,,35643000,2064000,37707000
+16,2,,Mindoro Occidental District Engineering Office,,47228000,2064000,49292000
+16,2,,Mindoro Oriental District Engineering Office,,33892000,2064000,35956000
+16,2,,Palawan 1st District Engineering Office,,43414000,2064000,45478000
+17,2,,Palawan 2nd District Engineering Office,,47722000,2064000,49786000
+17,2,,Palawan 3rd District Engineering Office,,44257000,2064000,46321000
+17,2,,Romblon District Engineering Office,,45156000,2064000,47220000
+17,2,,Southern Mindoro District Engineering Office,,46210000,2064000,48274000
+17,1,,Region V - Bicol,,701751000,55511000,757262000
+17,2,,Regional Office V - Proper,,93453000,24491000,117944000
+17,2,,Albay 1st District Engineering Office,,35791000,2068000,37859000
+17,2,,Albay 2nd District Engineering Office,,37984000,2068000,40052000
+17,2,,Albay 3rd District Engineering Office,,35802000,2068000,37870000
+17,2,,Camarines Norte District Engineering Office,,48810000,2068000,50878000
+17,2,,Camarines Sur 1st District Engineering Office,,36794000,2068000,38862000
+17,2,,Camarines Sur 2nd District Engineering Office,,34534000,2068000,36602000
+17,2,,Camarines Sur 3rd District Engineering Office,,36985000,2068000,39053000
+17,2,,Camarines Sur 4th District Engineering Office,,46903000,2068000,48971000
+17,2,,Camarines Sur 5th District Engineering Office,,36169000,2068000,38237000
+17,2,,Catanduanes District Engineering Office,,47280000,2068000,49348000
+17,2,,Masbate 1st District Engineering Office,,37143000,2068000,39211000
+17,2,,Masbate 2nd District Engineering Office,,44781000,2068000,46849000
+17,2,,Masbate 3rd District Engineering Office,,45352000,2068000,47420000
+17,2,,Sorsogon 2nd District Engineering Office,,36972000,2068000,39040000
+17,2,,Sorsogon District Engineering Office,,46998000,2068000,49066000
+17,1,,Region VI - Western Visayas,,535603000,47227000,582830000
+17,2,,Regional Office VI - Proper,,93966000,24495000,118461000
+17,2,,Aklan District Engineering Office,,46141000,2085000,48226000
+18,2,,Antique District Engineering Office,,44184000,2085000,46269000
+18,2,,Capiz 1st District Engineering Office,,31504000,2085000,33589000
+18,2,,Capiz 2nd District Engineering Office,,41884000,2085000,43969000
+18,2,,Guimaras District Engineering Office,,35354000,2085000,37439000
+18,2,,Iloilo 1st District Engineering Office,,33567000,2085000,35652000
+18,2,,Iloilo 2nd District Engineering Office,,47076000,2085000,49161000
+18,2,,Iloilo 3rd District Engineering Office,,43903000,2085000,45988000
+18,2,,Iloilo 4th District Engineering Office,,36724000,2085000,38809000
+18,2,,Iloilo 6th District Engineering Office,,45075000,1882000,46957000
+18,2,,Iloilo City District Engineering Office,,36225000,2085000,38310000
+18,1,,Negros Island Region (NIR),,424728000,20676000,445404000
+18,2,,Regional Office NIR - Proper,,50527000,,50527000
+18,2,,Bacolod City District Engineering Office,,38894000,2085000,40979000
+18,2,,Negros Occidental 1st District Engineering Office,,50887000,2085000,52972000
+18,2,,Negros Occidental 2nd District Engineering Office,,37960000,2085000,40045000
+18,2,,Negros Occidental 3rd District Engineering Office,,47871000,2085000,49956000
+18,2,,Negros Occidental 4th District Engineering Office,,38363000,2085000,40448000
+18,2,,Negros Occidental 5th District Engineering Office,,,1891000,1891000
+18,2,,Negros Oriental 1st District Engineering Office,,38785000,2090000,40875000
+18,2,,Negros Oriental 2nd District Engineering Office,,39880000,2090000,41970000
+18,2,,Negros Oriental 3rd District Engineering Office,,46676000,2090000,48766000
+18,2,,Siquijor District Engineering Office,,34885000,2090000,36975000
+19,1,,Region VII - Central Visayas,,504256000,47509000,551765000
+19,2,,Regional Office VII - Proper,,102612000,24519000,127131000
+19,2,,Bohol 1st District Engineering Office,,43948000,2090000,46038000
+19,2,,Bohol 2nd District Engineering Office,,35528000,2090000,37618000
+19,2,,Bohol 3rd District Engineering Office,,42484000,2090000,44574000
+19,2,,Cebu 1st District Engineering Office,,35988000,2090000,38078000
+19,2,,Cebu 2nd District Engineering Office,,35006000,2090000,37096000
+19,2,,Cebu 3rd District Engineering Office,,32906000,2090000,34996000
+19,2,,Cebu 4th District Engineering Office,,36316000,2090000,38406000
+19,2,,Cebu 5th District Engineering Office,,36812000,2090000,38902000
+19,2,,Cebu 6th District Engineering Office,,35086000,2090000,37176000
+19,2,,Cebu 7th District Engineering Office,,32364000,2090000,34454000
+19,2,,Cebu City District Engineering Office,,35206000,2090000,37296000
+19,1,,Region VIII - Eastern Visayas,,701558000,53783000,755341000
+19,2,,Regional Office VIII - Proper,,118223000,24518000,142741000
+19,2,,Biliran District Engineering Office,,38092000,2105000,40197000
+19,2,,Eastern Samar District Engineering Office,,49616000,2105000,51721000
+19,2,,Leyte 1st District Engineering Office,,34595000,2105000,36700000
+19,2,,Leyte 2nd District Engineering Office,,45644000,2105000,47749000
+19,2,,Leyte 3rd District Engineering Office,,37398000,2105000,39503000
+19,2,,Leyte 4th District Engineering Office,,48002000,2105000,50107000
+19,2,,Leyte 5th District Engineering Office,,47552000,2105000,49657000
+19,2,,Northern Samar 1st District Engineering Office,,46699000,2105000,48804000
+19,2,,Northern Samar 2nd District Engineering Office,,37340000,2105000,39445000
+19,2,,Samar 1st District Engineering Office,,48039000,2105000,50144000
+20,2,,Samar 2nd District Engineering Office,,40460000,2105000,42565000
+20,2,,Southern Leyte 1st District Engineering Office,,40745000,2105000,42850000
+20,2,,Southern Leyte 2nd District Engineering Office,,35818000,1900000,37718000
+20,2,,Tacloban City District Engineering Office,,33335000,2105000,35440000
+20,1,,Region IX - Zamboanga Peninsula,,551910000,46148000,598058000
+20,2,,Regional Office IX - Proper,,137905000,23361000,161266000
+20,2,,Isabela City District Engineering Office,,22300000,2090000,24390000
+20,2,,Zamboanga City 1st District Engineering Office,,35261000,1887000,37148000
+20,2,,Zamboanga City 2nd District Engineering Office,,35406000,2090000,37496000
+20,2,,Zamboanga del Norte 1st District Engineering Office,,45653000,2090000,47743000
+20,2,,Zamboanga del Norte 2nd District Engineering Office,,36588000,2090000,38678000
+20,2,,Zamboanga del Norte 3rd District Engineering Office,,33446000,2090000,35536000
+20,2,,Zamboanga del Norte 4th District Engineering Office,,34226000,2090000,36316000
+20,2,,Zamboanga del Sur 1st District Engineering Office,,46405000,2090000,48495000
+20,2,,Zamboanga del Sur 2nd District Engineering Office,,46610000,2090000,48700000
+20,2,,Zamboanga Sibugay 1st District Engineering Office,,42953000,2090000,45043000
+20,2,,Zamboanga Sibugay 2nd District Engineering Office,,35157000,2090000,37247000
+20,1,,Region X - Northern Mindanao,,646070000,52710000,698780000
+20,2,,Regional Office X - Proper,,91371000,24516000,115887000
+20,2,,Bukidnon 1st District Engineering Office,,45270000,2028000,47298000
+20,2,,Bukidnon 2nd District Engineering Office,,46820000,2028000,48848000
+20,2,,Bukidnon 3rd District Engineering Office,,45482000,2028000,47510000
+21,2,,Bukidnon 4th District Engineering Office,,36011000,1830000,37841000
+21,2,,Cagayan de Oro City 1st District Engineering Office,,28295000,2028000,30323000
+21,2,,Cagayan de Oro City 2nd District Engineering Office,,27998000,2028000,30026000
+21,2,,Camiguin District Engineering Office,,28887000,2028000,30915000
+21,2,,Iligan City District Engineering Office,,36601000,2028000,38629000
+21,2,,Lanao del Norte 1st District Engineering Office,,47626000,2028000,49654000
+21,2,,Lanao del Norte 2nd District Engineering Office,,42899000,2028000,44927000
+21,2,,Misamis Occidental 2nd District Engineering Office,,35909000,2028000,37937000
+21,2,,Misamis Occidental District Engineering Office,,37881000,2028000,39909000
+21,2,,Misamis Oriental 1st District Engineering Office,,47606000,2028000,49634000
+21,2,,Misamis Oriental 2nd District Engineering Office,,47414000,2028000,49442000
+21,1,,Region XI - Davao,,608091000,47157000,655248000
+21,2,,Regional Office XI - Proper,,127314000,24509000,151823000
+21,2,,Davao City 2nd District Engineering Office,,44007000,2096000,46103000
+21,2,,Davao City 3rd District Engineering Office,,36815000,1892000,38707000
+21,2,,Davao City District Engineering Office,,41557000,2096000,43653000
+21,2,,Davao de Oro 1st District Engineering Office,,44759000,2096000,46855000
+21,2,,Davao de Oro 2nd District Engineering Office,,47565000,2096000,49661000
+21,2,,Davao del Norte 2nd District Engineering Office,,37233000,1892000,39125000
+21,2,,Davao del Norte District Engineering Office,,47819000,2096000,49915000
+21,2,,Davao del Sur District Engineering Office,,44779000,2096000,46875000
+22,2,,Davao Occidental District Engineering Office,,43636000,2096000,45732000
+22,2,,Davao Oriental 1st District Engineering Office,,45549000,2096000,47645000
+22,2,,Davao Oriental 2nd District Engineering Office,,47058000,2096000,49154000
+22,1,,Region XII - SOCCSKSARGEN,,468856000,40953000,509809000
+22,2,,Regional Office XII - Proper,,97616000,24465000,122081000
+22,2,,Cotabato 1st District Engineering Office,,46250000,2061000,48311000
+22,2,,Cotabato 2nd District Engineering Office,,48511000,2061000,50572000
+22,2,,Cotabato 3rd District Engineering Office,,49194000,2061000,51255000
+22,2,,Sarangani District Engineering Office,,46997000,2061000,49058000
+22,2,,South Cotabato 1st District Engineering Office,,48267000,2061000,50328000
+22,2,,South Cotabato 2nd District Engineering Office,,46861000,2061000,48922000
+22,2,,Sultan Kudarat 1st District Engineering Office,,36918000,2061000,38979000
+22,2,,Sultan Kudarat 2nd District Engineering Office,,48242000,2061000,50303000
+22,1,,Region XIII - CARAGA,,462020000,43135000,505155000
+22,2,,Regional Office XIII - Proper,,101947000,24523000,126470000
+22,2,,Agusan del Norte District Engineering Office,,37291000,2068000,39359000
+22,2,,Agusan del Sur 1st District Engineering Office,,46151000,2068000,48219000
+22,2,,Agusan del Sur 2nd District Engineering Office,,48220000,2068000,50288000
+22,2,,Butuan City District Engineering Office,,36070000,2068000,38138000
+22,2,,Dinagat Islands District Engineering Office,,35284000,2068000,37352000
+22,2,,Surigao del Norte 1st District Engineering Office,,36471000,2068000,38539000
+22,2,,Surigao del Norte 2nd District Engineering Office,,38828000,2068000,40896000
+23,2,,Surigao del Sur 1st District Engineering Office,45918000,2068000,,47986000
+23,2,,Surigao del Sur 2nd District Engineering Office,35840000,2068000,,37908000
+23,1,100000100002000,Administration of Personnel Benefits,581691000,,,581691000
+23,1,,National Capital Region (NCR),581691000,,,581691000
+23,2,,Central Office,581691000,,,581691000
+23,,,"Sub-total, General Administration and Support",13794990000,1505758000,2777545000,18078293000
+23,1,200000000000000,Support to Operations,1127307000,23179988000,27302353000,51609648000
+23,1,200000100001000,Design of Public Works and Highways Projects,85254000,13504000,,98758000
+23,1,,National Capital Region (NCR),85254000,13504000,,98758000
+23,2,,Central Office,85254000,13504000,,98758000
+23,1,200000100002000,"Preparation of Manuals for Construction, Rehabilitation and Improvement of Infrastructure Facilities",114932000,10737000,,125669000
+23,1,,National Capital Region (NCR),114932000,10737000,,125669000
+23,2,,Central Office,114932000,10737000,,125669000
+23,1,200000100003000,Management of Construction and Maintenance Equipment and Ancillary Facilities,58606000,154539000,,213145000
+23,1,,National Capital Region (NCR),58606000,154539000,,213145000
+23,2,,Central Office,58606000,154539000,,213145000
+23,1,200000100004000,"Infrastructure Research, Quality Control and Management, Ancillary Facilities",121993000,57829000,,179822000
+23,1,,National Capital Region (NCR),121993000,57829000,,179822000
+23,2,,Central Office,121993000,57829000,,179822000
+23,1,200000100005000,"Maintenance, Repair and Rehabilitation of Infrastructure Facilities and Other Related Activities Bureau Proper",66307000,26595000,,92902000
+23,1,,National Capital Region (NCR),66307000,26595000,,92902000
+23,2,,Central Office,66307000,26595000,,92902000
+23,1,200000100006000,"Maintenance, Repair and Rehabilitation of Infrastructure Facilities and Other Related Activities Operation of Weighbridge Stations and ATOME",,296075000,,296075000
+23,1,,National Capital Region (NCR),,296075000,,296075000
+23,2,,Central Office,,296075000,,296075000
+24,1,200000100017000,"Maintenance, Repair and Rehabilitation of Infrastructure Facilities and Other Related Activities Routine Maintenance of National Roads",,,11610491000,11610491000
+24,1,,National Capital Region (NCR),,,11610491000,11610491000
+24,2,,Central Office,,,11610491000,11610491000
+24,1,200000100018000,"Maintenance, Repair and Rehabilitation of Infrastructure Facilities and Other Related Activities Routine Maintenance of National Bridges",,,1603842000,1603842000
+24,1,,National Capital Region (NCR),,,1603842000,1603842000
+24,2,,Central Office,,,1603842000,1603842000
+24,1,200000100019000,"Maintenance, Repair and Rehabilitation of Infrastructure Facilities Public Buildings",,,1679027000,1679027000
+24,1,,National Capital Region (NCR),,,1679027000,1679027000
+24,2,,Central Office,,,1679027000,1679027000
+24,1,200000100020000,"Maintenance, Repair and Rehabilitation of Infrastructure Facilities Flood Control and Drainage Systems, Structures and Related Facilities",,,3917888000,3917888000
+24,1,,National Capital Region (NCR),,,3917888000,3917888000
+24,2,,Central Office,,,3917888000,3917888000
+24,1,200000100023000,"Maintenance, Repair and Rehabilitation of Infrastructure Facilities and Other Related Activities Maintenance, Services for Automated Traffic Data Collection Program",,,246770000,246770000
+24,1,,National Capital Region (NCR),,,246770000,246770000
+24,2,,Central Office,,,246770000,246770000
+24,1,200000100024000,"Regional Support (Planning and Design, Construction, Maintenance and Material Quality Control and Hydrology Division)",,493027000,7313000,500340000
+24,1,,National Capital Region (NCR),,39247000,458000,39705000
+24,2,,NCR Regional Office - Proper,,39247000,458000,39705000
+24,1,,Region I - Ilocos,,12064000,457000,12521000
+24,2,,Regional Office I - Proper,,12064000,457000,12521000
+24,1,,Cordillera Administrative Region (CAR),,51877000,457000,52334000
+24,2,,Regional Office CAR - Proper,,51877000,457000,52334000
+24,1,,Region II - Cagayan Valley,,40293000,457000,40750000
+24,2,,Regional Office II - Proper,,40293000,457000,40750000
+25,1,,Region III - Central Luzon,,,457000,457000
+25,2,,Regional Office III - Proper,,,457000,457000
+25,1,,Region IVA - CALABARZON,,35602000,457000,36059000
+25,2,,Regional Office IVA - Proper,,35602000,457000,36059000
+25,1,,Region IVB - MIMAROPA,,32697000,457000,33154000
+25,2,,MIMAROPA Regional Office - Proper,,32697000,457000,33154000
+25,1,,Region V - Bicol,,53056000,457000,53513000
+25,2,,Regional Office V - Proper,,53056000,457000,53513000
+25,1,,Region VI - Western Visayas,,39643000,457000,40100000
+25,2,,Regional Office VI - Proper,,39643000,457000,40100000
+25,1,,Region VII - Central Visayas,,29762000,457000,30219000
+25,2,,Regional Office VII - Proper,,29762000,457000,30219000
+25,1,,Region VIII - Eastern Visayas,,24030000,457000,24487000
+25,2,,Regional Office VIII - Proper,,24030000,457000,24487000
+25,1,,Region IX - Zamboanga Peninsula,,,457000,457000
+25,2,,Regional Office IX - Proper,,,457000,457000
+25,1,,Region X - Northern Mindanao,,39168000,457000,39625000
+25,2,,Regional Office X - Proper,,39168000,457000,39625000
+25,1,,Region XI - Davao,,23434000,457000,23891000
+25,2,,Regional Office XI - Proper,,23434000,457000,23891000
+25,1,,Region XII - SOCCSKSARGEN,,44990000,457000,45447000
+25,2,,Regional Office XII - Proper,,44990000,457000,45447000
+25,1,,Region XIII - CARAGA,,27164000,457000,27621000
+25,2,,Regional Office XIII - Proper,,27164000,457000,27621000
+26,1,200000100025000,"Testing Materials Needed in Road, Bridge and Building Construction and Other Public Works Projects",,187188000,2432000,189620000
+26,1,,National Capital Region (NCR),,13958000,152000,14110000
+26,2,,NCR Regional Office - Proper,,13958000,152000,14110000
+26,1,,Region I - Ilocos,,,152000,152000
+26,2,,Regional Office I - Proper,,,152000,152000
+26,1,,Cordillera Administrative Region (CAR),,5950000,152000,6102000
+26,2,,Regional Office CAR - Proper,,5950000,152000,6102000
+26,1,,Region II - Cagayan Valley,,31528000,152000,31680000
+26,2,,Regional Office II - Proper,,31528000,152000,31680000
+26,1,,Region III - Central Luzon,,,152000,152000
+26,2,,Regional Office III - Proper,,,152000,152000
+26,1,,Region IVA - CALABARZON,,11249000,152000,11401000
+26,2,,Regional Office IVA - Proper,,11249000,152000,11401000
+26,1,,Region IVB - MIMAROPA,,13130000,152000,13282000
+26,2,,MIMAROPA Regional Office - Proper,,13130000,152000,13282000
+26,1,,Region V - Bicol,,17052000,152000,17204000
+26,2,,Regional Office V - Proper,,17052000,152000,17204000
+26,1,,Region VI - Western Visayas,,8791000,152000,8943000
+26,2,,Regional Office VI - Proper,,8791000,152000,8943000
+26,1,,Region VII - Central Visayas,,20011000,152000,20163000
+26,2,,Regional Office VII - Proper,,20011000,152000,20163000
+26,1,,Region VIII - Eastern Visayas,,7741000,152000,7893000
+26,2,,Regional Office VIII - Proper,,7741000,152000,7893000
+26,1,,Region IX - Zamboanga Peninsula,,,152000,152000
+26,2,,Regional Office IX - Proper,,,152000,152000
+27,1,,Region X - Northern Mindanao,17629000,152000,,17781000
+27,2,,Regional Office X - Proper,17629000,152000,,17781000
+27,1,,Region XI - Davao,8757000,152000,,8909000
+27,2,,Regional Office XI - Proper,8757000,152000,,8909000
+27,1,,Region XII - SOCCSKSARGEN,11530000,152000,,11682000
+27,2,,Regional Office XII - Proper,11530000,152000,,11682000
+27,1,,Region XIII - CARAGA,19862000,152000,,20014000
+27,2,,Regional Office XIII - Proper,19862000,152000,,20014000
+27,1,200000100332000,"Payments of Contractual Obligations, VAT and Other Taxes",,,1000000000,1000000000
+27,1,,National Capital Region (NCR),,,1000000000,1000000000
+27,2,,Central Office,,,1000000000,1000000000
+27,1,200000100491000,"Maintenance, Repair and Rehabilitation of Infrastructure Facilities and Other Related Activities Repair and Maintenance of Road Safety Facilities",,2309297000,,2309297000
+27,1,,National Capital Region (NCR),,2309297000,,2309297000
+27,2,,Central Office,,2309297000,,2309297000
+27,1,200000101319000,"Maintenance, Repair Rehabilitation of Infrastructure Facilities and Other Related Activities Operations / Infrastructure Planning of Infrastructure Projects",,30000000,,30000000
+27,1,,National Capital Region (NCR),,30000000,,30000000
+27,2,,Central Office,,30000000,,30000000
+27,1,200000101460000,Pre-Feasibility Study / Feasibility Study / Preliminary and Detailed Engineering,,,10578143000,10578143000
+27,1,,National Capital Region (NCR),,,10578143000,10578143000
+27,2,,Central Office,,,10578143000,10578143000
+27,1,200000101461000,Payments of,,,15724210000,15724210000
+27,1,,Right-of-Way (ROW) National Capital Region (NCR),,,15724210000,15724210000
+27,2,,Central Office,,,15724210000,15724210000
+27,1,200000101462000,Operations and Maintenance of National Hydrologic Data Collection Program (NHDCP),,47087000,,47087000
+27,1,,National Capital Region (NCR),,47087000,,47087000
+27,2,,Central Office,,47087000,,47087000
+28,1,200000101560000,"Maintenance, Repair and Rehabilitation of Infrastructure Facilities and Other Related Activities - Maintenance and Operations of Dredging and Support Equipment for By-Administration Dredging Projects",,1139412000,,1139412000
+28,1,,National Capital Region (NCR),,1139412000,,1139412000
+28,2,,Central Office,,1139412000,,1139412000
+28,1,200000101561000,"Maintenance, Repair and Rehabilitation of Infrastructure Facilities and Other Related Activities - Repair, Calibration, and Maintenance of Laboratory Equipment",,27150000,,27150000
+28,1,,National Capital Region (NCR),,27150000,,27150000
+28,2,,Central Office,,27150000,,27150000
+28,,,"Sub-total, Support to Operations",1127307000,23179988000,27302353000,51609648000
+28,1,300000000000000,Operations,,,440741388000,440741388000
+28,1,310100000000000,ASSET PRESERVATION PROGRAM,,,68418283000,68418283000
+28,1,310101000000000,Preventive Maintenance Primary Roads,,,13343175000,13343175000
+28,1,310101100238000,Preventive Maintenance Primary Roads,,,13343175000,13343175000
+28,1,,National Capital Region (NCR),,,11470327000,11470327000
+28,2,,Central Office,,,11449754000,11449754000
+28,2,,Quezon City 2nd District Engineering Office,,,20573000,20573000
+28,1,,Region I - Ilocos,,,105087000,105087000
+28,2,,Ilocos Norte 1st District Engineering Office,,,49232000,49232000
+28,2,,Ilocos Sur 2nd District Engineering Office,,,9659000,9659000
+28,2,,La Union 1st District Engineering Office,,,18000000,18000000
+28,2,,La Union 2nd District Engineering Office,,,8196000,8196000
+28,2,,Pangasinan 2nd District Engineering Office,,,20000000,20000000
+28,1,,Region II - Cagayan Valley,,,68486000,68486000
+28,2,,Isabela 3rd District Engineering Office,,,68486000,68486000
+28,1,,Region III - Central Luzon,,,90825000,90825000
+28,2,,Pampanga 2nd District Engineering Office,,,61029000,61029000
+28,2,,Tarlac District Engineering Office,,,29796000,29796000
+29,1,,Region IVA - CALABARZON,,,408136000,408136000
+29,2,,Batangas 2nd District Engineering Office,,,30603000,30603000
+29,2,,Batangas 4th District Engineering Office,,,62534000,62534000
+29,2,,Cavite District Engineering Office,,,84216000,84216000
+29,2,,Cavite Third District Engineering Office,,,112789000,112789000
+29,2,,Laguna 1st District Engineering Office,,,12515000,12515000
+29,2,,Laguna 2nd District Engineering Office,,,29416000,29416000
+29,2,,Rizal 1st District Engineering Office,,,66402000,66402000
+29,2,,Rizal 2nd District Engineering Office,,,9661000,9661000
+29,1,,Region VI - Western Visayas,,,56872000,56872000
+29,2,,Capiz 1st District Engineering Office,,,7702000,7702000
+29,2,,Iloilo 2nd District Engineering Office,,,30000000,30000000
+29,2,,Iloilo City District Engineering Office,,,19170000,19170000
+29,1,,Negros Island Region (NIR),,,390277000,390277000
+29,2,,Bacolod City District Engineering Office,,,42336000,42336000
+29,2,,Negros Occidental 2nd District Engineering Office,,,130675000,130675000
+29,2,,Negros Occidental 3rd District Engineering Office,,,9676000,9676000
+29,2,,Negros Occidental 5th District Engineering Office,,,160513000,160513000
+29,2,,Negros Oriental 1st District Engineering Office,,,47077000,47077000
+29,1,,Region VII - Central Visayas,,,85897000,85897000
+29,2,,Cebu 1st District Engineering Office,,,20828000,20828000
+29,2,,Cebu 2nd District Engineering Office,,,65069000,65069000
+29,1,,Region VIII - Eastern Visayas,,,41538000,41538000
+29,2,,Leyte 2nd District Engineering Office,,,13798000,13798000
+29,2,,Leyte 4th District Engineering Office,,,27740000,27740000
+30,1,,Region IX - Zamboanga Peninsula,,,239303000,239303000
+30,2,,Zamboanga del Norte 1st District Engineering Office,,,41324000,41324000
+30,2,,Zamboanga del Norte 2nd District Engineering Office,,,90295000,90295000
+30,2,,Zamboanga del Norte 3rd District Engineering Office,,,85813000,85813000
+30,2,,Zamboanga del Sur 1st District Engineering Office,,,21871000,21871000
+30,1,,Region X - Northern Mindanao,,,132368000,132368000
+30,2,,Cagayan de Oro City 2nd District Engineering Office,,,24000000,24000000
+30,2,,Lanao del Norte 2nd District Engineering Office,,,108368000,108368000
+30,1,,Region XI - Davao,,,13367000,13367000
+30,2,,Davao City 2nd District Engineering Office,,,13367000,13367000
+30,1,,Region XII - SOCCSKSARGEN,,,193186000,193186000
+30,2,,Cotabato 2nd District Engineering Office,,,150000000,150000000
+30,2,,Cotabato 3rd District Engineering Office,,,43186000,43186000
+30,1,,Region XIII - CARAGA,,,47506000,47506000
+30,2,,Surigao del Sur 2nd District Engineering Office,,,47506000,47506000
+30,1,310102000000000,Preventive Maintenance Secondary Roads,,,11678686000,11678686000
+30,1,310102100373000,Preventive Maintenance Secondary Roads,,,11678686000,11678686000
+30,1,,National Capital Region (NCR),,,7934058000,7934058000
+30,2,,Central Office,,,7828054000,7828054000
+30,2,,Las Pi ñ as-Muntinlupa District Engineering Office,,,40803000,40803000
+30,2,,North Manila District Engineering Office,,,19500000,19500000
+30,2,,Quezon City 1st District Engineering Office,,,22889000,22889000
+30,2,,South Manila District Engineering Office,,,22812000,22812000
+31,1,,Cordillera Administrative Region (CAR),,,79434000,79434000
+31,2,,Ifugao 2nd District Engineering Office,,,33744000,33744000
+31,2,,Upper Kalinga District Engineering Office,,,45690000,45690000
+31,1,,Region II - Cagayan Valley,,,49424000,49424000
+31,2,,Cagayan 2nd District Engineering Office,,,2500000,2500000
+31,2,,Isabela 1st District Engineering Office,,,46924000,46924000
+31,1,,Region III - Central Luzon,,,71481000,71481000
+31,2,,Bataan 1st District Engineering Office,,,12146000,12146000
+31,2,,Nueva Ecija 1st District Engineering Office,,,31268000,31268000
+31,2,,Nueva Ecija 2nd District Engineering Office,,,10625000,10625000
+31,2,,Tarlac District Engineering Office,,,17442000,17442000
+31,1,,Region IVA - CALABARZON,,,1463544000,1463544000
+31,2,,Batangas 2nd District Engineering Office,,,92805000,92805000
+31,2,,Batangas 4th District Engineering Office,,,172798000,172798000
+31,2,,Cavite 2nd District Engineering Office,,,772649000,772649000
+31,2,,Cavite District Engineering Office,,,159279000,159279000
+31,2,,Cavite Third District Engineering Office,,,79719000,79719000
+31,2,,Laguna 1st District Engineering Office,,,10387000,10387000
+31,2,,Laguna 2nd District Engineering Office,,,75133000,75133000
+31,2,,Laguna 3rd District Engineering Office,,,29775000,29775000
+31,2,,Quezon 1st District Engineering Office,,,2381000,2381000
+31,2,,Quezon 2nd District Engineering Office,,,32780000,32780000
+31,2,,Rizal 1st District Engineering Office,,,13824000,13824000
+31,2,,Rizal 2nd District Engineering Office,,,22014000,22014000
+32,1,,Region IVB - MIMAROPA,,,102544000,102544000
+32,2,,Mindoro Oriental District Engineering Office,,,18539000,18539000
+32,2,,Southern Mindoro District Engineering Office,,,84005000,84005000
+32,1,,Region V - Bicol,,,301698000,301698000
+32,2,,Albay 1st District Engineering Office,,,64548000,64548000
+32,2,,Albay 3rd District Engineering Office,,,67686000,67686000
+32,2,,Camarines Sur 3rd District Engineering Office,,,50000000,50000000
+32,2,,Camarines Sur 5th District Engineering Office,,,26474000,26474000
+32,2,,Masbate 3rd District Engineering Office,,,85265000,85265000
+32,2,,Sorsogon 2nd District Engineering Office,,,7725000,7725000
+32,1,,Region VI - Western Visayas,,,37000000,37000000
+32,2,,Iloilo 1st District Engineering Office,,,37000000,37000000
+32,1,,Negros Island Region (NIR),,,298685000,298685000
+32,2,,Bacolod City District Engineering Office,,,76392000,76392000
+32,2,,Negros Occidental 3rd District Engineering Office,,,40624000,40624000
+32,2,,Negros Oriental 1st District Engineering Office,,,31435000,31435000
+32,2,,Siquijor District Engineering Office,,,150234000,150234000
+32,1,,Region VII - Central Visayas,,,218176000,218176000
+32,2,,Bohol 1st District Engineering Office,,,14934000,14934000
+32,2,,Cebu 1st District Engineering Office,,,40152000,40152000
+32,2,,Cebu 5th District Engineering Office,,,17795000,17795000
+32,2,,Cebu 6th District Engineering Office,,,6578000,6578000
+32,2,,Cebu 7th District Engineering Office,,,58717000,58717000
+32,2,,Cebu City District Engineering Office,,,80000000,80000000
+33,1,,Region VIII - Eastern Visayas,,,177337000,177337000
+33,2,,Biliran District Engineering Office,,,10500000,10500000
+33,2,,Leyte 3rd District Engineering Office,,,8666000,8666000
+33,2,,Leyte 4th District Engineering Office,,,43400000,43400000
+33,2,,Northern Samar 1st District Engineering Office,,,12094000,12094000
+33,2,,Northern Samar 2nd District Engineering Office,,,102677000,102677000
+33,1,,Region IX - Zamboanga Peninsula,,,551103000,551103000
+33,2,,Zamboanga City 1st District Engineering Office,,,9500000,9500000
+33,2,,Zamboanga del Norte 1st District Engineering Office,,,22439000,22439000
+33,2,,Zamboanga del Norte 4th District Engineering Office,,,496005000,496005000
+33,2,,Zamboanga del Sur 1st District Engineering Office,,,23159000,23159000
+33,1,,Region XI - Davao,,,150000000,150000000
+33,2,,Davao del Norte District Engineering Office,,,150000000,150000000
+33,1,,Region XII - SOCCSKSARGEN,,,162668000,162668000
+33,2,,Cotabato 1st District Engineering Office,,,11550000,11550000
+33,2,,Cotabato 3rd District Engineering Office,,,73917000,73917000
+33,2,,South Cotabato 1st District Engineering Office,,,77201000,77201000
+33,1,,Region XIII - CARAGA,,,81534000,81534000
+33,2,,Dinagat Islands District Engineering Office,,,32920000,32920000
+33,2,,Surigao del Norte 2nd District Engineering Office,,,46000000,46000000
+33,2,,Surigao del Sur 2nd District Engineering Office,,,2614000,2614000
+34,1,310103000000000,Preventive Maintenance Tertiary Roads,,,5720057000,5720057000
+34,1,310103100406000,Preventive Maintenance Tertiary Roads,,,5720057000,5720057000
+34,1,,National Capital Region (NCR),,,3775563000,3775563000
+34,2,,Central Office,,,3712074000,3712074000
+34,2,,Las Pi ñ as-Muntinlupa District Engineering Office,,,21047000,21047000
+34,2,,Metro Manila 1st District Engineering Office,,,3562000,3562000
+34,2,,North Manila District Engineering Office,,,30000000,30000000
+34,2,,Quezon City 1st District Engineering Office,,,8880000,8880000
+34,1,,Region I - Ilocos,,,57911000,57911000
+34,2,,La Union 1st District Engineering Office,,,57911000,57911000
+34,1,,Cordillera Administrative Region (CAR),,,85029000,85029000
+34,2,,Lower Kalinga District Engineering Office,,,85029000,85029000
+34,1,,Region II - Cagayan Valley,,,230311000,230311000
+34,2,,Cagayan 2nd District Engineering Office,,,7500000,7500000
+34,2,,Isabela 3rd District Engineering Office,,,222811000,222811000
+34,1,,Region III - Central Luzon,,,222391000,222391000
+34,2,,Bulacan 2nd District Engineering Office,,,30636000,30636000
+34,2,,Bulacan 3rd District Engineering Office,,,8390000,8390000
+34,2,,Nueva Ecija 2nd District Engineering Office,,,22203000,22203000
+34,2,,Pampanga 2nd District Engineering Office,,,115483000,115483000
+34,2,,Tarlac District Engineering Office,,,45679000,45679000
+34,1,,Region IVA - CALABARZON,,,261651000,261651000
+34,2,,Cavite 2nd District Engineering Office,,,73410000,73410000
+34,2,,Cavite District Engineering Office,,,44997000,44997000
+34,2,,Cavite Third District Engineering Office,,,25404000,25404000
+35,2,,Laguna 3rd District Engineering Office,,,115422000,115422000
+35,2,,Rizal 1st District Engineering Office,,,2418000,2418000
+35,1,,Region V - Bicol,,,179488000,179488000
+35,2,,Albay 1st District Engineering Office,,,15622000,15622000
+35,2,,Camarines Norte District Engineering Office,,,26615000,26615000
+35,2,,Camarines Sur 2nd District Engineering Office,,,21093000,21093000
+35,2,,Masbate 3rd District Engineering Office,,,68887000,68887000
+35,2,,Sorsogon 2nd District Engineering Office,,,47271000,47271000
+35,1,,Region VI - Western Visayas,,,148069000,148069000
+35,2,,Capiz 2nd District Engineering Office,,,54162000,54162000
+35,2,,Iloilo 1st District Engineering Office,,,93907000,93907000
+35,1,,Negros Island Region (NIR),,,96832000,96832000
+35,2,,Bacolod City District Engineering Office,,,72301000,72301000
+35,2,,Negros Occidental 3rd District Engineering Office,,,17688000,17688000
+35,2,,Siquijor District Engineering Office,,,6843000,6843000
+35,1,,Region VII - Central Visayas,,,198641000,198641000
+35,2,,Cebu 2nd District Engineering Office,,,133893000,133893000
+35,2,,Cebu 4th District Engineering Office,,,7969000,7969000
+35,2,,Cebu Sth District Engineering Office,,,30000000,30000000
+35,2,,Cebu 6th District Engineering Office,,,21779000,21779000
+35,2,,Cebu City District Engineering Office,,,5000000,5000000
+35,1,,Region VIII - Eastern Visayas,,,20646000,20646000
+35,2,,Leyte 2nd District Engineering Office,,,7700000,7700000
+35,2,,Leyte 4th District Engineering Office,,,12946000,12946000
+36,1,,Region IX - Zamboanga Peninsula,,,98939000,98939000
+36,2,,Zamboanga City 1st District Engineering Office,,,46825000,46825000
+36,2,,Zamboanga del Sur 1st District Engineering Office,,,6782000,6782000
+36,2,,Zamboanga del Sur 2nd District Engineering Office,,,45332000,45332000
+36,1,,Region X - Northern Mindanao,,,29500000,29500000
+36,2,,Misamis Oriental 1st District Engineering Office,,,29500000,29500000
+36,1,,Region XII - SOCCSKSARGEN,,,313468000,313468000
+36,2,,Cotabato 1st District Engineering Office,,,79730000,79730000
+36,2,,Cotabato 2nd District Engineering Office,,,72696000,72696000
+36,2,,Cotabato 3rd District Engineering Office,,,35382000,35382000
+36,2,,South Cotabato 2nd District Engineering Office,,,125660000,125660000
+36,1,,Region XIII - CARAGA,,,1618000,1618000
+36,2,,Dinagat Islands District Engineering Office,,,1618000,1618000
+36,1,310104000000000,Rehabilitation / Reconstruction / Upgrading of Damaged Paved Roads Primary Roads,,,18330366000,18330366000
+36,1,310104100174000,Rehabilitation / Reconstruction / Upgrading of Damaged Paved Roads Primary Roads,,,18330366000,18330366000
+36,1,,National Capital Region (NCR),,,17492181000,17492181000
+36,2,,Central Office,,,17468500000,17468500000
+36,2,,Metro Manila 2nd District Engineering Office,,,23681000,23681000
+36,1,,Region I - Ilocos,,,85990000,85990000
+36,2,,La Union 1st District Engineering Office,,,44620000,44620000
+36,2,,La Union 2nd District Engineering Office,,,41370000,41370000
+36,1,,Region III - Central Luzon,,,51939000,51939000
+36,2,,Pampanga 1st District Engineering Office,,,44066000,44066000
+36,2,,Tarlac District Engineering Office,,,7873000,7873000
+37,1,,Region IVA - CALABARZON,,,180380000,180380000
+37,2,,Cavite Third District Engineering Office,,,23961000,23961000
+37,2,,Laguna 2nd District Engineering Office,,,1687000,1687000
+37,2,,Laguna 3rd District Engineering Office,,,45667000,45667000
+37,2,,Quezon 1st District Engineering Office,,,93000000,93000000
+37,2,,Rizal 2nd District Engineering Office,,,16065000,16065000
+37,1,,Negros Island Region (NIR),,,158284000,158284000
+37,2,,Negros Occidental 1st District Engineering Office,,,13535000,13535000
+37,2,,Negros Occidental 2nd District Engineering Office,,,1645000,1645000
+37,2,,Negros Occidental 5th District Engineering Office,,,70475000,70475000
+37,2,,Negros Oriental 2nd District Engineering Office,,,56628000,56628000
+37,2,,Negros Oriental 3rd District Engineering Office,,,16001000,16001000
+37,1,,Region VII - Central Visayas,,,149955000,149955000
+37,2,,Cebu 2nd District Engineering Office,,,149955000,149955000
+37,1,,Region VIII - Eastern Visayas,,,66127000,66127000
+37,2,,Leyte 2nd District Engineering Office,,,66127000,66127000
+37,1,,Region IX - Zamboanga Peninsula,,,63352000,63352000
+37,2,,Zamboanga del Norte 2nd District Engineering Office,,,60174000,60174000
+37,2,,Zamboanga del Norte 3rd District Engineering Office,,,3178000,3178000
+37,1,,Region X - Northern Mindanao,,,33048000,33048000
+37,2,,Misamis Oriental 1st District Engineering Office,,,33048000,33048000
+37,1,,Region XII - SOCCSKSARGEN,,,49110000,49110000
+37,2,,Cotabato 1st District Engineering Office,,,49110000,49110000
+38,1,310105000000000,Rehabilitation / Reconstruction / Upgrading of Damaged Paved Roads Secondary Roads,,,4733762000,4733762000
+38,1,310105100326000,Rehabilitation / Reconstruction / Upgrading of Damaged Paved Roads Secondary Roads,,,4733762000,4733762000
+38,1,,National Capital Region (NCR),,,2306987000,2306987000
+38,2,,Central Office,,,2215109000,2215109000
+38,2,,Metro Manila 2nd District Engineering Office,,,91878000,91878000
+38,1,,Region I - Ilocos,,,17300000,17300000
+38,2,,Ilocos Sur 2nd District Engineering Office,,,17300000,17300000
+38,1,,Cordillera Administrative Region (CAR),,,45980000,45980000
+38,2,,Apayao 2nd District Engineering Office,,,12742000,12742000
+38,2,,Lower Kalinga District Engineering Office,,,10578000,10578000
+38,2,,Upper Kalinga District Engineering Office,,,22660000,22660000
+38,1,,Region III - Central Luzon,,,2857000,2857000
+38,2,,Nueva Ecija 1st District Engineering Office,,,2857000,2857000
+38,1,,Region IVA - CALABARZON,,,428725000,428725000
+38,2,,Batangas 2nd District Engineering Office,,,7396000,7396000
+38,2,,Batangas 4th District Engineering Office,,,120316000,120316000
+38,2,,Cavite 2nd District Engineering Office,,,142284000,142284000
+38,2,,Cavite District Engineering Office,,,14183000,14183000
+38,2,,Cavite Third District Engineering Office,,,28154000,28154000
+38,2,,Laguna 2nd District Engineering Office,,,3084000,3084000
+38,2,,Laguna 3rd District Engineering Office,,,14455000,14455000
+38,2,,Quezon 1st District Engineering Office,,,89739000,89739000
+38,2,,Quezon 4th District Engineering Office,,,9114000,9114000
+38,1,,Region IVB - MIMAROPA,,,135632000,135632000
+38,2,,Marinduque District Engineering Office,,,9152000,9152000
+39,2,,Romblon District Engineering Office,,,126480000,126480000
+39,1,,Region V - Bicol,,,830464000,830464000
+39,2,,Albay 3rd District Engineering Office,,,53444000,53444000
+39,2,,Camarines Sur 1st District Engineering Office,,,18395000,18395000
+39,2,,Camarines Sur 4th District Engineering Office,,,66000000,66000000
+39,2,,Camarines Sur 5th District Engineering Office,,,198057000,198057000
+39,2,,Masbate 1st District Engineering Office,,,176468000,176468000
+39,2,,Masbate 2nd District Engineering Office,,,244978000,244978000
+39,2,,Masbate 3rd District Engineering Office,,,73122000,73122000
+39,1,,Region VI - Western Visayas,,,119295000,119295000
+39,2,,Aklan District Engineering Office,,,24348000,24348000
+39,2,,Capiz 1st District Engineering Office,,,1839000,1839000
+39,2,,Capiz 2nd District Engineering Office,,,24108000,24108000
+39,2,,Iloilo 1st District Engineering Office,,,69000000,69000000
+39,1,,Negros Island Region (NIR),,,263661000,263661000
+39,2,,Negros Occidental 3rd District Engineering Office,,,197153000,197153000
+39,2,,Negros Occidental 5th District Engineering Office,,,34259000,34259000
+39,2,,Negros Oriental 3rd District Engineering Office,,,30921000,30921000
+39,2,,Siquijor District Engineering Office,,,1328000,1328000
+39,1,,Region VII - Central Visayas,,,313139000,313139000
+39,2,,Bohol 1st District Engineering Office,,,16893000,16893000
+39,2,,Bohol 3rd District Engineering Office,,,160316000,160316000
+39,2,,Cebu 2nd District Engineering Office,,,14157000,14157000
+40,2,,Cebu 3rd District Engineering Office,,,24000000,24000000
+40,2,,Cebu 5th District Engineering Office,,,42095000,42095000
+40,2,,Cebu 7th District Engineering Office,,,40678000,40678000
+40,2,,Cebu City District Engineering Office,,,15000000,15000000
+40,1,,Region VIII - Eastern Visayas,,,56252000,56252000
+40,2,,Northern Samar 2nd District Engineering Office,,,6252000,6252000
+40,2,,Southern Leyte 1st District Engineering Office,,,50000000,50000000
+40,1,,Region IX - Zamboanga Peninsula,,,65748000,65748000
+40,2,,Zamboanga City 1st District Engineering Office,,,51748000,51748000
+40,2,,Zamboanga del Sur 1st District Engineering Office,,,14000000,14000000
+40,1,,Region XII - SOCCSKSARGEN,,,41011000,41011000
+40,2,,Cotabato 2nd District Engineering Office,,,41011000,41011000
+40,1,,Region XIII - CARAGA,,,106711000,106711000
+40,2,,Agusan del Sur 2nd District Engineering Office,,,40000000,40000000
+40,2,,Surigao del Sur 2nd District Engineering Office,,,66711000,66711000
+40,1,310106000000000,Rehabilitation / Reconstruction / Upgrading of Damaged Paved Roads Tertiary Roads,,,1953964000,1953964000
+40,1,310106100379000,Rehabilitation / Reconstruction / Upgrading of Damaged Paved Roads Tertiary Roads,,,1953964000,1953964000
+40,1,,National Capital Region (NCR),,,738018000,738018000
+40,2,,Central Office,,,546875000,546875000
+40,2,,Metro Manila 2nd District Engineering Office,,,104143000,104143000
+40,2,,Metro Manila 3rd District Engineering Office,,,50000000,50000000
+40,2,,North Manila District Engineering Office,,,37000000,37000000
+41,1,,Cordillera Administrative Region (CAR),,,198209000,198209000
+41,2,,Apayao 1st District Engineering Office,,,6398000,6398000
+41,2,,Apayao 2nd District Engineering Office,,,45703000,45703000
+41,2,,Lower Kalinga District Engineering Office,,,46253000,46253000
+41,2,,Mountain Province 2nd District Engineering Office,,,95205000,95205000
+41,2,,Upper Kalinga District Engineering Office,,,4650000,4650000
+41,1,,Region II - Cagayan Valley,,,77044000,77044000
+41,2,,Batanes District Engineering Office,,,9136000,9136000
+41,2,,Cagayan 2nd District Engineering Office,,,28499000,28499000
+41,2,,Isabela 3rd District Engineering Office,,,34999000,34999000
+41,2,,Isabela 4th District Engineering Office,,,4410000,4410000
+41,1,,Region III - Central Luzon,,,74508000,74508000
+41,2,,Bataan 1st District Engineering Office,,,2854000,2854000
+41,2,,Bulacan 3rd District Engineering Office,,,14446000,14446000
+41,2,,Pampanga 1st District Engineering Office,,,57208000,57208000
+41,1,,Region IVA - CALABARZON,,,131516000,131516000
+41,2,,Batangas 1st District Engineering Office,,,5000000,5000000
+41,2,,Batangas 4th District Engineering Office,,,9473000,9473000
+41,2,,Cavite 2nd District Engineering Office,,,4787000,4787000
+41,2,,Cavite District Engineering Office,,,8104000,8104000
+41,2,,Cavite Third District Engineering Office,,,11504000,11504000
+41,2,,Laguna 2nd District Engineering Office,,,23138000,23138000
+41,2,,Laguna 3rd District Engineering Office,,,47505000,47505000
+41,2,,Quezon 4th District Engineering Office,,,22005000,22005000
+42,1,,Region IVB - MIMAROPA,,,25162000,25162000
+42,2,,Mindoro Occidental District Engineering Office,,,20782000,20782000
+42,2,,Romblon District Engineering Office,,,4380000,4380000
+42,1,,Region V - Bicol,,,108743000,108743000
+42,2,,Camarines Norte District Engineering Office,,,71019000,71019000
+42,2,,Camarines Sur 3rd District Engineering Office,,,3524000,3524000
+42,2,,Catanduanes District Engineering Office,,,3280000,3280000
+42,2,,Masbate 3rd District Engineering Office,,,30920000,30920000
+42,1,,Region VI - Western Visayas,,,280937000,280937000
+42,2,,Capiz 2nd District Engineering Office,,,69351000,69351000
+42,2,,Iloilo 1st District Engineering Office,,,211586000,211586000
+42,1,,Negros Island Region (NIR),,,126639000,126639000
+42,2,,Negros Occidental 3rd District Engineering Office,,,59500000,59500000
+42,2,,Negros Occidental 5th District Engineering Office,,,53460000,53460000
+42,2,,Siquijor District Engineering Office,,,13679000,13679000
+42,1,,Region VII - Central Visayas,,,126089000,126089000
+42,2,,Bohol 1st District Engineering Office,,,46283000,46283000
+42,2,,Cebu 2nd District Engineering Office,,,44806000,44806000
+42,2,,Cebu City District Engineering Office,,,35000000,35000000
+42,1,,Region VIII - Eastern Visayas,,,19209000,19209000
+42,2,,Samar 1st District Engineering Office,,,19209000,19209000
+42,1,,Region IX - Zamboanga Peninsula,,,24034000,24034000
+42,2,,Zamboanga del Norte 1st District Engineering Office,,,24034000,24034000
+43,1,,Region XII - SOCCSKSARGEN,,,5878000,5878000
+43,2,,Sarangani District Engineering Office,,,5878000,5878000
+43,1,,Region XIII - CARAGA,,,17978000,17978000
+43,2,,Dinagat Islands District Engineering Office,,,17978000,17978000
+43,1,310107000000000,"Rehabilitation / Reconstruction of Roads with Slips, Slope Collapse and Landslide Primary Roads",,,1693051000,1693051000
+43,1,310107100111000,"Rehabilitation / Reconstruction of Roads with Slips, Slope Collapse and Landslide Primary Roads",,,1693051000,1693051000
+43,1,,National Capital Region (NCR),,,1449460000,1449460000
+43,2,,Central Office,,,1449460000,1449460000
+43,1,,Region III - Central Luzon,,,23053000,23053000
+43,2,,Zambales 2nd District Engineering Office,,,23053000,23053000
+43,1,,Region VIII - Eastern Visayas,,,76398000,76398000
+43,2,,Leyte 2nd District Engineering Office,,,7500000,7500000
+43,2,,Samar 1st District Engineering Office,,,60390000,60390000
+43,2,,Southern Leyte 2nd District Engineering Office,,,8508000,8508000
+43,1,,Region X - Northern Mindanao,,,33250000,33250000
+43,2,,Cagayan de Oro City 2nd District Engineering Office,,,33250000,33250000
+43,1,,Region XI - Davao,,,70890000,70890000
+43,2,,Davao City 2nd District Engineering Office,,,70890000,70890000
+43,1,,Region XIII - CARAGA,,,40000000,40000000
+43,2,,Surigao del Sur 2nd District Engineering Office,,,40000000,40000000
+43,1,310108000000000,"Rehabilitation / Reconstruction of Roads with Slips, Slope Collapse and Landslide Secondary Roads",,,4817064000,4817064000
+43,1,310108100292000,"Rehabilitation / Reconstruction of Roads with Slips, Slope Collapse and Landslide Secondary Roads",,,4817064000,4817064000
+43,1,,National Capital Region (NCR),,,2834827000,2834827000
+43,2,,Central Office,,,2834827000,2834827000
+44,1,,Cordillera Administrative Region (CAR),,,556970000,556970000
+44,2,,Apayao 1st District Engineering Office,,,44000000,44000000
+44,2,,Apayao 2nd District Engineering Office,,,39970000,39970000
+44,2,,Ifugao 2nd District Engineering Office,,,220181000,220181000
+44,2,,Lower Kalinga District Engineering Office,,,17390000,17390000
+44,2,,Mountain Province First District Engineering Office,,,53300000,53300000
+44,2,,Upper Kalinga District Engineering Office,,,182129000,182129000
+44,1,,Region IVA - CALABARZON,,,45000000,45000000
+44,2,,Quezon 4th District Engineering Office,,,45000000,45000000
+44,1,,Region IVB - MIMAROPA,,,374240000,374240000
+44,2,,Marinduque District Engineering Office,,,92550000,92550000
+44,2,,Mindoro Oriental District Engineering Office,,,79000000,79000000
+44,2,,Palawan 3rd District Engineering Office,,,153000000,153000000
+44,2,,Romblon District Engineering Office,,,49690000,49690000
+44,1,,Region V - Bicol,,,100000000,100000000
+44,2,,Masbate 2nd District Engineering Office,,,100000000,100000000
+44,1,,Region VI - Western Visayas,,,12000000,12000000
+44,2,,Iloilo 2nd District Engineering Office,,,12000000,12000000
+44,1,,Region VII - Central Visayas,,,232000000,232000000
+44,2,,Cebu 4th District Engineering Office,,,22000000,22000000
+44,2,,Cebu City District Engineering Office,,,210000000,210000000
+44,1,,Region VIII - Eastern Visayas,,,197700000,197700000
+44,2,,Biliran District Engineering Office,,,70000000,70000000
+44,2,,Leyte 3rd District Engineering Office,,,37000000,37000000
+44,2,,Leyte 4th District Engineering Office,,,10000000,10000000
+45,2,,Southern Leyte 1st District Engineering Office,,,80700000,80700000
+45,1,,Region X - Northern Mindanao,,,49000000,49000000
+45,2,,Bukidnon 1st District Engineering Office,,,49000000,49000000
+45,1,,Region XI - Davao,,,197391000,197391000
+45,2,,Davao de Oro 1st District Engineering Office,,,116000000,116000000
+45,2,,Davao del Norte District Engineering Office,,,35000000,35000000
+45,2,,Davao Occidental District Engineering Office,,,46391000,46391000
+45,1,,Region XII - SOCCSKSARGEN,,,127436000,127436000
+45,2,,Sultan Kudarat 2nd District Engineering Office,,,127436000,127436000
+45,1,,Region XIII - CARAGA,,,90500000,90500000
+45,2,,Surigao del Sur 2nd District Engineering Office,,,90500000,90500000
+45,1,310109000000000,"Rehabilitation / Reconstruction of Roads with Slips, Slope Collapse and Landslide Tertiary Roads",,,2932241000,2932241000
+45,1,310109100260000,"Rehabilitation / Reconstruction of Roads with Slips, Slope Collapse and Landslide Tertiary Roads",,,2932241000,2932241000
+45,1,,National Capital Region (NCR),,,1750265000,1750265000
+45,2,,Central Office,,,1750265000,1750265000
+45,1,,Region I - Ilocos,,,24250000,24250000
+45,2,,La Union 1st District Engineering Office,,,24250000,24250000
+45,1,,Cordillera Administrative Region (CAR),,,784780000,784780000
+45,2,,Apayao 2nd District Engineering Office,,,333495000,333495000
+45,2,,Ifugao 1st District Engineering Office,,,193426000,193426000
+45,2,,Ifugao 2nd District Engineering Office,,,68581000,68581000
+45,2,,Lower Kalinga District Engineering Office,,,53000000,53000000
+45,2,,Mountain Province 2nd District Engineering Office,,,136278000,136278000
+46,1,,Region II - Cagayan Valley,,,190000000,190000000
+46,2,,Cagayan 2nd District Engineering Office,,,190000000,190000000
+46,1,,Region VIII - Eastern Visayas,,,104946000,104946000
+46,2,,Leyte 1st District Engineering Office,,,26000000,26000000
+46,2,,Leyte 3rd District Engineering Office,,,4016000,4016000
+46,2,,Leyte 4th District Engineering Office,,,21000000,21000000
+46,2,,Northern Samar 1st District Engineering Office,,,44960000,44960000
+46,2,,Samar 1st District Engineering Office,,,8970000,8970000
+46,1,,Region XI - Davao,,,10000000,10000000
+46,2,,Davao de Oro 1st District Engineering Office,,,10000000,10000000
+46,1,,Region XII - SOCCSKSARGEN,,,23000000,23000000
+46,2,,Sarangani District Engineering Office,,,23000000,23000000
+46,1,,Region XIII - CARAGA,,,45000000,45000000
+46,2,,Butuan City District Engineering Office,,,45000000,45000000
+46,1,310110000000000,Construction / Upgrading / Rehabilitation of Drainage along National Roads Primary Roads,,,1651164000,1651164000
+46,1,310110100096000,Construction / Upgrading / Rehabilitation of Drainage along National Roads Primary Roads,,,1651164000,1651164000
+46,1,,National Capital Region (NCR),,,1203160000,1203160000
+46,2,,Central Office,,,1203160000,1203160000
+46,1,,Region I - Ilocos,,,94272000,94272000
+46,2,,Ilocos Sur 2nd District Engineering Office,,,41572000,41572000
+46,2,,La Union 1st District Engineering Office,,,52700000,52700000
+46,1,,Region III - Central Luzon,,,14950000,14950000
+46,2,,Pampanga 1st District Engineering Office,,,14950000,14950000
+46,1,,Region IVA - CALABARZON,,,100000000,100000000
+46,2,,Rizal 1st District Engineering Office,,,100000000,100000000
+47,1,,Region VI - Western Visayas,,,7000000,7000000
+47,2,,Iloilo City District Engineering Office,,,7000000,7000000
+47,1,,Region VII - Central Visayas,,,10000000,10000000
+47,2,,Cebu 5th District Engineering Office,,,10000000,10000000
+47,1,,Region VIII - Eastern Visayas,,,8000000,8000000
+47,2,,Leyte 4th District Engineering Office,,,8000000,8000000
+47,1,,Region IX - Zamboanga Peninsula,,,56550000,56550000
+47,2,,Zamboanga del Norte 1st District Engineering Office,,,8750000,8750000
+47,2,,Zamboanga del Norte 3rd District Engineering Office,,,47800000,47800000
+47,1,,Region X - Northern Mindanao,,,157232000,157232000
+47,2,,Cagayan de Oro City 2nd District Engineering Office,,,89000000,89000000
+47,2,,Lanao del Norte 1st District Engineering Office,,,29601000,29601000
+47,2,,Misamis Oriental 1st District Engineering Office,,,38631000,38631000
+47,1,310111000000000,Construction / Upgrading / Rehabilitation of Drainage along National Roads Secondary Roads,,,1379850000,1379850000
+47,1,310111100143000,Construction / Upgrading / Rehabilitation of Drainage along National Roads Secondary Roads,,,1379850000,1379850000
+47,1,,National Capital Region (NCR),,,779973000,779973000
+47,2,,Central Office,,,779973000,779973000
+47,1,,Region I - Ilocos,,,36850000,36850000
+47,2,,Ilocos Sur 2nd District Engineering Office,,,5000000,5000000
+47,2,,La Union 1st District Engineering Office,,,31850000,31850000
+47,1,,Cordillera Administrative Region (CAR),,,105611000,105611000
+47,2,,Ifugao 1st District Engineering Office,,,37566000,37566000
+47,2,,Ifugao 2nd District Engineering Office,,,47825000,47825000
+48,2,,Mountain Province First District Engineering Office,,,14720000,14720000
+48,2,,Upper Kalinga District Engineering Office,,,5500000,5500000
+48,1,,Region II - Cagayan Valley,,,11000000,11000000
+48,2,,Isabela 1st District Engineering Office,,,11000000,11000000
+48,1,,Region IVA - CALABARZON,,,28000000,28000000
+48,2,,Batangas 2nd District Engineering Office,,,28000000,28000000
+48,1,,Region IVB - MIMAROPA,,,147881000,147881000
+48,2,,Mindoro Oriental District Engineering Office,,,9571000,9571000
+48,2,,Southern Mindoro District Engineering Office,,,138310000,138310000
+48,1,,Region V - Bicol,,,25000000,25000000
+48,2,,Masbate 2nd District Engineering Office,,,25000000,25000000
+48,1,,Region VI - Western Visayas,,,53894000,53894000
+48,2,,Guimaras District Engineering Office,,,9700000,9700000
+48,2,,Iloilo 2nd District Engineering Office,,,44194000,44194000
+48,1,,Negros Island Region (NIR),,,23100000,23100000
+48,2,,Negros Occidental 3rd District Engineering Office,,,23100000,23100000
+48,1,,Region VII - Central Visayas,,,20000000,20000000
+48,2,,Cebu 5th District Engineering Office,,,20000000,20000000
+48,1,,Region VIII - Eastern Visayas,,,105516000,105516000
+48,2,,Biliran District Engineering Office,,,85000000,85000000
+48,2,,Northern Samar 1st District Engineering Office,,,20516000,20516000
+48,1,,Region IX - Zamboanga Peninsula,,,43025000,43025000
+48,2,,Zamboanga del Norte 4th District Engineering Office,,,43025000,43025000
+49,1,310112000000000,Construction / Upgrading / Rehabilitation of Drainage along National Roads Tertiary Roads,,,184903000,184903000
+49,1,310112100132000,Construction / Upgrading / Rehabilitation of Drainage along National Roads Tertiary Roads,,,184903000,184903000
+49,1,,National Capital Region (NCR),,,72750000,72750000
+49,2,,Central Office,,,72750000,72750000
+49,1,,Region I - Ilocos,,,10580000,10580000
+49,2,,Ilocos Sur 2nd District Engineering Office,,,2000000,2000000
+49,2,,La Union 1st District Engineering Office,,,8580000,8580000
+49,1,,Cordillera Administrative Region (CAR),,,19970000,19970000
+49,2,,Ifugao 1st District Engineering Office,,,19970000,19970000
+49,1,,Region III - Central Luzon,,,22835000,22835000
+49,2,,Pampanga 1st District Engineering Office,,,22835000,22835000
+49,1,,Region IVA - CALABARZON,,,50000000,50000000
+49,2,,Batangas 2nd District Engineering Office,,,30000000,30000000
+49,2,,Rizal 1st District Engineering Office,,,20000000,20000000
+49,1,,Region VIII - Eastern Visayas,,,8768000,8768000
+49,2,,Northern Samar 1st District Engineering Office,,,8768000,8768000
+49,1,310200000000000,NETWORK DEVELOPMENT PROGRAM,,,92179924000,92179924000
+49,1,310201000000000,Road Widening Primary Roads,,,4475859000,4475859000
+49,1,310201100427000,Road Widening - Primary Roads,,,4475859000,4475859000
+49,1,,National Capital Region (NCR),,,3965969000,3965969000
+49,2,,Central Office,,,3965969000,3965969000
+49,1,,Region IVA - CALABARZON,,,64645000,64645000
+49,2,,Cavite Third District Engineering Office,,,5156000,5156000
+49,2,,Laguna 1st District Engineering Office,,,59489000,59489000
+49,1,,Region VI - Western Visayas,,,16365000,16365000
+49,2,,Capiz 2nd District Engineering Office,,,16365000,16365000
+50,1,,Negros Island Region (NIR),,,83061000,83061000
+50,2,,Negros Oriental 3rd District Engineering Office,,,83061000,83061000
+50,1,,Region VII - Central Visayas,,,48020000,48020000
+50,2,,Cebu 1st District Engineering Office,,,48020000,48020000
+50,1,,Region VIII - Eastern Visayas,,,35342000,35342000
+50,2,,Leyte 2nd District Engineering Office,,,32337000,32337000
+50,2,,Leyte 4th District Engineering Office,,,3005000,3005000
+50,1,,Region IX - Zamboanga Peninsula,,,103283000,103283000
+50,2,,Zamboanga del Sur 1st District Engineering Office,,,103283000,103283000
+50,1,,Region XI - Davao,,,62500000,62500000
+50,2,,Davao del Sur District Engineering Office,,,62500000,62500000
+50,1,,Region XII - SOCCSKSARGEN,,,96674000,96674000
+50,2,,Cotabato 1st District Engineering Office,,,14047000,14047000
+50,2,,Cotabato 3rd District Engineering Office,,,82627000,82627000
+50,1,310202000000000,Road Widening Secondary Roads,,,10362723000,10362723000
+50,1,310202100452000,Road Widening - Secondary Roads,,,10362723000,10362723000
+50,1,,National Capital Region (NCR),,,6981721000,6981721000
+50,2,,Central Office,,,6981721000,6981721000
+50,1,,Cordillera Administrative Region (CAR),,,127283000,127283000
+50,2,,Apayao 2nd District Engineering Office,,,41000000,41000000
+50,2,,Lower Kalinga District Engineering Office,,,86283000,86283000
+50,1,,Region III - Central Luzon,,,311011000,311011000
+50,2,,Bataan 1st District Engineering Office,,,10566000,10566000
+50,2,,Bataan 3rd District Engineering Office,,,238392000,238392000
+50,2,,Tarlac District Engineering Office,,,62053000,62053000
+51,1,,Region IVA - CALABARZON,,,171183000,171183000
+51,2,,Batangas 2nd District Engineering Office,,,21887000,21887000
+51,2,,Batangas 3rd District Engineering Office,,,39490000,39490000
+51,2,,Laguna 1st District Engineering Office,,,49586000,49586000
+51,2,,Laguna 3rd District Engineering Office,,,60220000,60220000
+51,1,,Region IVB - MIMAROPA,,,355063000,355063000
+51,2,,Mindoro Occidental District Engineering Office,,,105680000,105680000
+51,2,,Mindoro Oriental District Engineering Office,,,57487000,57487000
+51,2,,Palawan 1st District Engineering Office,,,3142000,3142000
+51,2,,Palawan 2nd District Engineering Office,,,138782000,138782000
+51,2,,Palawan 3rd District Engineering Office,,,46972000,46972000
+51,2,,Southern Mindoro District Engineering Office,,,3000000,3000000
+51,1,,Region V - Bicol,,,793247000,793247000
+51,2,,Albay 1st District Engineering Office,,,33431000,33431000
+51,2,,Albay 3rd District Engineering Office,,,8545000,8545000
+51,2,,Masbate 1st District Engineering Office,,,6467000,6467000
+51,2,,Masbate 2nd District Engineering Office,,,27456000,27456000
+51,2,,Masbate 3rd District Engineering Office,,,717348000,717348000
+51,1,,Region VI - Western Visayas,,,272747000,272747000
+51,2,,Aklan District Engineering Office,,,242402000,242402000
+51,2,,Capiz 2nd District Engineering Office,,,30345000,30345000
+51,1,,Negros Island Region (NIR),,,88290000,88290000
+51,2,,Negros Occidental 3rd District Engineering Office,,,88290000,88290000
+52,1,,Region VII - Central Visayas,,,199874000,199874000
+52,2,,Bohol 1st District Engineering Office,,,65387000,65387000
+52,2,,Bohol 2nd District Engineering Office,,,100000000,100000000
+52,2,,Bohol 3rd District Engineering Office,,,34487000,34487000
+52,1,,Region VIII - Eastern Visayas,,,303299000,303299000
+52,2,,Biliran District Engineering Office,,,74500000,74500000
+52,2,,Leyte 4th District Engineering Office,,,84799000,84799000
+52,2,,Northern Samar 2nd District Engineering Office,,,94000000,94000000
+52,2,,Tacloban City District Engineering Office,,,50000000,50000000
+52,1,,Region IX - Zamboanga Peninsula,,,378734000,378734000
+52,2,,Zamboanga del Norte 4th District Engineering Office,,,378734000,378734000
+52,1,,Region X - Northern Mindanao,,,106001000,106001000
+52,2,,Camiguin District Engineering Office,,,71846000,71846000
+52,2,,Misamis Oriental 2nd District Engineering Office,,,34155000,34155000
+52,1,,Region XI - Davao,,,77017000,77017000
+52,2,,Davao del Norte 2nd District Engineering Office,,,40154000,40154000
+52,2,,Davao Occidental District Engineering Office,,,36863000,36863000
+52,1,,Region XII - SOCCSKSARGEN,,,133704000,133704000
+52,2,,Cotabato 1st District Engineering Office,,,43110000,43110000
+52,2,,Cotabato 3rd District Engineering Office,,,32280000,32280000
+52,2,,Sarangani District Engineering Office,,,29662000,29662000
+52,2,,Sultan Kudarat 2nd District Engineering Office,,,28652000,28652000
+52,1,,Region XIII - CARAGA,,,63549000,63549000
+52,2,,Dinagat Islands District Engineering Office,,,23462000,23462000
+53,2,,Surigao del Norte 1st District Engineering Office,,,40087000,40087000
+53,1,310203000000000,Road Widening Tertiary Roads,,,1630698000,1630698000
+53,1,310203100259000,Road Widening - Tertiary Roads,,,1630698000,1630698000
+53,1,,National Capital Region (NCR),,,1242097000,1242097000
+53,2,,Central Office,,,1242097000,1242097000
+53,1,,Region III - Central Luzon,,,41654000,41654000
+53,2,,Bulacan 2nd District Engineering Office,,,41654000,41654000
+53,1,,Region IVB - MIMAROPA,,,12006000,12006000
+53,2,,Palawan 1st District Engineering Office,,,12006000,12006000
+53,1,,Region V - Bicol,,,56526000,56526000
+53,2,,Albay 1st District Engineering Office,,,12627000,12627000
+53,2,,Albay 3rd District EngineeringOffice,,,20990000,20990000
+53,2,,Masbate 3rd District Engineering Office,,,22909000,22909000
+53,1,,Region VI - Western Visayas,,,48389000,48389000
+53,2,,Capiz 2nd District Engineering Office,,,48389000,48389000
+53,1,,Region VIII - Eastern Visayas,,,41042000,41042000
+53,2,,Leyte 4th District Engineering Office,,,41042000,41042000
+53,1,,Region XII - SOCCSKSARGEN,,,111053000,111053000
+53,2,,Cotabato 2nd District Engineering Office,,,67557000,67557000
+53,2,,Cotabato 3rd District Engineering Office,,,43496000,43496000
+53,1,,Region XIII - CARAGA,,,77931000,77931000
+53,2,,Dinagat Islands District Engineering Office,,,41185000,41185000
+53,2,,Surigao del Norte 1st District Engineering Office,,,36746000,36746000
+54,1,310204000000000,Construction of By pass and Diversion Roads,,,46458080000,46458080000
+54,1,310204100666000,Construction of By pass and Diversion Roads,,,46458080000,46458080000
+54,1,,National Capital Region (NCR),,,44610657000,44610657000
+54,2,,Central Office,,,44610657000,44610657000
+54,1,,Cordillera Administrative Region (CAR),,,148948000,148948000
+54,2,,Baguio City District Engineering Office,,,113948000,113948000
+54,2,,Upper Kalinga District Engineering Office,,,35000000,35000000
+54,1,,Region II - Cagayan Valley,,,25500000,25500000
+54,2,,Cagayan 2nd District Engineering Office,,,19500000,19500000
+54,2,,Isabela 4th District Engineering Office,,,6000000,6000000
+54,1,,Region III - Central Luzon,,,74500000,74500000
+54,2,,Nueva Ecija 1st District Engineering Office,,,30000000,30000000
+54,2,,Zambales 2nd District Engineering Office,,,44500000,44500000
+54,1,,Region IVA - CALABARZON,,,354500000,354500000
+54,2,,Quezon 1st District Engineering Office,,,50000000,50000000
+54,2,,Quezon 3rd District Engineering Office,,,64500000,64500000
+54,2,,Quezon 4th District Engineering Office,,,190000000,190000000
+54,2,,Rizal 2nd District Engineering Office,,,50000000,50000000
+54,1,,Region V - Bicol,,,100000000,100000000
+54,2,,Albay 1st District Engineering Office,,,20000000,20000000
+54,2,,Camarines Sur 2nd District Engineering Office,,,80000000,80000000
+54,1,,Region VI - Western Visayas,,,90220000,90220000
+54,2,,Capiz 1st District Engineering Office,,,51420000,51420000
+54,2,,Capiz 2nd District Engineering Office,,,5000000,5000000
+54,2,,Iloilo 3rd District Engineering Office,,,33800000,33800000
+55,1,,Region VII - Central Visayas,,,88000000,88000000
+55,2,,Cebu 3rd District Engineering Office,,,88000000,88000000
+55,1,,Region VIII - Eastern Visayas,,,129000000,129000000
+55,2,,Leyte 3rd District Engineering Office,,,55000000,55000000
+55,2,,Leyte 5th District Engineering Office,,,74000000,74000000
+55,1,,Region IX - Zamboanga Peninsula,,,506285000,506285000
+55,2,,Zamboanga del Norte 1st District Engineering Office,,,28108000,28108000
+55,2,,Zamboanga del Norte 3rd District Engineering Office,,,25000000,25000000
+55,2,,Zamboanga del Sur 1st District Engineering Office,,,241290000,241290000
+55,2,,Zamboanga del Sur 2nd District Engineering Office,,,120000000,120000000
+55,2,,Zamboanga Sibugay 1st District Engineering Office,,,91887000,91887000
+55,1,,Region X - Northern Mindanao,,,20000000,20000000
+55,2,,Misamis Oriental 1st District Engineering Office,,,20000000,20000000
+55,1,,Region XI - Davao,,,50000000,50000000
+55,2,,Davao Oriental 1st District Engineering Office,,,50000000,50000000
+55,1,,Region XII - SOCCSKSARGEN,,,69470000,69470000
+55,2,,Sarangani District Engineering Office,,,51500000,51500000
+55,2,,South Cotabato 2nd District Engineering Office,,,17970000,17970000
+55,1,,Region XIII - CARAGA,,,191000000,191000000
+55,2,,Agusan del Sur 1st District Engineering Office,,,30000000,30000000
+55,2,,Agusan del Sur 2nd District Engineering Office,,,46000000,46000000
+55,2,,Butuan City District Engineering Office,,,115000000,115000000
+56,1,310205000000000,Construction of Missing Links / New Roads,,,23911762000,23911762000
+56,1,310205100359000,Construction of Missing Links / New Roads,,,23911762000,23911762000
+56,1,,National Capital Region (NCR),,,23524496000,23524496000
+56,2,,Central Office,,,23524496000,23524496000
+56,1,,Cordillera Administrative Region (CAR),,,92129000,92129000
+56,2,,Abra District Engineering Office,,,25284000,25284000
+56,2,,Apayao 2nd District Engineering Office,,,50000000,50000000
+56,2,,Ifugao 1st District Engineering Office,,,16845000,16845000
+56,1,,Region IVA - CALABARZON,,,121200000,121200000
+56,2,,Cavite 2nd District Engineering Office,,,21200000,21200000
+56,2,,Quezon 4th District Engineering Office,,,100000000,100000000
+56,1,,Region V - Bicol,,,59000000,59000000
+56,2,,Camarines Sur 4th District Engineering Office,,,47000000,47000000
+56,2,,Masbate 2nd District Engineering Office,,,12000000,12000000
+56,1,,Region VIII - Eastern Visayas,,,30000000,30000000
+56,2,,Leyte 4th District Engineering Office,,,30000000,30000000
+56,1,,Region XII - SOCCSKSARGEN,,,84937000,84937000
+56,2,,Sultan Kudarat 1st District Engineering Office,,,84937000,84937000
+56,1,310206000000000,Construction of Flyovers / Interchanges / Underpasses / Long Span Bridges,,,734717000,734717000
+56,1,310206100025000,Construction of Flyovers / Interchanges / Underpasses / Long Span Bridges,,,734717000,734717000
+56,1,,National Capital Region (NCR),,,734717000,734717000
+56,2,,Central Office,,,734717000,734717000
+56,1,310207000000000,Off Carriageway Improvement Primary Roads,,,1313665000,1313665000
+56,1,310207100075000,Off Carriageway Improvement Primary Roads,,,1313665000,1313665000
+56,1,,National Capital Region (NCR),,,923858000,923858000
+56,2,,Central Office,,,923858000,923858000
+57,1,,Cordillera Administrative Region (CAR),,,15000000,15000000
+57,2,,Lower Kalinga District Engineering Office,,,15000000,15000000
+57,1,,Region II - Cagayan Valley,,,10870000,10870000
+57,2,,Isabela 1st District Engineering Office,,,1711000,1711000
+57,2,,Isabela 3rd District Engineering Office,,,9159000,9159000
+57,1,,Region IVA - CALABARZON,,,7403000,7403000
+57,2,,Laguna 3rd District Engineering Office,,,7403000,7403000
+57,1,,Negros Island Region (NIR),,,97032000,97032000
+57,2,,Bacolod City District Engineering Office,,,22032000,22032000
+57,2,,Negros Oriental 2nd District Engineering Office,,,30000000,30000000
+57,2,,Negros Oriental 3rd District Engineering Office,,,45000000,45000000
+57,1,,Region X - Northern Mindanao,,,148843000,148843000
+57,2,,Cagayan de Oro City 2nd District Engineering Office,,,83336000,83336000
+57,2,,Misamis Oriental 1st District Engineering Office,,,65507000,65507000
+57,1,,Region XI - Davao,,,96583000,96583000
+57,2,,Davao City 2nd District Engineering Office,,,17283000,17283000
+57,2,,Davao de Oro 1st District Engineering Office,,,45700000,45700000
+57,2,,Davao Oriental 2nd District Engineering Office,,,33600000,33600000
+57,1,,Region XII - SOCCSKSARGEN,,,14076000,14076000
+57,2,,Cotabato 1st District Engineering Office,,,14076000,14076000
+58,1,310208000000000,Off Carriageway Improvement Secondary Roads,,,1983747000,1983747000
+58,1,310208100212000,Off Carriageway Improvement Secondary Roads,,,1983747000,1983747000
+58,1,,National Capital Region (NCR),,,1289100000,1289100000
+58,2,,Central Office,,,1289100000,1289100000
+58,1,,Region I - Ilocos,,,10000000,10000000
+58,2,,Pangasinan 3rd District Engineering Office,,,10000000,10000000
+58,1,,Region II - Cagayan Valley,,,18500000,18500000
+58,2,,Cagayan 2nd District Engineering Office,,,18500000,18500000
+58,1,,Region III - Central Luzon,,,44000000,44000000
+58,2,,Nueva Ecija 1st District Engineering Office,,,44000000,44000000
+58,1,,Region IVA - CALABARZON,,,48464000,48464000
+58,2,,Batangas 4th District Engineering Office,,,26063000,26063000
+58,2,,Laguna 3rd District Engineering Office,,,22401000,22401000
+58,1,,Negros Island Region (NIR),,,45000000,45000000
+58,2,,Negros Oriental 3rd District Engineering Office,,,45000000,45000000
+58,1,,Region VII - Central Visayas,,,2040000,2040000
+58,2,,Cebu 4th District Engineering Office,,,2040000,2040000
+58,1,,Region IX - Zamboanga Peninsula,,,46000000,46000000
+58,2,,Zamboanga City 1st District Engineering Office,,,46000000,46000000
+58,1,,Region X - Northern Mindanao,,,403140000,403140000
+58,2,,Bukidnon 1st District Engineering Office,,,200000000,200000000
+58,2,,Cagayan de Oro City 2nd District Engineering Office,,,30800000,30800000
+58,2,,Iligan City District Engineering Office,,,172340000,172340000
+58,1,,Region XIII - CARAGA,,,77503000,77503000
+58,2,,Dinagat Islands District Engineering Office,,,27828000,27828000
+59,2,,Surigao del Sur 2nd District Engineering Office,,,49675000,49675000
+59,1,310209000000000,Off Carriageway Improvement Tertiary Roads,,,741599000,741599000
+59,1,310209100178000,Off Carriageway Improvement Tertiary Roads,,,741599000,741599000
+59,1,,National Capital Region (NCR),,,419590000,419590000
+59,2,,Central Office,,,419590000,419590000
+59,1,,Cordillera Administrative Region (CAR),,,20000000,20000000
+59,2,,Lower Kalinga District Engineering Office,,,20000000,20000000
+59,1,,Region II - Cagayan Valley,,,10912000,10912000
+59,2,,Batanes District Engineering Office,,,10912000,10912000
+59,1,,Region III - Central Luzon,,,49482000,49482000
+59,2,,Bulacan 3rd District Engineering Office,,,7632000,7632000
+59,2,,Nueva Ecija 1st District Engineering Office,,,41850000,41850000
+59,1,,Region IVA - CALABARZON,,,51694000,51694000
+59,2,,Batangas 4th District Engineering Office,,,46913000,46913000
+59,2,,Laguna 3rd District Engineering Office,,,4781000,4781000
+59,1,,Negros Island Region (NIR),,,111421000,111421000
+59,2,,Negros Occidental 3rd District Engineering Office,,,45600000,45600000
+59,2,,Negros Oriental 2nd District Engineering Office,,,40000000,40000000
+59,2,,Negros Oriental 3rd District Engineering Office,,,15471000,15471000
+59,2,,Siquijor District Engineering Office,,,10350000,10350000
+59,1,,Region IX - Zamboanga Peninsula,,,28500000,28500000
+59,2,,Zamboanga City 1st District Engineering Office,,,28500000,28500000
+59,1,,Region XIII - CARAGA,,,50000000,50000000
+59,2,,Surigao del Sur 1st District Engineering Office,,,50000000,50000000
+60,1,310210000000000,Paving of Unpaved Roads Primary Roads,,,5000000,5000000
+60,1,310210100004000,Paving of Unpaved Roads - Primary Roads,,,5000000,5000000
+60,1,,National Capital Region (NCR),,,5000000,5000000
+60,2,,Central Office,,,5000000,5000000
+60,1,310211000000000,Paving of Unpaved Roads Secondary Roads,,,21992000,21992000
+60,1,310211100053000,Paving of Unpaved Roads Secondary Roads,,,21992000,21992000
+60,1,,Region IX - Zamboanga Peninsula,,,12074000,12074000
+60,2,,Zamboanga City 1st District Engineering Office,,,12074000,12074000
+60,1,,Region XI - Davao,,,9918000,9918000
+60,2,,Davao Occidental District Engineering Office,,,9918000,9918000
+60,1,310212000000000,Paving of Unpaved Roads Tertiary Roads,,,540082000,540082000
+60,1,310212100112000,Paving of Unpaved Roads Tertiary Roads,,,540082000,540082000
+60,1,,National Capital Region (NCR),,,267749000,267749000
+60,2,,Central Office,,,267749000,267749000
+60,1,,Region IX - Zamboanga Peninsula,,,26628000,26628000
+60,2,,Zamboanga del Sur 2nd District Engineering Office,,,26628000,26628000
+60,1,,Region X - Northern Mindanao,,,245705000,245705000
+60,2,,Lanao del Norte 2nd District Engineering Office,,,245705000,245705000
+60,1,310300000000000,BRIDGE PROGRAM,,,38987589000,38987589000
+60,1,310301000000000,Replacement of Bridges (Temporary to Permanent),,,200000000,200000000
+60,1,310301100002000,Replacement of Bridges (Temporary to Permanent),,,200000000,200000000
+60,1,,National Capital Region (NCR),,,200000000,200000000
+60,2,,Central Office,,,200000000,200000000
+60,1,310302000000000,Replacement of Permanent Weak Bridges,,,12030210000,12030210000
+60,1,310302100160000,Replacement of Permanent Weak Bridges,,,12030210000,12030210000
+60,1,,National Capital Region (NCR),,,9965050000,9965050000
+60,2,,Central Office,,,9940650000,9940650000
+61,2,,South Manila District Engineering Office,,,24400000,24400000
+61,1,,Cordillera Administrative Region (CAR),,,135000000,135000000
+61,2,,Apayao 2nd District Engineering Office,,,85000000,85000000
+61,2,,Benguet 2nd District Engineering Office,,,50000000,50000000
+61,1,,Region II - Cagayan Valley,,,31200000,31200000
+61,2,,Cagayan 1st District Engineering Office,,,31200000,31200000
+61,1,,Region III - Central Luzon,,,316200000,316200000
+61,2,,Aurora District Engineering Office,,,140000000,140000000
+61,2,,Bataan 1st District Engineering Office,,,23200000,23200000
+61,2,,Bataan 2nd District Engineering Office,,,18000000,18000000
+61,2,,Bataan 3rd District Engineering Office,,,15000000,15000000
+61,2,,Bulacan 1st District Engineering Office,,,25000000,25000000
+61,2,,Nueva Ecija 1st District Engineering Office,,,75000000,75000000
+61,2,,Nueva Ecija 2nd District Engineering Office,,,20000000,20000000
+61,1,,Region IVA - CALABARZON,,,18000000,18000000
+61,2,,Laguna 3rd District Engineering Office,,,18000000,18000000
+61,1,,Region IVB - MIMAROPA,,,48430000,48430000
+61,2,,Mindoro Occidental District Engineering Office,,,25000000,25000000
+61,2,,Palawan 1st District Engineering Office,,,23430000,23430000
+61,1,,Region V - Bicol,,,129000000,129000000
+61,2,,Albay 1st District Engineering Office,,,10000000,10000000
+61,2,,Camarines Norte District Engineering Office,,,84000000,84000000
+61,2,,Camarines Sur 5th District Engineering Office,,,35000000,35000000
+61,1,,Negros Island Region (NIR),,,60000000,60000000
+61,2,,Siquijor District Engineering Office,,,60000000,60000000
+62,1,,Region VII - Central Visayas,,,143000000,143000000
+62,2,,Bohol 1st District Engineering Office,,,70000000,70000000
+62,2,,Bohol 3rd District Engineering Office,,,14000000,14000000
+62,2,,Cebu 4th District Engineering Office,,,59000000,59000000
+62,1,,Region VIII - Eastern Visayas,,,254073000,254073000
+62,2,,Eastern Samar District Engineering Office,,,20000000,20000000
+62,2,,Leyte 1st District Engineering Office,,,27900000,27900000
+62,2,,Leyte 3rd District Engineering Office,,,25308000,25308000
+62,2,,Leyte 4th District Engineering Office,,,83207000,83207000
+62,2,,Leyte 5th District Engineering Office,,,30450000,30450000
+62,2,,Samar 1st District Engineering Office,,,35208000,35208000
+62,2,,Tacloban City District Engineering Office,,,32000000,32000000
+62,1,,Region IX - Zamboanga Peninsula,,,375000000,375000000
+62,2,,Zamboanga del Norte 1st District Engineering Office,,,30000000,30000000
+62,2,,Zamboanga del Sur 2nd District Engineering Office,,,345000000,345000000
+62,1,,Region X - Northern Mindanao,,,357900000,357900000
+62,2,,Bukidnon 1st District Engineering Office,,,32400000,32400000
+62,2,,Lanao del Norte 1st District Engineering Office,,,91520000,91520000
+62,2,,Misamis Occidental 2nd District Engineering Office,,,151980000,151980000
+62,2,,Misamis Occidental District Engineering Office,,,32000000,32000000
+62,2,,Misamis Oriental 2nd District Engineering Office,,,50000000,50000000
+62,1,,Region XI - Davao,,,25200000,25200000
+62,2,,Davao del Norte 2nd District Engineering Office,,,25200000,25200000
+63,1,,Region XII - SOCCSKSARGEN,,,124157000,124157000
+63,2,,Sultan Kudarat 2nd District Engineering Office,,,124157000,124157000
+63,1,,Region XIII - CARAGA,,,48000000,48000000
+63,2,,Surigao del Norte 2nd District Engineering Office,,,48000000,48000000
+63,1,310303000000000,Retrofitting / Strengthening of Permanent Bridges,,,3007128000,3007128000
+63,1,310303100755000,Retrofitting / Strengthening of Permanent Bridges,,,3007128000,3007128000
+63,1,,National Capital Region (NCR),,,2147774000,2147774000
+63,2,,Central Office,,,1964551000,1964551000
+63,2,,Las Pi ñ as-Muntinlupa District Engineering Office,,,61000000,61000000
+63,2,,Malabon-Navotas District Engineering Office,,,20000000,20000000
+63,2,,Metro Manila 2nd District Engineering Office,,,33223000,33223000
+63,2,,Quezon City 2nd District Engineering Office,,,69000000,69000000
+63,1,,Cordillera Administrative Region (CAR),,,10000000,10000000
+63,2,,Apayao 2nd District Engineering Office,,,10000000,10000000
+63,1,,Region II - Cagayan Valley,,,76000000,76000000
+63,2,,Isabela 2nd District Engineering Office,,,76000000,76000000
+63,1,,Region III - Central Luzon,,,20000000,20000000
+63,2,,Zambales 1st District Engineering Office,,,20000000,20000000
+63,1,,Region IVA - CALABARZON,,,36000000,36000000
+63,2,,Cavite 2nd District Engineering Office,,,28000000,28000000
+63,2,,Quezon 1st District Engineering Office,,,8000000,8000000
+63,1,,Region IVB - MIMAROPA,,,242323000,242323000
+63,2,,Marinduque District Engineering Office,,,68523000,68523000
+63,2,,Mindoro Occidental District Engineering Office,,,35000000,35000000
+64,2,,Mindoro Oriental District Engineering Office,,,14200000,14200000
+64,2,,Palawan 1st District Engineering Office,,,20000000,20000000
+64,2,,Palawan 2nd District Engineering Office,,,32000000,32000000
+64,2,,Romblon District Engineering Office,,,55500000,55500000
+64,2,,Southern Mindoro District Engineering Office,,,17100000,17100000
+64,1,,Region VI - Western Visayas,,,16800000,16800000
+64,2,,Capiz 2nd District Engineering Office,,,16800000,16800000
+64,1,,Negros Island Region (NIR),,,63000000,63000000
+64,2,,Negros Occidental 5th District Engineering Office,,,3000000,3000000
+64,2,,Siquijor District Engineering Office,,,60000000,60000000
+64,1,,Region VII - Central Visayas,,,10000000,10000000
+64,2,,Cebu 1st District Engineering Office,,,10000000,10000000
+64,1,,Region VIII - Eastern Visayas,,,122431000,122431000
+64,2,,Leyte 2nd District Engineering Office,,,65205000,65205000
+64,2,,Leyte 4th District Engineering Office,,,57226000,57226000
+64,1,,Region IX - Zamboanga Peninsula,,,3000000,3000000
+64,2,,Zamboanga City 1st District Engineering Office,,,3000000,3000000
+64,1,,Region X - Northern Mindanao,,,80000000,80000000
+64,2,,Misamis Oriental 1st District Engineering Office,,,80000000,80000000
+64,1,,Region XI - Davao,,,17000000,17000000
+64,2,,Davao de Oro 1st District Engineering Office,,,17000000,17000000
+64,1,,Region XII - SOCCSKSARGEN,,,132800000,132800000
+64,2,,Cotabato 2nd District Engineering Office,,,82800000,82800000
+65,2,,South Cotabato 1st District Engineering Office,,,50000000,50000000
+65,1,,Region XIII - CARAGA,,,30000000,30000000
+65,2,,Butuan City District Engineering Office,,,30000000,30000000
+65,1,310304000000000,Rehabilitation / Major Repair of Permanent Bridges,,,3866717000,3866717000
+65,1,310304100515000,Rehabilitation / Major Repair of Permanent Bridges,,,3866717000,3866717000
+65,1,,National Capital Region (NCR),,,1820798000,1820798000
+65,2,,Central Office,,,1610598000,1610598000
+65,2,,Metro Manila 1st District Engineering Office,,,17000000,17000000
+65,2,,Metro Manila 2nd District Engineering Office,,,42200000,42200000
+65,2,,North Manila District Engineering Office,,,151000000,151000000
+65,1,,Region I - Ilocos,,,42000000,42000000
+65,2,,Ilocos Norte 1st District Engineering Office,,,42000000,42000000
+65,1,,Cordillera Administrative Region (CAR),,,29100000,29100000
+65,2,,Apayao 2nd District Engineering Office,,,4100000,4100000
+65,2,,Benguet 1st District Engineering Office,,,2500000,2500000
+65,2,,Mountain Province First District Engineering Office,,,22500000,22500000
+65,1,,Region II - Cagayan Valley,,,72792000,72792000
+65,2,,Batanes District Engineering Office,,,2000000,2000000
+65,2,,Nueva Vizcaya 2nd District Engineering Office,,,70792000,70792000
+65,1,,Region III - Central Luzon,,,159450000,159450000
+65,2,,Aurora District Engineering Office,,,20000000,20000000
+65,2,,Bataan 1st District Engineering Office,,,18000000,18000000
+65,2,,Bataan 3rd District Engineering Office,,,63500000,63500000
+65,2,,Bulacan 2nd District Engineering Office,,,20000000,20000000
+66,2,,Nueva Ecija 1st District Engineering Office,,,5000000,5000000
+66,2,,Nueva Ecija 2nd District Engineering Office,,,22950000,22950000
+66,2,,Pampanga 2nd District Engineering Office,,,10000000,10000000
+66,1,,Region IVA - CALABARZON,,,96180000,96180000
+66,2,,Batangas 1st District Engineering Office,,,48000000,48000000
+66,2,,Batangas 2nd District Engineering Office,,,6100000,6100000
+66,2,,Batangas 3rd District Engineering Office,,,10000000,10000000
+66,2,,Quezon 1st District Engineering Office,,,7000000,7000000
+66,2,,Quezon 4th District Engineering Office,,,25080000,25080000
+66,1,,Region IVB - MIMAROPA,,,105000000,105000000
+66,2,,Mindoro Occidental District Engineering Office,,,30000000,30000000
+66,2,,Palawan 2nd District Engineering Office,,,75000000,75000000
+66,1,,Region V - Bicol,,,8000000,8000000
+66,2,,Masbate 1st District Engineering Office,,,2000000,2000000
+66,2,,Sorsogon 2nd District Engineering Office,,,6000000,6000000
+66,1,,Region VI - Western Visayas,,,126780000,126780000
+66,2,,Capiz 1st District Engineering Office,,,48730000,48730000
+66,2,,Iloilo 2nd District Engineering Office,,,38050000,38050000
+66,2,,Iloilo 4th District Engineering Office,,,30000000,30000000
+66,2,,Iloilo City District Engineering Office,,,10000000,10000000
+66,1,,Negros Island Region (NIR),,,119800000,119800000
+66,2,,Negros Occidental 2nd District Engineering Office,,,10800000,10800000
+66,2,,Negros Occidental 3rd District Engineering Office,,,90000000,90000000
+66,2,,Negros Occidental 4th District Engineering Office,,,2000000,2000000
+67,2,,Negros Occidental 5th District Engineering Office,,,17000000,17000000
+67,1,,Region VII - Central Visayas,,,377301000,377301000
+67,2,,Bohol 1st District Engineering Office,,,10000000,10000000
+67,2,,Cebu 1st District Engineering Office,,,5000000,5000000
+67,2,,Cebu 3rd District Engineering Office,,,20000000,20000000
+67,2,,Cebu 4th District Engineering Office,,,126301000,126301000
+67,2,,Cebu 5th District Engineering Office,,,50000000,50000000
+67,2,,Cebu 6th District Engineering Office,,,50000000,50000000
+67,2,,Cebu 7th District Engineering Office,,,19000000,19000000
+67,2,,Cebu City District Engineering Office,,,97000000,97000000
+67,1,,Region VIII - Eastern Visayas,,,347070000,347070000
+67,2,,Biliran District Engineering Office,,,85000000,85000000
+67,2,,Eastern Samar District Engineering Office,,,15000000,15000000
+67,2,,Leyte 2nd District Engineering Office,,,66905000,66905000
+67,2,,Leyte 4th District Engineering Office,,,27000000,27000000
+67,2,,Leyte 5th District Engineering Office,,,12000000,12000000
+67,2,,Northern Samar 1st District Engineering Office,,,97665000,97665000
+67,2,,Northern Samar 2nd District Engineering Office,,,43500000,43500000
+67,1,,Region IX - Zamboanga Peninsula,,,6200000,6200000
+67,2,,Zamboanga Sibugay 2nd District Engineering Office,,,6200000,6200000
+67,1,,Region X - Northern Mindanao,,,187460000,187460000
+67,2,,Bukidnon 1st District Engineering Office,,,16000000,16000000
+67,2,,Bukidnon 2nd District Engineering Office,,,32000000,32000000
+67,2,,Bukidnon 4th District Engineering Office,,,95976000,95976000
+68,2,,Cagayan de Oro City 2nd District Engineering Office,,,20000000,20000000
+68,2,,Lanao del Norte 1st District Engineering Office,,,3000000,3000000
+68,2,,Lanao del Norte 2nd District Engineering Office,,,18484000,18484000
+68,2,,Misamis Oriental 2nd District Engineering Office,,,2000000,2000000
+68,1,,Region XI - Davao,,,15000000,15000000
+68,2,,Davao City 2nd District Engineering Office,,,14000000,14000000
+68,2,,Davao City District Engineering Office,,,1000000,1000000
+68,1,,Region XII - SOCCSKSARGEN,,,220286000,220286000
+68,2,,Cotabato 1st District Engineering Office,,,25000000,25000000
+68,2,,Cotabato 2nd District Engineering Office,,,43200000,43200000
+68,2,,Sarangani District Engineering Office,,,47260000,47260000
+68,2,,South Cotabato 2nd District Engineering Office,,,43440000,43440000
+68,2,,Sultan Kudarat 2nd District Engineering Office,,,61386000,61386000
+68,1,,Region XIII - CARAGA,,,133500000,133500000
+68,2,,Agusan del Sur 1st District Engineering Office,,,15000000,15000000
+68,2,,Surigao del Sur 1st District Engineering Office,,,52000000,52000000
+68,2,,Surigao del Sur 2nd District Engineering Office,,,66500000,66500000
+68,1,310305000000000,Widening of Permanent Bridges,,,15291066000,15291066000
+68,1,310305100784000,Widening of Permanent Bridges,,,15291066000,15291066000
+68,1,,National Capital Region (NCR),,,11768858000,11768858000
+68,2,,Central Office,,,11768858000,11768858000
+68,1,,Region I - Ilocos,,,93000000,93000000
+68,2,,Ilocos Norte 1st District Engineering Office,,,25000000,25000000
+69,2,,La Union 2nd District Engineering Office,,,13100000,13100000
+69,2,,Pangasinan 2nd District Engineering Office,,,45000000,45000000
+69,2,,Pangasinan 4th District Engineering Office,,,9900000,9900000
+69,1,,Region II - Cagayan Valley,,,326655000,326655000
+69,2,,Cagayan 1st District Engineering Office,,,210000000,210000000
+69,2,,Cagayan 3rd District Engineering Office,,,16455000,16455000
+69,2,,Isabela 3rd District Engineering Office,,,20000000,20000000
+69,2,,Quirino District Engineering Office,,,80200000,80200000
+69,1,,Region III - Central Luzon,,,39900000,39900000
+69,2,,Nueva Ecija 1st District Engineering Office,,,39900000,39900000
+69,1,,Region IVA - CALABARZON,,,166720000,166720000
+69,2,,Batangas 2nd District Engineering Office,,,45000000,45000000
+69,2,,Cavite Third District Engineering Office,,,22500000,22500000
+69,2,,Laguna 3rd District Engineering Office,,,15000000,15000000
+69,2,,Quezon 2nd District Engineering Office,,,50220000,50220000
+69,2,,Rizal 1st District Engineering Office,,,5000000,5000000
+69,2,,Rizal 2nd District Engineering Office,,,29000000,29000000
+69,1,,Region IVB - MIMAROPA,,,105500000,105500000
+69,2,,Palawan 2nd District Engineering Office,,,82000000,82000000
+69,2,,Palawan 3rd District Engineering Office,,,23500000,23500000
+69,1,,Region V - Bicol,,,25000000,25000000
+69,2,,Catanduanes District Engineering Office,,,25000000,25000000
+69,1,,Region VI - Western Visayas,,,267000000,267000000
+69,2,,Aklan District Engineering Office,,,15000000,15000000
+69,2,,Antique District Engineering Office,,,87000000,87000000
+69,2,,Capiz 2nd District Engineering Office,,,140000000,140000000
+70,2,,Iloilo 4th District Engineering Office,,,25000000,25000000
+70,1,,Negros Island Region (NIR),,,350484000,350484000
+70,2,,Negros Oriental 1st District Engineering Office,,,134400000,134400000
+70,2,,Negros Oriental 2nd District Engineering Office,,,216084000,216084000
+70,1,,Region VIII - Eastern Visayas,,,450400000,450400000
+70,2,,Eastern Samar District Engineering Office,,,145700000,145700000
+70,2,,Leyte 3rd District Engineering Office,,,177500000,177500000
+70,2,,Leyte 4th District Engineering Office,,,54000000,54000000
+70,2,,Northern Samar 1st District Engineering Office,,,73200000,73200000
+70,1,,Region IX - Zamboanga Peninsula,,,170537000,170537000
+70,2,,Zamboanga City 2nd District Engineering Office,,,42537000,42537000
+70,2,,Zamboanga del Norte 3rd District Engineering Office,,,128000000,128000000
+70,1,,Region X - Northern Mindanao,,,189000000,189000000
+70,2,,Bukidnon 1st District Engineering Office,,,139000000,139000000
+70,2,,Misamis Oriental 2nd District Engineering Office,,,50000000,50000000
+70,1,,Region XI - Davao,,,521687000,521687000
+70,2,,Davao de Oro 1st District Engineering Office,,,61760000,61760000
+70,2,,Davao de Oro 2nd District Engineering Office,,,131780000,131780000
+70,2,,Davao del Norte 2nd District Engineering Office,,,50000000,50000000
+70,2,,Davao del Sur District Engineering Office,,,40000000,40000000
+70,2,,Davao Oriental 1st District Engineering Office,,,131535000,131535000
+70,2,,Davao Oriental 2nd District Engineering Office,,,106612000,106612000
+71,1,,Region XII - SOCCSKSARGEN,,,489045000,489045000
+71,2,,Cotabato 1st District Engineering Office,,,30000000,30000000
+71,2,,Cotabato 2nd District Engineering Office,,,100248000,100248000
+71,2,,Sarangani District Engineering Office,,,87700000,87700000
+71,2,,South Cotabato 2nd District Engineering Office,,,37500000,37500000
+71,2,,Sultan Kudarat 2nd District Engineering Office,,,233597000,233597000
+71,1,,Region XIII - CARAGA,,,327280000,327280000
+71,2,,Agusan del Norte District Engineering Office,,,45000000,45000000
+71,2,,Dinagat Islands District Engineering Office,,,137200000,137200000
+71,2,,Surigao del Sur 1st District Engineering Office,,,28080000,28080000
+71,2,,Surigao del Sur 2nd District Engineering Office,,,117000000,117000000
+71,1,310306000000000,Construction of New Bridges,,,4592468000,4592468000
+71,1,310306100136000,Construction of New Bridges,,,4592468000,4592468000
+71,1,,National Capital Region (NCR),,,4268108000,4268108000
+71,2,,Central Office,,,4268108000,4268108000
+71,1,,Region II - Cagayan Valley,,,20000000,20000000
+71,2,,Batanes District Engineering Office,,,20000000,20000000
+71,1,,Region VI - Western Visayas,,,60000000,60000000
+71,2,,Guimaras District Engineering Office,,,30000000,30000000
+71,2,,Iloilo 4th District Engineering Office,,,30000000,30000000
+71,1,,Negros Island Region (NIR),,,44000000,44000000
+71,2,,Negros Occidental 5th District Engineering Office,,,17000000,17000000
+71,2,,Negros Oriental 1st District Engineering Office,,,27000000,27000000
+72,1,,Region VII - Central Visayas,,,20000000,20000000
+72,2,,Cebu 2nd District Engineering Office,,,20000000,20000000
+72,1,,Region IX - Zamboanga Peninsula,,,105360000,105360000
+72,2,,Zamboanga del Sur 2nd District Engineering Office,,,105360000,105360000
+72,1,,Region X - Northern Mindanao,,,45000000,45000000
+72,2,,Camiguin District Engineering Office,,,45000000,45000000
+72,1,,Region XII - SOCCSKSARGEN,,,30000000,30000000
+72,2,,South Cotabato 2nd District Engineering Office,,,30000000,30000000
+72,1,320100000000000,FLOOD MANAGEMENT PROGRAM,,,83846944000,83846944000
+72,1,320101000000000,Construction / Maintenance of Flood Mitigation Structures and Drainage Systems,,,62988802000,62988802000
+72,1,320101104029000,Construction / Maintenance of Flood Mitigation Structures and Drainage Systems,,,62988802000,62988802000
+72,1,,National Capital Region (NCR),,,53111640000,53111640000
+72,2,,Central Office,,,49676627000,49676627000
+72,2,,Las Pi ñ as-Muntinlupa District Engineering Office,,,90000000,90000000
+72,2,,Malabon-Navotas District Engineering Office,,,713123000,713123000
+72,2,,Metro Manila 1st District Engineering Office,,,76775000,76775000
+72,2,,Metro Manila 2nd District Engineering Office,,,508475000,508475000
+72,2,,Metro Manila 3rd District Engineering Office,,,840000000,840000000
+72,2,,North Manila District Engineering Office,,,665700000,665700000
+72,2,,Quezon City 1st District Engineering Office,,,330940000,330940000
+72,2,,South Manila District Engineering Office,,,210000000,210000000
+72,1,,Region I - Ilocos,,,743770000,743770000
+72,2,,Ilocos Norte 1st District Engineering Office,,,32000000,32000000
+72,2,,Ilocos Norte 2nd District Engineering Office,,,35000000,35000000
+73,2,,La Union 2nd District Engineering Office,,,39270000,39270000
+73,2,,Pangasinan 2nd District Engineering Office,,,71000000,71000000
+73,2,,Pangasinan 3rd District Engineering Office,,,50000000,50000000
+73,2,,Pangasinan 4th District Engineering Office,,,516500000,516500000
+73,1,,Cordillera Administrative Region (CAR),,,106000000,106000000
+73,2,,Apayao 1st District Engineering Office,,,86000000,86000000
+73,2,,Apayao 2nd District Engineering Office,,,15000000,15000000
+73,2,,Mountain Province First District Engineering Office,,,5000000,5000000
+73,1,,Region II - Cagayan Valley,,,597642000,597642000
+73,2,,Batanes District Engineering Office,,,135000000,135000000
+73,2,,Cagayan 3rd District Engineering Office,,,90000000,90000000
+73,2,,Isabela 1st District Engineering Office,,,241390000,241390000
+73,2,,Isabela 4th District Engineering Office,,,117000000,117000000
+73,2,,Quirino District Engineering Office,,,14252000,14252000
+73,1,,Region III - Central Luzon,,,2047936000,2047936000
+73,2,,Aurora District Engineering Office,,,130000000,130000000
+73,2,,Bataan 1st District Engineering Office,,,67000000,67000000
+73,2,,Bataan 2nd District Engineering Office,,,36388000,36388000
+73,2,,Bataan 3rd District Engineering Office,,,172440000,172440000
+73,2,,Bulacan 1st District Engineering Office,,,20650000,20650000
+73,2,,Bulacan 2nd District Engineering Office,,,415000000,415000000
+73,2,,Bulacan 3rd District Engineering Office,,,22600000,22600000
+73,2,,Nueva Ecija 1st District Engineering Office,,,585870000,585870000
+73,2,,Nueva Ecija 2nd District Engineering Office,,,50000000,50000000
+73,2,,Pampanga 1st District Engineering Office,,,99010000,99010000
+74,2,,Pampanga 2nd District Engineering Office,,,10000000,10000000
+74,2,,Pampanga 3rd District Engineering Office,,,306403000,306403000
+74,2,,Tarlac District Engineering Office,,,62575000,62575000
+74,2,,Zambales 2nd District Engineering Office,,,70000000,70000000
+74,1,,Region IVA - CALABARZON,,,2132500000,2132500000
+74,2,,Batangas 2nd District Engineering Office,,,190000000,190000000
+74,2,,Batangas 3rd District Engineering Office,,,98000000,98000000
+74,2,,Batangas 4th District Engineering Office,,,88000000,88000000
+74,2,,Cavite 2nd District Engineering Office,,,30000000,30000000
+74,2,,Cavite District Engineering Office,,,276000000,276000000
+74,2,,Cavite Third District Engineering Office,,,120000000,120000000
+74,2,,Laguna 1st District Engineering Office,,,42000000,42000000
+74,2,,Laguna 2nd District Engineering Office,,,261500000,261500000
+74,2,,Laguna 3rd District Engineering Office,,,14000000,14000000
+74,2,,Quezon 1st District Engineering Office,,,30000000,30000000
+74,2,,Quezon 2nd District Engineering Office,,,48000000,48000000
+74,2,,Quezon 3rd District Engineering Office,,,80000000,80000000
+74,2,,Rizal 1st District Engineering Office,,,855000000,855000000
+74,1,,Region IVB - MIMAROPA,,,411500000,411500000
+74,2,,Marinduque District Engineering Office,,,10500000,10500000
+74,2,,Mindoro Occidental District Engineering Office,,,300000000,300000000
+74,2,,Mindoro Oriental District Engineering Office,,,25000000,25000000
+74,2,,Palawan 1st District Engineering Office,,,26000000,26000000
+74,2,,Palawan 2nd District Engineering Office,,,40000000,40000000
+74,2,,Southern Mindoro District Engineering Office,,,10000000,10000000
+75,1,,Region V - Bicol,,,218000000,218000000
+75,2,,Albay 1st District Engineering Office,,,30000000,30000000
+75,2,,Camarines Norte District Engineering Office,,,5000000,5000000
+75,2,,Camarines Sur 4th District Engineering Office,,,70000000,70000000
+75,2,,Catanduanes District Engineering Office,,,51000000,51000000
+75,2,,Masbate 3rd District Engineering Office,,,35000000,35000000
+75,2,,Sorsogon District Engineering Office,,,27000000,27000000
+75,1,,Region VI - Western Visayas,,,303350000,303350000
+75,2,,Aklan District Engineering Office,,,104000000,104000000
+75,2,,Antique District Engineering Office,,,8250000,8250000
+75,2,,Capiz 1st District Engineering Office,,,64000000,64000000
+75,2,,Guimaras District Engineering Office,,,5000000,5000000
+75,2,,Iloilo 3rd District Engineering Office,,,5000000,5000000
+75,2,,Iloilo City District Engineering Office,,,117100000,117100000
+75,1,,Negros Island Region (NIR),,,320500000,320500000
+75,2,,Bacolod City District Engineering Office,,,5000000,5000000
+75,2,,Negros Occidental 1st District Engineering Office,,,65000000,65000000
+75,2,,Negros Occidental 4th District Engineering Office,,,60000000,60000000
+75,2,,Negros Occidental 5th District Engineering Office,,,85500000,85500000
+75,2,,Negros Oriental 1st District Engineering Office,,,10000000,10000000
+75,2,,Negros Oriental 2nd District Engineering Office,,,5000000,5000000
+75,2,,Negros Oriental 3rd District Engineering Office,,,20000000,20000000
+75,2,,Siquijor District Engineering Office,,,70000000,70000000
+76,1,,Region VII - Central Visayas,,,978840000,978840000
+76,2,,Bohol 2nd District Engineering Office,,,5000000,5000000
+76,2,,Cebu 5th District Engineering Office,,,51000000,51000000
+76,2,,Cebu 6th District Engineering Office,,,635490000,635490000
+76,2,,Cebu 7th District Engineering Office,,,51350000,51350000
+76,2,,Cebu City District Engineering Office,,,236000000,236000000
+76,1,,Region VIII - Eastern Visayas,,,270800000,270800000
+76,2,,Biliran District Engineering Office,,,81000000,81000000
+76,2,,Eastern Samar District Engineering Office,,,14500000,14500000
+76,2,,Northern Samar 1st District Engineering Office,,,2300000,2300000
+76,2,,Northern Samar 2nd District Engineering Office,,,5000000,5000000
+76,2,,Samar 1st District Engineering Office,,,85000000,85000000
+76,2,,Tacloban City District Engineering Office,,,83000000,83000000
+76,1,,Region IX - Zamboanga Peninsula,,,364884000,364884000
+76,2,,Zamboanga City 1st District Engineering Office,,,50000000,50000000
+76,2,,Zamboanga City 2nd District Engineering Office,,,40150000,40150000
+76,2,,Zamboanga del Norte 1st District Engineering Office,,,50000000,50000000
+76,2,,Zamboanga del Norte 2nd District Engineering Office,,,139500000,139500000
+76,2,,Zamboanga del Norte 3rd District Engineering Office,,,65234000,65234000
+76,2,,Zamboanga del Sur 2nd District Engineering Office,,,20000000,20000000
+76,1,,Region X - Northern Mindanao,,,599820000,599820000
+76,2,,Cagayan de Oro City 1st District Engineering,,,172000000,172000000
+76,2,,Office Cagayan de Oro City 2nd District Engineering Office,,,84000000,84000000
+77,2,,Camiguin District Engineering Office,,,247000000,247000000
+77,2,,Lanao del Norte 1st District Engineering Office,,,8000000,8000000
+77,2,,Misamis Occidental District Engineering Office,,,66660000,66660000
+77,2,,Misamis Oriental 1st District Engineering Office,,,22160000,22160000
+77,1,,Region XII - SOCCSKSARGEN,,,180340000,180340000
+77,2,,Cotabato 1st District Engineering Office,,,68000000,68000000
+77,2,,Cotabato 3rd District Engineering Office,,,50000000,50000000
+77,2,,Sultan Kudarat 2nd District Engineering Office,,,62340000,62340000
+77,1,,Region XIII - CARAGA,,,601280000,601280000
+77,2,,Butuan City District Engineering Office,,,268000000,268000000
+77,2,,Surigao del Norte 2nd District Engineering Office,,,50000000,50000000
+77,2,,Surigao del Sur 1st District Engineering Office,,,198280000,198280000
+77,2,,Surigao del Sur 2nd District Engineering Office,,,85000000,85000000
+77,1,320102000000000,Construction / Rehabilitation of Flood Mitigation Facilities within Major River Basins and Principal Rivers,,,20858142000,20858142000
+77,1,320102101001000,Construction / Rehabilitation of Flood Mitigation Facilities within Major River Basins and Principal Rivers,,,20858142000,20858142000
+77,1,,National Capital Region (NCR),,,20346050000,20346050000
+77,2,,Central Office,,,19752050000,19752050000
+77,2,,Las Pi ñ as-Muntinlupa District Engineering,,,440000000,440000000
+77,2,,Office Metro Manila 1st District Engineering,,,139000000,139000000
+77,2,,Office Quezon City 1st District Engineering Office,,,15000000,15000000
+77,1,,Cordillera Administrative Region (CAR),,,25000000,25000000
+77,2,,Apayao 2nd District Engineering Office,,,25000000,25000000
+78,1,,Region II - Cagayan Valley,,,80000000,80000000
+78,2,,Cagayan 1st District Engineering Office,,,50000000,50000000
+78,2,,Isabela 1st District Engineering Office,,,30000000,30000000
+78,1,,Region III - Central Luzon,,,225000000,225000000
+78,2,,Bulacan 1st District Engineering Office,,,13000000,13000000
+78,2,,Nueva Ecija 1st District Engineering Office,,,50000000,50000000
+78,2,,Nueva Ecija 2nd District Engineering Office,,,12000000,12000000
+78,2,,Pampanga 2nd District Engineering Office,,,150000000,150000000
+78,1,,Region IVA - CALABARZON,,,15000000,15000000
+78,2,,Cavite District Engineering Office,,,15000000,15000000
+78,1,,Region VI - Western Visayas,,,66500000,66500000
+78,2,,Aklan District Engineering Office,,,12000000,12000000
+78,2,,Iloilo 2nd District Engineering Office,,,10000000,10000000
+78,2,,Iloilo 4th District Engineering Office,,,4000000,4000000
+78,2,,Iloilo 6th District Engineering Office,,,40500000,40500000
+78,1,,Negros Island Region (NIR),,,5812000,5812000
+78,2,,Negros Occidental 2nd District Engineering Office,,,5812000,5812000
+78,1,,Region VIII - Eastern Visayas,,,4780000,4780000
+78,2,,Leyte 1st District Engineering Office,,,4780000,4780000
+78,1,,Region XI - Davao,,,40000000,40000000
+78,2,,Davao del Norte District Engineering Office,,,40000000,40000000
+78,1,,Region XII - SOCCSKSARGEN,,,50000000,50000000
+78,2,,Cotabato 3rd District Engineering Office,,,50000000,50000000
+79,1,300200000000000,CONVERGENCE AND SPECIAL SUPPORT PROGRAM Rehabilitation of Disaster-Related Infrastructure and Other Facilities,,,1000000000,1000000000
+79,1,,National Capital Region (NCR),,,1000000000,1000000000
+79,2,,Central Office,,,1000000000,1000000000
+79,1,300205000000000,Construction / Rehabilitation of Water Supply / Septage and Sewerage / Rain Water Collector Systems Construction / Rehabilitation of Water Supply / Septage and Sewerage / Rainwater Collector System,,,7298600000,7298600000
+79,1,,National Capital Region (NCR),,,3645200000,3645200000
+79,2,,Central Office,,,3645200000,3645200000
+79,1,,Region I - Ilocos,,,563000000,563000000
+79,2,,Ilocos Sur 2nd District Engineering Office,,,15000000,15000000
+79,2,,La Union 2nd District Engineering Office,,,143000000,143000000
+79,2,,Pangasinan 1st District Engineering Office,,,5000000,5000000
+79,2,,Pangasinan 3rd District Engineering Office,,,400000000,400000000
+79,1,,Cordillera Administrative Region (CAR),,,253000000,253000000
+79,2,,Abra District Engineering Office,,,210000000,210000000
+79,2,,Apayao 2nd District Engineering Office,,,5000000,5000000
+79,2,,Benguet 2nd District Engineering Office,,,30000000,30000000
+79,2,,Mountain Province First District Engineering Office,,,3000000,3000000
+79,2,,Upper Kalinga District Engineering Office,,,5000000,5000000
+79,1,,Region II - Cagayan Valley,,,330000000,330000000
+79,2,,Batanes District Engineering Office,,,10000000,10000000
+79,2,,Cagayan 1st District Engineering Office,,,15000000,15000000
+79,2,,Cagayan 2nd District Engineering Office,,,5000000,5000000
+79,2,,Cagayan 3rd District Engineering Office,,,65000000,65000000
+79,2,,Isabela 1st District Engineering Office,,,145000000,145000000
+80,2,,Isabela 3rd District Engineering Office,,,55000000,55000000
+80,2,,Isabela 4th District Engineering Office,,,30000000,30000000
+80,2,,Quirino District Engineering Office,,,5000000,5000000
+80,1,,Region III - Central Luzon,,,334000000,334000000
+80,2,,Bataan 1st District Engineering Office,,,20000000,20000000
+80,2,,Bataan 2nd District Engineering Office,,,5000000,5000000
+80,2,,Bataan 3rd District Engineering Office,,,20000000,20000000
+80,2,,Bulacan 2nd District Engineering Office,,,20000000,20000000
+80,2,,Nueva Ecija 1st District Engineering Office,,,120000000,120000000
+80,2,,Nueva Ecija 2nd District Engineering Office,,,7000000,7000000
+80,2,,Tarlac District Engineering Office,,,20000000,20000000
+80,2,,Zambales 1st District Engineering Office,,,37000000,37000000
+80,2,,Zambales 2nd District Engineering Office,,,85000000,85000000
+80,1,,Region IVA - CALABARZON,,,471000000,471000000
+80,2,,Batangas 2nd District Engineering Office,,,85000000,85000000
+80,2,,Batangas 3rd District Engineering Office,,,28000000,28000000
+80,2,,Batangas 4th District Engineering Office,,,25000000,25000000
+80,2,,Cavite 2nd District Engineering Office,,,180000000,180000000
+80,2,,Laguna 2nd District Engineering Office,,,20000000,20000000
+80,2,,Quezon 1st District Engineering Office,,,38500000,38500000
+80,2,,Quezon 2nd District Engineering Office,,,27500000,27500000
+80,2,,Quezon 3rd District Engineering Office,,,7000000,7000000
+80,2,,Quezon 4th District Engineering Office,,,30000000,30000000
+80,2,,Rizal 1st District Engineering Office,,,30000000,30000000
+81,1,,Region IVB - MIMAROPA,,,205500000,205500000
+81,2,,Mindoro Occidental District Engineering Office,,,61500000,61500000
+81,2,,Palawan 1st District Engineering Office,,,84000000,84000000
+81,2,,Palawan 2nd District Engineering Office,,,50000000,50000000
+81,2,,Palawan 3rd District Engineering Office,,,10000000,10000000
+81,1,,Region V - Bicol,,,275500000,275500000
+81,2,,Albay 1st District Engineering Office,,,80000000,80000000
+81,2,,Albay 3rd District Engineering Office,,,100000000,100000000
+81,2,,Camarines Sur 1st District Engineering Office,,,57000000,57000000
+81,2,,Catanduanes District Engineering Office,,,28500000,28500000
+81,2,,Masbate 3rd District Engineering Office,,,5000000,5000000
+81,2,,Sorsogon 2nd District Engineering Office,,,5000000,5000000
+81,1,,Region VI - Western Visayas,,,55000000,55000000
+81,2,,Aklan District Engineering Office,,,3000000,3000000
+81,2,,Capiz 2nd District Engineering Office,,,22000000,22000000
+81,2,,Guimaras District Engineering Office,,,30000000,30000000
+81,1,,Negros Island Region (NIR),,,124000000,124000000
+81,2,,Bacolod City District Engineering Office,,,31500000,31500000
+81,2,,Negros Occidental 1st District Engineering Office,,,15000000,15000000
+81,2,,Negros Occidental 3rd District Engineering Office,,,18000000,18000000
+81,2,,Negros Occidental 4th District Engineering Office,,,14000000,14000000
+81,2,,Negros Oriental 1st District Engineering Office,,,10500000,10500000
+81,2,,Negros Oriental 3rd District Engineering Office,,,35000000,35000000
+82,1,,Region VII - Central Visayas,,,225000000,225000000
+82,2,,Bohol 1st District Engineering Office,,,50000000,50000000
+82,2,,Bohol 2nd District Engineering Office,,,95000000,95000000
+82,2,,Cebu 1st District Engineering Office,,,25000000,25000000
+82,2,,Cebu 2nd District Engineering Office,,,20000000,20000000
+82,2,,Cebu 5th District Engineering Office,,,35000000,35000000
+82,1,,Region VIII - Eastern Visayas,,,62400000,62400000
+82,2,,Leyte 3rd District Engineering Office,,,5000000,5000000
+82,2,,Leyte 5th District Engineering Office,,,17500000,17500000
+82,2,,Northern Samar 1st District Engineering Office,,,39900000,39900000
+82,1,,Region IX - Zamboanga Peninsula,,,93500000,93500000
+82,2,,Zamboanga del Norte 2nd District Engineering Office,,,20000000,20000000
+82,2,,Zamboanga del Norte 3rd District Engineering Office,,,2500000,2500000
+82,2,,Zamboanga Sibugay 1st District Engineering Office,,,66000000,66000000
+82,2,,Zamboanga Sibugay 2nd District Engineering Office,,,5000000,5000000
+82,1,,Region X - Northern Mindanao,,,132000000,132000000
+82,2,,Cagayan de Oro City 1st District Engineering Office,,,60000000,60000000
+82,2,,Iligan City District Engineering Office,,,12000000,12000000
+82,2,,Lanao del Norte 1st District Engineering Office,,,30000000,30000000
+82,2,,Misamis Oriental 2nd District Engineering,,,30000000,30000000
+82,1,,Office Region XI - Davao,,,443500000,443500000
+82,2,,Davao de Oro 1st District Engineering,,,144500000,144500000
+82,2,,Office Davao del Norte 2nd District Engineering Office,,,60000000,60000000
+83,2,,Davao del Norte District Engineering Office,,,36000000,36000000
+83,2,,Davao del Sur District Engineering Office,,,203000000,203000000
+83,1,,Region XII - SOCCSKSARGEN,,,58500000,58500000
+83,2,,Cotabato 1st District Engineering Office,,,11000000,11000000
+83,2,,Cotabato 2nd District Engineering Office,,,17000000,17000000
+83,2,,Cotabato 3rd District Engineering Office,,,25000000,25000000
+83,2,,South Cotabato 2nd District Engineering Office,,,5500000,5500000
+83,1,,Region XIII - CARAGA,,,27500000,27500000
+83,2,,Dinagat Islands District Engineering Office,,,10000000,10000000
+83,2,,Surigao del Norte 2nd District Engineering Office,,,17500000,17500000
+83,1,300213000000000,"Construction / Rehabilitation / Improvement of Facilities for Persons with Disabilities (PWD) and Elderlies / Senior Citizens, including Gender Responsive Facilities Construction / Rehabilitation / Improvement of Facilities for Persons with Disabilities (PWD) and Elderlies / Senior Citizens, including Gender-Responsive Facilities",,,510000000,510000000
+83,1,,National Capital Region (NCR),,,510000000,510000000
+83,2,,Central Office,,,510000000,510000000
+83,1,300221000000000,Basic Infrastructure Program (BIP) Access Roads and / or Bridges from the National Road / s leading to Major / Strategic Public Buildings / Facilities Basic Infrastructure Program (BIP ) - Access Roads and / or Bridges from the National Roads leading to Major / Strategic Public,,,105725209000,105725209000
+83,1,,Buildings / Facilities National Capital Region (NCR),,,68573295000,68573295000
+83,2,,Central Office,,,65461649000,65461649000
+83,2,,Las Pi ñ as-Muntinlupa District Engineering,,,357000000,357000000
+83,2,,Office Malabon-Navotas District Engineering Office,,,35000000,35000000
+83,2,,Metro Manila 1st District Engineering Office,,,378000000,378000000
+84,2,,Metro Manila 2nd District Engineering Office,,,9800000,9800000
+84,2,,Metro Manila 3rd District Engineering Office,,,1555196000,1555196000
+84,2,,Quezon City 1st District Engineering Office,,,425650000,425650000
+84,2,,Quezon City 2nd District Engineering Office,,,95000000,95000000
+84,2,,South Manila District Engineering Office,,,256000000,256000000
+84,1,,Region I - Ilocos,,,2172330000,2172330000
+84,2,,Ilocos Norte 1st District Engineering Office,,,207000000,207000000
+84,2,,Ilocos Norte 2nd District Engineering Office,,,303000000,303000000
+84,2,,Ilocos Sur 1st District Engineering Office,,,20000000,20000000
+84,2,,La Union 1st District Engineering Office,,,85000000,85000000
+84,2,,La Union 2nd District Engineering Office,,,711330000,711330000
+84,2,,Pangasinan 1st District Engineering Office,,,99000000,99000000
+84,2,,Pangasinan 2nd District Engineering Office,,,355000000,355000000
+84,2,,Pangasinan 3rd District Engineering Office,,,317000000,317000000
+84,2,,Pangasinan 4th District Engineering Office,,,75000000,75000000
+84,1,,Cordillera Administrative Region (CAR),,,2388485000,2388485000
+84,2,,Abra District Engineering Office,,,350000000,350000000
+84,2,,Apayao 1st District Engineering Office,,,50000000,50000000
+84,2,,Apayao 2nd District Engineering Office,,,50000000,50000000
+84,2,,Baguio City District Engineering Office,,,190485000,190485000
+84,2,,Benguet 1st District Engineering Office,,,150000000,150000000
+84,2,,Benguet 2nd District Engineering Office,,,430000000,430000000
+84,2,,Ifugao 1st District Engineering Office,,,115000000,115000000
+84,2,,Ifugao 2nd District Engineering Office,,,160000000,160000000
+85,2,,Lower Kalinga District Engineering Office,,,335000000,335000000
+85,2,,Mountain Province 2nd District Engineering Office,,,125000000,125000000
+85,2,,Mountain Province First District Engineering Office,,,315000000,315000000
+85,2,,Upper Kalinga District Engineering Office,,,118000000,118000000
+85,1,,Region II - Cagayan Valley,,,4244116000,4244116000
+85,2,,Batanes District Engineering Office,,,50000000,50000000
+85,2,,Cagayan 1st District Engineering Office,,,215000000,215000000
+85,2,,Cagayan 2nd District Engineering Office,,,129000000,129000000
+85,2,,Cagayan 3rd District Engineering Office,,,164000000,164000000
+85,2,,Isabela 1st District Engineering Office,,,557000000,557000000
+85,2,,Isabela 2nd District Engineering Office,,,976020000,976020000
+85,2,,Isabela 3rd District Engineering Office,,,765596000,765596000
+85,2,,Isabela 4th District Engineering Office,,,1117500000,1117500000
+85,2,,Nueva Vizcaya 2nd District Engineering Office,,,120000000,120000000
+85,2,,Quirino District Engineering Office,,,150000000,150000000
+85,1,,Region III - Central Luzon,,,7201664000,7201664000
+85,2,,Aurora District Engineering Office,,,30000000,30000000
+85,2,,Bataan 1st District Engineering Office,,,138000000,138000000
+85,2,,Bataan 2nd District Engineering Office,,,70000000,70000000
+85,2,,Bataan 3rd District Engineering Office,,,125000000,125000000
+85,2,,Bulacan 1st District Engineering Office,,,1266230000,1266230000
+85,2,,Bulacan 2nd District Engineering Office,,,2262000000,2262000000
+85,2,,Bulacan 3rd District Engineering Office,,,215000000,215000000
+85,2,,Nueva Ecija 1st District Engineering Office,,,1127468000,1127468000
+85,2,,Nueva Ecija 2nd District Engineering Office,,,34000000,34000000
+86,2,,Pampanga 1st District Engineering Office,,,404000000,404000000
+86,2,,Pampanga 2nd District Engineering Office,,,111000000,111000000
+86,2,,Pampanga 3rd District Engineering Office,,,465690000,465690000
+86,2,,Tarlac 2nd District Engineering Office,,,44000000,44000000
+86,2,,Tarlac District Engineering Office,,,177500000,177500000
+86,2,,Zambales 1st District Engineering Office,,,317000000,317000000
+86,2,,Zambales 2nd District Engineering Office,,,414776000,414776000
+86,1,,Region IVA - CALABARZON,,,4033328000,4033328000
+86,2,,Batangas 2nd District Engineering Office,,,751000000,751000000
+86,2,,Batangas 3rd District Engineering Office,,,269500000,269500000
+86,2,,Batangas 4th District Engineering Office,,,325000000,325000000
+86,2,,Cavite 2nd District Engineering Office,,,30000000,30000000
+86,2,,Cavite District Engineering Office,,,696228000,696228000
+86,2,,Cavite Third District Engineering Office,,,126000000,126000000
+86,2,,Laguna 1st District Engineering Office,,,85000000,85000000
+86,2,,Laguna 2nd District Engineering Office,,,385500000,385500000
+86,2,,Laguna 3rd District Engineering Office,,,193000000,193000000
+86,2,,Quezon 1st District Engineering Office,,,75000000,75000000
+86,2,,Quezon 2nd District Engineering Office,,,201100000,201100000
+86,2,,Quezon 3rd District Engineering Office,,,195000000,195000000
+86,2,,Quezon 4th District Engineering Office,,,150000000,150000000
+86,2,,Rizal 1st District Engineering Office,,,551000000,551000000
+86,1,,Region IVB - MIMAROPA,,,1627980000,1627980000
+86,2,,Marinduque District Engineering Office,,,189500000,189500000
+86,2,,Mindoro Occidental District Engineering Office,,,126000000,126000000
+87,2,,Mindoro Oriental District Engineering Office,,,525000000,525000000
+87,2,,Palawan 1st District Engineering Office,,,32000000,32000000
+87,2,,Palawan 2nd District Engineering Office,,,25000000,25000000
+87,2,,Palawan 3rd District Engineering Office,,,175000000,175000000
+87,2,,Romblon District Engineering Office,,,281480000,281480000
+87,2,,Southern Mindoro District Engineering Office,,,274000000,274000000
+87,1,,Region V - Bicol,,,2083450000,2083450000
+87,2,,Albay 1st District Engineering Office,,,60000000,60000000
+87,2,,Albay 2nd District Engineering Office,,,203000000,203000000
+87,2,,Albay 3rd District Engineering Office,,,80000000,80000000
+87,2,,Camarines Norte District Engineering Office,,,255000000,255000000
+87,2,,Camarines Sur 1st District Engineering Office,,,276575000,276575000
+87,2,,Camarines Sur 2nd District Engineering Office,,,15000000,15000000
+87,2,,Camarines Sur 3rd District Engineering Office,,,145000000,145000000
+87,2,,Camarines Sur 4th District Engineering Office,,,136000000,136000000
+87,2,,Camarines Sur 5th District Engineering Office,,,95000000,95000000
+87,2,,Catanduanes District Engineering Office,,,92000000,92000000
+87,2,,Masbate 1st District Engineering Office,,,95000000,95000000
+87,2,,Masbate 2nd District Engineering Office,,,258000000,258000000
+87,2,,Masbate 3rd District Engineering Office,,,267875000,267875000
+87,2,,Sorsogon 2nd District Engineering Office,,,105000000,105000000
+87,1,,Region VI - Western Visayas,,,1473900000,1473900000
+87,2,,Aklan District Engineering Office,,,319000000,319000000
+88,2,,Capiz 1st District Engineering Office,,,185000000,185000000
+88,2,,Capiz 2nd District Engineering Office,,,192000000,192000000
+88,2,,Guimaras District Engineering Office,,,354900000,354900000
+88,2,,Iloilo 1st District Engineering Office,,,53000000,53000000
+88,2,,Iloilo 2nd District Engineering Office,,,25000000,25000000
+88,2,,Iloilo 3rd District Engineering Office,,,70000000,70000000
+88,2,,Iloilo 4th District Engineering Office,,,10000000,10000000
+88,2,,Iloilo 6th District Engineering Office,,,240000000,240000000
+88,2,,Iloilo City District Engineering Office,,,25000000,25000000
+88,1,,Negros Island Region (NIR),,,2092516000,2092516000
+88,2,,Bacolod City District Engineering Office,,,272000000,272000000
+88,2,,Negros Occidental 1st District Engineering Office,,,497516000,497516000
+88,2,,Negros Occidental 2nd District Engineering Office,,,25000000,25000000
+88,2,,Negros Occidental 3rd District Engineering Office,,,181000000,181000000
+88,2,,Negros Occidental 4th District Engineering Office,,,196000000,196000000
+88,2,,Negros Occidental 5th District Engineering Office,,,34000000,34000000
+88,2,,Negros Oriental 1st District Engineering Office,,,147000000,147000000
+88,2,,Negros Oriental 2nd District Engineering,,,206000000,206000000
+88,2,,Office Negros Oriental 3rd District Engineering,,,230000000,230000000
+88,2,,Office Siquijor District,,,304000000,304000000
+88,1,,Engineering Office Region VII - Central Visayas,,,1538075000,1538075000
+88,2,,Cebu 1st District,,,145000000,145000000
+88,2,,Engineering Office Cebu 2nd District. Engineering Office,,,177000000,177000000
+89,2,,Cebu 3rd District Engineering Office,,,50000000,50000000
+89,2,,Cebu 4th District Engineering Office,,,65000000,65000000
+89,2,,Cebu 5th District Engineering Office,,,125000000,125000000
+89,2,,Cebu 6th District Engineering Office,,,501075000,501075000
+89,2,,Cebu 7th District Engineering Office,,,365000000,365000000
+89,2,,Cebu City District Engineering Office,,,110000000,110000000
+89,1,,Region VIII - Eastern Visayas,,,1584668000,1584668000
+89,2,,Biliran District Engineering Office,,,148000000,148000000
+89,2,,Eastern Samar District Engineering Office,,,30000000,30000000
+89,2,,Leyte 2nd District Engineering Office,,,170500000,170500000
+89,2,,Leyte 3rd District Engineering Office,,,240000000,240000000
+89,2,,Leyte 4th District Engineering Office,,,80000000,80000000
+89,2,,Leyte 5th District Engineering Office,,,170000000,170000000
+89,2,,Northern Samar 1st District Engineering Office,,,86168000,86168000
+89,2,,Northern Samar 2nd District Engineering Office,,,388000000,388000000
+89,2,,Samar 1st District Engineering Office,,,272000000,272000000
+89,1,,Region IX - Zamboanga Peninsula,,,2077000000,2077000000
+89,2,,Isabela City District Engineering Office,,,50000000,50000000
+89,2,,Sulu 1st District Engineering Office,,,330000000,330000000
+89,2,,Sulu 2nd District,,,150000000,150000000
+89,2,,Engineering Office Zamboanga City 2nd District Engineering,,,5000000,5000000
+89,2,,Office Zamboanga del Norte 1st District Engineering Office,,,120000000,120000000
+89,2,,Zamboanga del Norte 2nd District Engineering,,,165000000,165000000
+89,2,,Office Zamboanga del Norte 3rd District Engineering Office,,,106500000,106500000
+90,2,,Zamboanga del Norte 4th District Engineering Office,,,265000000,265000000
+90,2,,Zamboanga del Sur 1st District Engineering Office,,,325000000,325000000
+90,2,,Zamboanga del Sur 2nd District Engineering Office,,,241000000,241000000
+90,2,,Zamboanga Sibugay 1st District Engineering Office,,,164500000,164500000
+90,2,,Zamboanga Sibugay 2nd District Engineering Office,,,155000000,155000000
+90,1,,Region X - Northern Mindanao,,,1646820000,1646820000
+90,2,,Bukidnon 2nd District Engineering Office,,,110660000,110660000
+90,2,,Cagayan de Oro City 1st District Engineering Office,,,35000000,35000000
+90,2,,Cagayan de Oro City 2nd District Engineering Office,,,195000000,195000000
+90,2,,Camiguin District Engineering Office,,,526000000,526000000
+90,2,,Iligan City District Engineering Office,,,140160000,140160000
+90,2,,Lanao del Norte 1st District Engineering Office,,,140000000,140000000
+90,2,,Lanao del Norte 2nd District Engineering Office,,,185000000,185000000
+90,2,,Misamis Occidental District Enginecring Office,,,10000000,10000000
+90,2,,Misamis Oriental 1st District Engineering Office,,,75000000,75000000
+90,2,,Misamis Oriental 2nd District Engineering,,,230000000,230000000
+90,1,,Office Region XI - Davao,,,879250000,879250000
+90,2,,Davao de Oro 1st District Engineering Office,,,25000000,25000000
+90,2,,Davao de Oro 2nd District Engineering Office,,,50000000,50000000
+90,2,,Davao del Norte 2nd District Engineering Office,,,72250000,72250000
+91,2,,Davao del Norte District Engineering Office,,,247000000,247000000
+91,2,,Davao del Sur District Engineering Office,,,485000000,485000000
+91,1,,Region XII - SOCCSKSARGEN,,,1312929000,1312929000
+91,2,,Cotabato 1st District Engineering Office,,,195500000,195500000
+91,2,,Cotabato 2nd District Engineering Office,,,76000000,76000000
+91,2,,Cotabato 3rd District Engineering Office,,,207000000,207000000
+91,2,,South Cotabato 1st District Engineering Office,,,50000000,50000000
+91,2,,South Cotabato 2nd District Engineering Office,,,113500000,113500000
+91,2,,Sultan Kudarat 1st District Engineering Office,,,568629000,568629000
+91,2,,Sultan Kudarat 2nd District Engineering Office,,,102300000,102300000
+91,1,,Region XIII - CARAGA,,,795403000,795403000
+91,2,,Butuan City District Engineering Office,,,85403000,85403000
+91,2,,Dinagat Islands District Engineering Office,,,290000000,290000000
+91,2,,Surigao del Norte 1st District Engineering Office,,,180000000,180000000
+91,2,,Surigao del Norte 2nd District Engineering Office,,,45000000,45000000
+91,2,,Surigao del Sur 1st District Engineering Office,,,195000000,195000000
+91,1,300226000000000,Basic Infrastructure Program (BIP) Multi - Purpose Buildings / Facilities to support Social Services Basic Infrastructure Program (BIP ) - Multi-Purpose Buildings / Facilities to support,,,40974839000,40974839000
+91,1,,Social Services National Capital Region (NCR),,,16700368000,16700368000
+91,2,,Central Office,,,14956998000,14956998000
+91,2,,Las Pi ñ as-Muntinlupa District Engineering,,,130000000,130000000
+91,2,,Office Malabon-Navotas District Engineering Office,,,5000000,5000000
+92,2,,Metro Manila 1st District Engineering Office,,,460000000,460000000
+92,2,,Metro Manila 2nd District Engineering Office,,,87000000,87000000
+92,2,,Metro Manila 3rd District Engineering Office,,,409000000,409000000
+92,2,,North Manila District Engineering Office,,,85000000,85000000
+92,2,,Quezon City 1st District Engineering Office,,,470560000,470560000
+92,2,,Quezon City 2nd District Engineering Office,,,15000000,15000000
+92,2,,South Manila District Engineering Office,,,81810000,81810000
+92,1,,Region I - Ilocos,,,1321900000,1321900000
+92,2,,Ilocos Norte 2nd District Engineering Office,,,254000000,254000000
+92,2,,La Union 1st District Engineering Office,,,218900000,218900000
+92,2,,La Union 2nd District Engineering Office,,,58000000,58000000
+92,2,,Pangasinan 1st District Engineering Office,,,191000000,191000000
+92,2,,Pangasinan 2nd District Engineering Office,,,440000000,440000000
+92,2,,Pangasinan 3rd District Engineering Office,,,140000000,140000000
+92,2,,Pangasinan 4th District Engineering Office,,,20000000,20000000
+92,1,,Cordillera Administrative Region (CAR),,,666775000,666775000
+92,2,,Abra District Engineering Office,,,100000000,100000000
+92,2,,Apayao 1st District Engineering Office,,,20000000,20000000
+92,2,,Apayao 2nd District Engineering Office,,,55000000,55000000
+92,2,,Baguio City District,,,174775000,174775000
+92,2,,Engineering Office Benguet 2nd District Engineering Office,,,30000000,30000000
+92,2,,Ifugao 1st District Engineering Office,,,49000000,49000000
+92,2,,Ifugao 2nd District Engineering Office,,,73000000,73000000
+92,2,,Lower Kalinga District Engineering Office,,,5000000,5000000
+93,2,,Mountain Province 2nd District Engineering Office,,,30000000,30000000
+93,2,,Mountain Province First District Engineering Office,,,110000000,110000000
+93,2,,Upper Kalinga District Engineering Office,,,20000000,20000000
+93,1,,Region II - Cagayan Valley,,,1855000000,1855000000
+93,2,,Batanes District Engineering Office,,,150000000,150000000
+93,2,,Cagayan 1st District Engineering Office,,,370000000,370000000
+93,2,,Cagayan 2nd District Engineering Office,,,30000000,30000000
+93,2,,Cagayan 3rd District Engineering Office,,,86000000,86000000
+93,2,,Isabela 1st District Engineering Office,,,220000000,220000000
+93,2,,Isabela 2nd District Engineering Office,,,382000000,382000000
+93,2,,Isabela 3rd District Engineering Office,,,314000000,314000000
+93,2,,Isabela 4th District Engineering Office,,,263000000,263000000
+93,2,,Nueva Vizcaya 2nd District Engineering Office,,,20000000,20000000
+93,2,,Nueva Vizcaya District Engineering Office,,,20000000,20000000
+93,1,,Region III - Central Luzon,,,4839500000,4839500000
+93,2,,Aurora District Engineering Office,,,96000000,96000000
+93,2,,Bataan 1st District Engineering Office,,,109000000,109000000
+93,2,,Bataan 2nd District Engineering Office,,,205000000,205000000
+93,2,,Bataan 3rd District Engineering Office,,,190000000,190000000
+93,2,,Bulacan 1st District Engineering Office,,,976000000,976000000
+93,2,,Bulacan 2nd District Engineering Office,,,540000000,540000000
+93,2,,Bulacan 3rd District Engineering Office,,,295000000,295000000
+93,2,,Nueva Ecija 1st District Engineering Office,,,619000000,619000000
+93,2,,Nueva Ecija 2nd District Engineering Office,,,25000000,25000000
+93,2,,Pampanga 1st District Engineering Office,,,112000000,112000000
+94,2,,Pampanga 2nd District Engineering Office,,,100000000,100000000
+94,2,,Tarlac 2nd District Engineering Office,,,96000000,96000000
+94,2,,Tarlac District Engineering Office,,,460000000,460000000
+94,2,,Zambales 1st District Engineering Office,,,149500000,149500000
+94,2,,Zambales 2nd District Engineering Office,,,867000000,867000000
+94,1,,Region IVA - CALABARZON,,,4206520000,4206520000
+94,2,,Batangas 1st District Engineering Office,,,69000000,69000000
+94,2,,Batangas 2nd District Engineering Office,,,396000000,396000000
+94,2,,Batangas 3rd District Engineering Office,,,217000000,217000000
+94,2,,Batangas 4th District Engineering Office,,,501520000,501520000
+94,2,,Cavite 2nd District Engineering Office,,,45000000,45000000
+94,2,,Cavite District Engineering Office,,,445000000,445000000
+94,2,,Cavite Third District Engineering Office,,,250500000,250500000
+94,2,,Laguna 1st District Engineering Office,,,264500000,264500000
+94,2,,Laguna 2nd District Engineering Office,,,563500000,563500000
+94,2,,Laguna 3rd District Engineering Office,,,455000000,455000000
+94,2,,Quezon 1st District Engineering Office,,,339000000,339000000
+94,2,,Quezon 2nd District Engineering Office,,,81000000,81000000
+94,2,,Quezon 3rd District Engineering Office,,,223500000,223500000
+94,2,,Quezon 4th District Engineering Office,,,245000000,245000000
+94,2,,Rizal 1st District Engineering Office,,,111000000,111000000
+94,1,,Region IVB - MIMAROPA,,,872000000,872000000
+94,2,,Marinduque District Engineering Office,,,57000000,57000000
+94,2,,Mindoro Occidental District Engineering Office,,,173500000,173500000
+94,2,,Mindoro Oriental District Engineering Office,,,120000000,120000000
+95,2,,Palawan 1st District Engineering Office,,,179000000,179000000
+95,2,,Palawan 2nd District Engineering Office,,,5000000,5000000
+95,2,,Palawan 3rd District Engineering Office,,,91500000,91500000
+95,2,,Romblon District Engineering Office,,,124000000,124000000
+95,2,,Southern Mindoro District Engineering Office,,,122000000,122000000
+95,1,,Region V - Bicol,,,1219000000,1219000000
+95,2,,Albay 1st District Engineering Office,,,34000000,34000000
+95,2,,Albay 2nd District Engineering Office,,,138500000,138500000
+95,2,,Camarines Norte District Engineering Office,,,45000000,45000000
+95,2,,Camarines Sur 1st District Engineering Office,,,97000000,97000000
+95,2,,Camarines Sur 2nd District Engineering Office,,,40000000,40000000
+95,2,,Camarines Sur 3rd District Engineering Office,,,105000000,105000000
+95,2,,Camarines Sur 4th District Engineering Office,,,172500000,172500000
+95,2,,Camarines Sur 5th District Engineering Office,,,75000000,75000000
+95,2,,Catanduanes District Engineering Office,,,316000000,316000000
+95,2,,Sorsogon 2nd District Engineering Office,,,196000000,196000000
+95,1,,Region VI - Western Visayas,,,1549900000,1549900000
+95,2,,Aklan District Engineering Office,,,216000000,216000000
+95,2,,Capiz 1st District,,,124000000,124000000
+95,2,,Engineering Office Capiz 2nd District Engineering Office,,,69550000,69550000
+95,2,,Guimaras District Engineering Office,,,45000000,45000000
+95,2,,Iloilo 1st District Engineering Office,,,232500000,232500000
+95,2,,Iloilo 2nd District Engineering Office,,,152500000,152500000
+96,2,,Iloilo 3rd District Engineering Office,,,120750000,120750000
+96,2,,Iloilo 4th District Engineering Office,,,264100000,264100000
+96,2,,Iloilo 6th District Engineering Office,,,60500000,60500000
+96,2,,Iloilo City District Engineering Office,,,265000000,265000000
+96,1,,Negros Island Region (NIR),,,964300000,964300000
+96,2,,Bacolod City District Engineering Office,,,400000000,400000000
+96,2,,Negros Occidental 1st District Engineering Office,,,143000000,143000000
+96,2,,Negros Occidental 2nd District Engineering Office,,,30000000,30000000
+96,2,,Negros Occidental 3rd District Engineering Office,,,95000000,95000000
+96,2,,Negros Occidental 4th District Engineering Office,,,74000000,74000000
+96,2,,Negros Occidental 5th District Engineering Office,,,18000000,18000000
+96,2,,Negros Oriental 1st District Engineering Office,,,61000000,61000000
+96,2,,Negros Oriental 2nd District Engineering Office,,,46000000,46000000
+96,2,,Negros Oriental 3rd District Engineering Office,,,45000000,45000000
+96,2,,Siquijor District Engineering Office,,,52300000,52300000
+96,1,,Region VII - Central Visayas,,,789000000,789000000
+96,2,,Bohol 1st District Engineering Office,,,25000000,25000000
+96,2,,Bohol 2nd District Engineering Office,,,15000000,15000000
+96,2,,Cebu 1st District Engineering Office,,,65000000,65000000
+96,2,,Cebu 2nd District Engineering Office,,,140000000,140000000
+96,2,,Cebu 5th District Engineering Office,,,30000000,30000000
+96,2,,Cebu 6th District Engineering Office,,,155000000,155000000
+96,2,,Cebu 7th District Engineering Office,,,259000000,259000000
+97,2,,Cebu City District Engineering Office,,,100000000,100000000
+97,1,,Region VIII - Eastern Visayas,,,1271576000,1271576000
+97,2,,Biliran District Engineering Office,,,196000000,196000000
+97,2,,Eastern Samar District Engineering Office,,,55000000,55000000
+97,2,,Leyte 2nd District Engineering Office,,,325800000,325800000
+97,2,,Leyte 3rd District Engineering Office,,,85000000,85000000
+97,2,,Leyte 4th District Engineering Office,,,10000000,10000000
+97,2,,Leyte 5th District Engineering Office,,,135000000,135000000
+97,2,,Northern Samar 1st District Engineering Office,,,225209000,225209000
+97,2,,Northern Samar 2nd District Engineering Office,,,34567000,34567000
+97,2,,Samar 1st District Engineering Office,,,125000000,125000000
+97,2,,Samar 2nd District Engineering Office,,,80000000,80000000
+97,1,,Region IX - Zamboanga Peninsula,,,853000000,853000000
+97,2,,Sulu 1st District Engineering Office,,,30000000,30000000
+97,2,,Sulu 2nd District Engineering Office,,,65000000,65000000
+97,2,,Zamboanga City 1st District Engineering Office,,,40000000,40000000
+97,2,,Zamboanga del Norte 1st District Engineering Office,,,30000000,30000000
+97,2,,Zamboanga del Norte 3rd District Engineering Office,,,130000000,130000000
+97,2,,Zamboanga del Norte 4th District Engineering Office,,,38000000,38000000
+97,2,,Zamboanga del Sur 2nd District Engineering Office,,,5000000,5000000
+97,2,,Zamboanga Sibugay 1st District Engineering Office,,,309000000,309000000
+97,2,,Zamboanga Sibugay 2nd District Engineering Office,,,206000000,206000000
+98,1,,Region X - Northern Mindanao,,,1578000000,1578000000
+98,2,,Bukidnon 2nd District Engineering Office,,,10000000,10000000
+98,2,,Bukidnon 3rd District Engineering Office,,,24000000,24000000
+98,2,,Cagayan de Oro City 1st District Engineering Office,,,112000000,112000000
+98,2,,Cagayan de Oro City 2nd District Engineering Office,,,185500000,185500000
+98,2,,Camiguin District Engineering Office,,,247000000,247000000
+98,2,,Iligan City District Engineering Office,,,18000000,18000000
+98,2,,Lanao del Norte 1st District Engineering Office,,,211500000,211500000
+98,2,,Lanao del Norte 2nd District Engineering Office,,,462000000,462000000
+98,2,,Misamis Occidental 2nd District Engineering Office,,,14000000,14000000
+98,2,,Misamis Occidental District Engineering Office,,,60000000,60000000
+98,2,,Misamis Oriental 1st District Engineering Office,,,146000000,146000000
+98,2,,Misamis Oriental 2nd District Engineering Office,,,88000000,88000000
+98,1,,Region XI - Davao,,,810500000,810500000
+98,2,,Davao de Oro 1st District Engineering Office,,,113000000,113000000
+98,2,,Davao de Oro 2nd District Engineering Office,,,90500000,90500000
+98,2,,Davao del Norte 2nd District Engineering Office,,,415000000,415000000
+98,2,,Davao del Norte District Engineering Office,,,47000000,47000000
+98,2,,Davao del Sur District Engineering Office,,,145000000,145000000
+98,1,,Region XII - SOCCSKSARGEN,,,612000000,612000000
+98,2,,Cotabato 1st District Engineering Office,,,54000000,54000000
+98,2,,Cotabato 2nd District Engineering Office,,,178000000,178000000
+99,2,,Cotabato 3rd District Engineering Office,,,142000000,142000000
+99,2,,South Cotabato 2nd District Engineering Office,,,80000000,80000000
+99,2,,Sultan Kudarat 1st District Engineering Office,,,10000000,10000000
+99,2,,Sultan Kudarat 2nd District Engineering Office,,,148000000,148000000
+99,1,,Region XIII - CARAGA,,,865500000,865500000
+99,2,,Agusan del Norte District Engineering Office,,,45000000,45000000
+99,2,,Butuan City District Engineering Office,,,305000000,305000000
+99,2,,Dinagat Islands District Engineering Office,,,66000000,66000000
+99,2,,Surigao del Norte 1st District Engineering Office,,,140000000,140000000
+99,2,,Surigao del Norte 2nd District Engineering Office,,,107500000,107500000
+99,2,,Surigao del Sur 1st District Engineering Office,,,112000000,112000000
+99,2,,Surigao del Sur 2nd District Engineering Office,,,90000000,90000000
+99,1,300236000000000,Basic Infrastructure Program (BIP ) - Coastal Roads to Augment Resiliency of Coastal Communities Basic Infrastructure Program (BIP ) - Coastal Roads to Augment Resiliency of Coastal Communities,,,1381000000,1381000000
+99,1,,National Capital Region (NCR),,,1240000000,1240000000
+99,2,,Central Office,,,1240000000,1240000000
+99,1,,Negros Island Region (NIR),,,30000000,30000000
+99,2,,Negros Occidental 1st District Engineering Office,,,10000000,10000000
+99,2,,Negros Occidental 2nd District Engineering Office,,,20000000,20000000
+99,1,,Region VII - Central Visayas,,,111000000,111000000
+99,2,,Cebu 6th District Engineering Office,,,111000000,111000000
+100,1,300241000000000,Basic Infrastructure Program (BIP ) - Local Ports and Boat Landings Basic Infrastructure Program (BIP ) - Local Ports and Boat Landings,,,419000000,419000000
+100,1,,National Capital Region (NCR),,,240000000,240000000
+100,2,,Central Office,,,240000000,240000000
+100,1,,Region I - Ilocos,,,10000000,10000000
+100,2,,Pangasinan 1st District Engineering Office,,,10000000,10000000
+100,1,,Region IVA - CALABARZON,,,27000000,27000000
+100,2,,Batangas 2nd District Engineering Office,,,27000000,27000000
+100,1,,Region IVB - MIMAROPA,,,32000000,32000000
+100,2,,Palawan 3rd District Engineering Office,,,27000000,27000000
+100,2,,Southern Mindoro District Engineering Office,,,5000000,5000000
+100,1,,Region V - Bicol,,,30000000,30000000
+100,2,,Masbate 3rd District Engineering Office,,,30000000,30000000
+100,1,,Region VII - Central Visayas,,,50000000,50000000
+100,2,,Bohol 2nd District Engineering Office,,,50000000,50000000
+100,1,,Region XII - SOCCSKSARGEN,,,15000000,15000000
+100,2,,Sarangani District Engineering Office,,,15000000,15000000
+100,1,,Region XIII - CARAGA,,,15000000,15000000
+100,2,,Surigao del Norte 1st District Engineering Office,,,10000000,10000000
+100,2,,Surigao del Norte 2nd District Engineering Office,,,5000000,5000000
+100,,,"Sub-total, Operations",,,440741388000,440741388000
+100,,,"Sub-total, Program (s)",14922297000,24685746000,470821286000,510429329000
+101,0,,B. PROJECTS,,,,
+101,0,,B.1 LOCALLY-FUNDED PROJECT (S),,,,
+101,1,300105201793000,Buildings And Other Structures - MULTIPURPOSE / FACILITIES - National Building Program,,,13433675000,13433675000
+101,1,,National Capital Region (NCR),,,11302700000,11302700000
+101,2,,Central Office,,,11282700000,11282700000
+101,2,,Metro Manila 2nd District Engineering Office,,,20000000,20000000
+101,1,,Region I - Ilocos,,,138000000,138000000
+101,2,,Ilocos Norte 1st District Engineering Office,,,10000000,10000000
+101,2,,Ilocos Sur 1st District Engineering Office,,,40000000,40000000
+101,2,,La Union 1st District Engineering Office,,,80000000,80000000
+101,2,,Pangasinan 1st District Engineering Office,,,8000000,8000000
+101,1,,Cordillera Administrative Region (CAR),,,17000000,17000000
+101,2,,Upper Kalinga District Engineering Office,,,17000000,17000000
+101,1,,Region II - Cagayan Valley,,,180500000,180500000
+101,2,,Batanes District Engineering Office,,,23000000,23000000
+101,2,,Cagayan 3rd District Engineering Office,,,42500000,42500000
+101,2,,Isabela 1st District Engineering Office,,,30000000,30000000
+101,2,,Nueva Vizcaya District Engineering Office,,,15000000,15000000
+101,2,,Quirino District Engineering Office,,,70000000,70000000
+101,1,,Region III - Central Luzon,,,233000000,233000000
+101,2,,Bataan 2nd District Engineering Office,,,15000000,15000000
+101,2,,Bulacan 1st District Engineering Office,,,17000000,17000000
+101,2,,Bulacan 2nd District Engineering Office,,,82000000,82000000
+101,2,,Nueva Ecija 1st District Engineering Office,,,9000000,9000000
+101,2,,Nueva Ecija 2nd District Engineering Office,,,100000000,100000000
+101,2,,Pampanga 1st District Engineering Office,,,10000000,10000000
+102,1,,Region IVA - CALABARZON,,,150000000,150000000
+102,2,,Batangas 3rd District Engineering Office,,,50000000,50000000
+102,2,,Batangas 4th District Engineering Office,,,50000000,50000000
+102,2,,Cavite 2nd District Engineering Office,,,50000000,50000000
+102,1,,Region IVB - MIMAROPA,,,150000000,150000000
+102,2,,Marinduque District Engineering Office,,,25000000,25000000
+102,2,,Mindoro Occidental District Engineering Office,,,45000000,45000000
+102,2,,Palawan 3rd District Engineering Office,,,59000000,59000000
+102,2,,Romblon District Engineering Office,,,21000000,21000000
+102,1,,Region V - Bicol,,,75000000,75000000
+102,2,,Camarines Sur 3rd District Engineering Office,,,55000000,55000000
+102,2,,Masbate 2nd District Engineering Office,,,20000000,20000000
+102,1,,Region VI - Western Visayas,,,320075000,320075000
+102,2,,Capiz 1st District Engineering Office,,,50000000,50000000
+102,2,,Guimaras District Engineering Office,,,170000000,170000000
+102,2,,Iloilo 2nd District Engineering Office,,,25075000,25075000
+102,2,,Iloilo 6th District Engineering Office,,,55000000,55000000
+102,2,,Iloilo City District Engineering Office,,,20000000,20000000
+102,1,,Negros Island Region (NIR),,,76500000,76500000
+102,2,,Negros Occidental 2nd District Engineering Office,,,40000000,40000000
+102,2,,Negros Occidental 5th District Engineering Office,,,6500000,6500000
+102,2,,Siquijor District Engineering Office,,,30000000,30000000
+102,1,,Region VIII - Eastern Visayas,,,244900000,244900000
+102,2,,Eastern Samar District Engineering Office,,,188000000,188000000
+103,2,,Leyte 1st District Engineering Office,,,6900000,6900000
+103,2,,Northern Samar 2nd District Engineering Office,,,50000000,50000000
+103,1,,Region X - Northern Mindanao,,,100000000,100000000
+103,2,,Lanao del Norte 1st District Engineering Office,,,50000000,50000000
+103,2,,Lanao del Norte 2nd District Engineering Office,,,50000000,50000000
+103,1,,Region XI - Davao,,,374000000,374000000
+103,2,,Davao de Oro 1st District Engineering Office,,,84000000,84000000
+103,2,,Davao del Norte 2nd District Engineering Office,,,170000000,170000000
+103,2,,Davao del Sur District Engineering Office,,,50000000,50000000
+103,2,,Davao Occidental District Engineering Office,,,30000000,30000000
+103,2,,Davao Oriental 1st District Engineering Office,,,40000000,40000000
+103,1,,Region XIII - CARAGA,,,72000000,72000000
+103,2,,Butuan City District Engineering Office,,,72000000,72000000
+103,1,300110200003000,"Public Private Partnership Strategic Support Fund (including ROW, Subsidy, and Variations)",,,1000000000,1000000000
+103,1,,National Capital Region (NCR),,,1000000000,1000000000
+103,2,,Central Office,,,1000000000,1000000000
+103,,,"Sub-total, Locally-Funded Project (s)",,,14433675000,14433675000
+103,0,,B.2 FOREIGN-ASSISTED PROJECT (S),,,,
+103,1,310101300003000,"B.2 FOREIGN-ASSISTED PROJECT (S) Mindanao Transport Connectivity Improvement Project, IBRD Loan No. 9775-PH",,,5211754000,5211754000
+103,1,,National Capital Region (NCR),,,5211754000,5211754000
+103,2,,Central Office,,,5211754000,5211754000
+103,2,,Loan Proceeds,,,2898743000,2898743000
+103,2,,GOP Counterpart,,,2313011000,2313011000
+104,1,310106300002000,"Reconstruction and Development Plan for Greater Marawi, Stage 2 , (Bangon Marawi Output 2 ), ADB Loan No. 3769 - PHI",,,2870547000,2870547000
+104,1,,National Capital Region (NCR),,,2870547000,2870547000
+104,2,,Central Office,,,2870547000,2870547000
+104,2,,Loan Proceeds,,,1919101000,1919101000
+104,2,,GOP Counterpart,,,951446000,951446000
+104,1,310204300003000,"Davao City Bypass Construction Project , (South and Center Sections ), Package I, JICA Loan No. PH-P261",,,145817000,145817000
+104,1,,National Capital Region (NCR),,,145817000,145817000
+104,2,,Central Office,,,145817000,145817000
+104,2,,GOP Counterpart,,,145817000,145817000
+104,1,310204300008000,"Philippines-Korea Project Preparation Facility (PK-PPF ), KEDCF Loan No. PHL - 20, Roads and Bridges Facility",,,283528000,283528000
+104,1,,National Capital Region (NCR),,,283528000,283528000
+104,2,,Central Office,,,283528000,283528000
+104,2,,Loan Proceeds,,,192052000,192052000
+104,2,,GOP Counterpart,,,91476000,91476000
+104,1,310204300011000,"Cebu-Mactan Bridge (4th Bridge) and Coastal Road Construction Project, JICA Loan No. PH-P274",,,8570911000,8570911000
+104,1,,National Capital Region (NCR),,,8570911000,8570911000
+104,2,,Central Office,,,8570911000,8570911000
+104,2,,Loan Proceeds,,,6055623000,6055623000
+104,2,,GOP Counterpart,,,2515288000,2515288000
+104,1,310204300013000,"Dalton Pass East Alignment Road Project, JICA Loan No. PH-P280",,,1054475000,1054475000
+104,1,,National Capital Region (NCR),,,1054475000,1054475000
+104,2,,Central Office,,,1054475000,1054475000
+104,2,,Loan Proceeds,,,876690000,876690000
+104,2,,GOP Counterpart,,,177785000,177785000
+104,1,310204300015000,"Bataan-Cavite Interlink Bridge (BCIB) Project, ADB Loan No. 4432 - PHI and AIIB Loan No. L0724A",,,22494406000,22494406000
+104,1,,National Capital Region (NCR),,,22494406000,22494406000
+104,2,,Central Office,,,22494406000,22494406000
+104,2,,Loan Proceeds,,,9176106000,9176106000
+104,2,,GOP Counterpart,,,13318300000,13318300000
+105,1,310204300016000,"Laguna Lakeshore Road Network (LLRN) Project - Phase I, KEDCF Loan No. PHL-27, ADB Loan No. 4523-PHI and AIIB Loan No. L0725A",,,35209919000,35209919000
+105,1,,National Capital Region (NCR),,,35209919000,35209919000
+105,2,,Central Office,,,35209919000,35209919000
+105,2,,Loan Proceeds,,,25731596000,25731596000
+105,2,,GOP Counterpart,,,9478323000,9478323000
+105,1,310204300018000,"Panglao Island-Tagbilaran City Offshore Bridge Connector (PTCOBC ), Main Bridge and Dupinga Bridge, Proposed for French ODA",,,166191000,166191000
+105,1,,National Capital Region (NCR),,,166191000,166191000
+105,2,,Central Office,,,166191000,166191000
+105,2,,GOP Counterpart,,,166191000,166191000
+105,1,310204300019000,"Davao City Bypass Construction Project (II ) (South and Center Sections ), Package I, JICA Loan No. PH-P273",,,4393942000,4393942000
+105,1,,National Capital Region (NCR),,,4393942000,4393942000
+105,2,,Central Office,,,4393942000,4393942000
+105,2,,Loan Proceeds,,,3839554000,3839554000
+105,2,,GOP Counterpart,,,554388000,554388000
+105,1,310204300020000,"Infrastructure Preparation and Innovation Facility (IPIF ), 2nd Additional Financing Output 1: Roads and Bridges, ADB Loan No. 4424 - PHI",,,1057967000,1057967000
+105,1,,National Capital Region (NCR),,,1057967000,1057967000
+105,2,,Central Office,,,1057967000,1057967000
+105,2,,Loan Proceeds,,,1032832000,1032832000
+105,2,,GOP Counterpart,,,25135000,25135000
+105,1,310204300021000,"Davao City Bypass Construction Project (III ) (South and Center Sections ), Package I, JICA Loan No. PH-P282",,,7420440000,7420440000
+105,1,,National Capital Region (NCR),,,7420440000,7420440000
+105,2,,Central Office,,,7420440000,7420440000
+105,2,,Loan Proceeds,,,4206390000,4206390000
+105,2,,GOP Counterpart,,,3214050000,3214050000
+106,1,310204300022000,"Central Mindanao High Standard Highway, Cagayan de Oro-Malaybalay Section, JICA-Assisted",,,87222000,87222000
+106,1,,National Capital Region (NCR),,,87222000,87222000
+106,2,,Central Office,,,87222000,87222000
+106,2,,Loan Proceeds,,,73191000,73191000
+106,2,,GOP Counterpart,,,14031000,14031000
+106,1,310205300002000,"Improving Growth Corridors in Mindanao Road Sector Project (IGCMRSP ), ADB Loan No. 3631-PHI",,,2112530000,2112530000
+106,1,,National Capital Region (NCR),,,2112530000,2112530000
+106,2,,Central Office,,,2112530000,2112530000
+106,2,,Loan Proceeds,,,1506836000,1506836000
+106,2,,GOP Counterpart,,,605694000,605694000
+106,1,310205300004000,"Samar Pacific Coastal Road II Project (Laoang II Bridge and Calomotan Bridge ), KEDCF Loan No. PHL-26",,,1460372000,1460372000
+106,1,,National Capital Region (NCR),,,1460372000,1460372000
+106,2,,Central Office,,,1460372000,1460372000
+106,2,,Loan Proceeds,,,1276612000,1276612000
+106,2,,GOP Counterpart,,,183760000,183760000
+106,1,310304300001000,Metro Manila Priority Bridges Seismic Improvement Project (MMPBSIP) JICA Loan No. PH - National Capital Region (NCR),,,,
+106,2,,Central Office,,,2864678000,2864678000
+106,2,,Loan Proceeds,,,2668427000,2668427000
+106,2,,GOP Counterpart,,,196251000,196251000
+106,1,310304300002000,Metro Manila Priority Bridges Seismic Improvement Project (MMPBSIP) JICA Loan No. PH - National Capital Region (NCR),,,,
+106,2,,Central Office,,,792964000,792964000
+106,2,,Loan Proceeds,,,359171000,359171000
+106,2,,GOP Counterpart,,,433793000,433793000
+106,1,310306300055000,"Accelerated Bridge Construction Project for Greater Economic Mobility and Calamity Response, Proposed for French ODA",,,1764891000,1764891000
+106,1,,National Capital Region (NCR),,,1764891000,1764891000
+106,2,,Central Office,,,1764891000,1764891000
+106,2,,GOP Counterpart,,,1764891000,1764891000
+107,1,320102300005000,"Cavite Industrial Area Flood Risk Management Project (CIA-FRMP ), JICA Loan Nos. PH-P265 and PH-P284",,,6566805000,6566805000
+107,1,,National Capital Region (NCR),,,6566805000,6566805000
+107,2,,Central Office,,,6566805000,6566805000
+107,2,,Loan Proceeds,,,2988400000,2988400000
+107,2,,GOP Counterpart,,,3578405000,3578405000
+107,1,320102300008000,"Pasig - Marikina River Channel Improvement Project (PMRCIP ), Phase IV, JICA Loan Nos. PH-P271 and PH-P283",,,8539933000,8539933000
+107,1,,National Capital Region (NCR),,,8539933000,8539933000
+107,2,,Central Office,,,8539933000,8539933000
+107,2,,Loan Proceeds,,,4604706000,4604706000
+107,2,,GOP Counterpart,,,3935227000,3935227000
+107,1,320102300011000,"Infrastructure Preparation and Innovation Facility (IPIF ), Additional Financing, Output 2 (Water Projects) ADB Loan No. 3886 - PHI",,,193636000,193636000
+107,1,,National Capital Region (NCR),,,193636000,193636000
+107,2,,Central Office,,,193636000,193636000
+107,2,,Loan Proceeds,,,141215000,141215000
+107,2,,GOP Counterpart,,,52421000,52421000
+107,1,320102300012000,"Integrated Flood Resilience and Adaptation 1 (InFRA 1) Project, ADB Loan No. 4345-PHI",,,3081329000,3081329000
+107,1,,National Capital Region (NCR),,,3081329000,3081329000
+107,2,,Central Office,,,3081329000,3081329000
+107,2,,Loan Proceeds,,,2559730000,2559730000
+107,2,,GOP Counterpart,,,521599000,521599000
+107,1,320102300014000,"Infrastructure Preparation and Innovation Facility (IPIF ), 2nd Additional Financing, Output 2; Water Projects, ADB Loan No. 4424 - PHI",,,1148904000,1148904000
+107,1,,National Capital Region (NCR),,,1148904000,1148904000
+107,2,,Central Office,,,1148904000,1148904000
+107,2,,Loan Proceeds,,,951386000,951386000
+107,2,,GOP Counterpart,,,197518000,197518000
+107,1,320102300016000,Accelerated Water and Sanitation Project in Selected Areas (AWSPSA),,,72880000,72880000
+107,1,,National Capital Region (NCR),,,72880000,72880000
+107,2,,Central Office,,,72880000,72880000
+107,2,,GOP Counterpart,,,72880000,72880000
+108,1,300105300001000,"Philippines Seismic Risk Reduction and Resilience Project (PSRRRP ), IBRD Loan No. 9251-PH",,,182970000,182970000
+108,1,,National Capital Region (NCR),,,182970000,182970000
+108,2,,Central Office,,,182970000,182970000
+108,2,,GOP Counterpart,,,182970000,182970000
+108,,,"Sub-total, Foreign-Assisted Project (s)",,,117749011000,117749011000
+108,,,"Sub-total, Project (s)",,,132182686000,132182686000
+108,0,,TOTAL NEW APPROPRIATIONS,14922297000,24685746000,603003972000,642612015000

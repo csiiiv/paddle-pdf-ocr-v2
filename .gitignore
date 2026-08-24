@@ -14,6 +14,9 @@ xlsx/
 viewer-react/node_modules/
 viewer-react/dist/
 viewer-react/.vite/
+viewer-react-static/node_modules/
+viewer-react-static/dist/
+viewer-react-static/.vite/
 coverage/
 
 # Local recovery copy of the retired static viewer
@@ -24,3 +27,7 @@ viewer (defunct - replaced by viewer-react)/
 .env.*
 !.env.example
 .DS_Store
+
+# Local regenerations of the frozen pack (dev convenience). The deployable
+# copy lives under viewer-react-static/public/static-export/ and is committed.
+/static-export/
