@@ -1,0 +1,181 @@
+/* Mobile viewer density overrides.
+   Landscape phones have very little vertical room, so keep persistent chrome
+   to one row and move secondary actions onto the existing floating controls. */
+
+.app.is-mobile.is-landscape {
+  grid-template-rows: 38px minmax(0, 1fr) 18px;
+}
+
+.app.is-mobile.is-landscape header {
+  height: 38px;
+  min-height: 38px;
+  padding: 3px 6px;
+  overflow: hidden;
+}
+
+.app.is-mobile.is-landscape .mobile-top {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.app.is-mobile.is-landscape .mobile-top-row {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 4px;
+}
+
+.app.is-mobile.is-landscape .mobile-brand {
+  display: none;
+}
+
+.app.is-mobile.is-landscape .mobile-doc {
+  flex: 1 1 120px;
+  width: auto;
+  min-width: 90px;
+  min-height: 30px;
+  height: 30px;
+  padding: 2px 5px;
+  font-size: 11px;
+}
+
+.app.is-mobile.is-landscape .mobile-icon-btn {
+  flex: 0 0 30px;
+  width: 30px;
+  min-height: 30px;
+  height: 30px;
+}
+
+.app.is-mobile.is-landscape .mobile-icon-btn .icon {
+  font-size: 17px !important;
+}
+
+/* PDF/Data is part of the same global row instead of consuming a second row. */
+.app.is-mobile.is-landscape .mobile-switch {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 3px;
+  padding: 0;
+}
+
+.app.is-mobile.is-landscape .mobile-switch button {
+  min-height: 30px;
+  height: 30px;
+  padding: 2px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.app.is-mobile.is-landscape .panel {
+  padding: 3px;
+}
+
+/* Data pane: collapse the multi-row toolbar into one horizontally scrollable
+   context/search row. Secondary actions remain reachable but stop stealing
+   vertical space from the table. */
+.app.is-mobile.is-landscape .tree-panel.is-compact .tree-toolbar {
+  flex-wrap: nowrap;
+  gap: 4px;
+  height: 34px;
+  min-height: 34px;
+  margin-bottom: 3px;
+  padding: 2px 3px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 4px;
+  scrollbar-width: none;
+}
+
+.app.is-mobile.is-landscape .tree-panel.is-compact .tree-toolbar::-webkit-scrollbar {
+  display: none;
+}
+
+.app.is-mobile.is-landscape .tree-panel.is-compact .tree-toolbar .pane-info-btn {
+  display: none;
+}
+
+.app.is-mobile.is-landscape .tree-panel.is-compact .tree-hierarchy-select {
+  flex: 0 0 96px;
+  width: 96px;
+  min-height: 28px;
+  height: 28px;
+  padding: 1px 4px;
+  font-size: 10px;
+}
+
+.app.is-mobile.is-landscape .tree-panel.is-compact .tree-toolbar input[type="search"] {
+  flex: 1 1 150px;
+  width: 150px;
+  min-width: 110px;
+  min-height: 28px;
+  height: 28px;
+  padding: 2px 6px;
+  font-size: 11px;
+}
+
+.app.is-mobile.is-landscape .tree-panel.is-compact .tree-toolbar .check {
+  flex: 0 0 auto;
+  font-size: 10px !important;
+}
+
+.app.is-mobile.is-landscape .tree-panel.is-compact .tree-toolbar .check input {
+  min-height: 0;
+}
+
+.app.is-mobile.is-landscape .tree-panel.is-compact .tree-actions {
+  display: none;
+}
+
+/* Keep table headings compact as well: they are persistent pane chrome. */
+.app.is-mobile.is-landscape .tree-panel.is-compact .tree-th-layout {
+  min-height: 30px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-size: 10px;
+}
+
+.app.is-mobile.is-landscape .col-resize-grip.is-compact {
+  height: 28px;
+}
+
+/* Floating controls should hug the edges and use horizontal space in
+   landscape rather than becoming tall stacks. */
+.app.is-mobile.is-landscape .fab-stack {
+  right: 8px;
+  bottom: 8px;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.app.is-mobile.is-landscape .fab,
+.app.is-mobile.is-landscape .fab:not(.fab-page) {
+  width: 40px;
+  min-height: 40px;
+  height: 40px;
+}
+
+.app.is-mobile.is-landscape .fab-page {
+  min-width: 54px;
+  width: auto;
+  padding: 0 9px;
+  font-size: 13px;
+}
+
+.app.is-mobile.is-landscape .fab-help-pdf {
+  left: 8px;
+  bottom: 8px;
+}
+
+.app.is-mobile.is-landscape .fab-data {
+  right: 8px;
+  bottom: 8px;
+}
+
+.app.is-mobile.is-landscape footer {
+  min-height: 18px;
+  height: 18px;
+  padding: 0 6px;
+  font-size: 9px;
+}
