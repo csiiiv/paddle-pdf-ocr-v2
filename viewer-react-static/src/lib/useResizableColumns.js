@@ -4,6 +4,7 @@ import {useCallback, useEffect, useMemo, useState} from "react";
 export function useResizableColumns(columns) {
   const [widths, setWidths] = useState(() =>
     Object.fromEntries(columns.map((column) => [column.key, column.default])));
+  const [resizingKey, setResizingKey] = useState(null);
 
   useEffect(() => {
     setWidths((previous) => {
@@ -28,6 +29,7 @@ export function useResizableColumns(columns) {
     const handle = event.currentTarget;
     handle.setPointerCapture(event.pointerId);
     document.body.classList.add("col-resizing");
+    setResizingKey(key);
 
     const startX = event.clientX;
     const startWidth = widths[key] ?? column.default;
@@ -48,6 +50,7 @@ export function useResizableColumns(columns) {
       handle.removeEventListener("pointerup", onEnd);
       handle.removeEventListener("pointercancel", onEnd);
       document.body.classList.remove("col-resizing");
+      setResizingKey(null);
     };
 
     handle.addEventListener("pointermove", onMove);
@@ -60,5 +63,5 @@ export function useResizableColumns(columns) {
     [columns, widths],
   );
 
-  return {widths, startResize, totalWidth};
+  return {widths, startResize, totalWidth, resizingKey};
 }

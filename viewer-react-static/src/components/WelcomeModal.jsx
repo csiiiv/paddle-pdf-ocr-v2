@@ -19,7 +19,7 @@ export const persistHideWelcome = () => {
   }
 };
 
-/** First-visit overview of viewer controls and features. */
+/** First-visit overview; detailed controls live in per-pane info buttons. */
 export default function WelcomeModal({open, onClose}) {
   const dialog = useRef(null);
   const [hideNext, setHideNext] = useState(false);
@@ -52,29 +52,23 @@ export default function WelcomeModal({open, onClose}) {
         </button>
       </div>
       <div className="about-body welcome-body">
-        <p>Browse extracted NEP budget tables beside the official PDF.</p>
+        <p>
+          Browse machine-readable NEP budget tables beside the official PDF.
+          The <strong>PDF pane</strong> shows the source document; the <strong>Data pane</strong>
+          shows extracted hierarchy and amounts. Selections can sync between them.
+        </p>
 
-        <h3>PDF pane</h3>
-        <ul>
-          <li><strong>Click a row band on the PDF</strong> to select the matching tree entry.</li>
-          <li><strong>Page</strong> — jump by number, or use the page arrows (and keyboard arrow keys).</li>
-          <li><strong>Zoom</strong> — Fit W, Fit H, or a custom percent. On phones, pinch to zoom; one finger scrolls when zoomed in.</li>
-          <li><strong>Row boxes</strong> — Show overlays, Hide them but keep clicks, or turn Off.</li>
-        </ul>
-
-        <h3>Tree pane</h3>
-        <ul>
-          <li><strong>Click a row in tree data </strong> to select it and sync the PDF (toast if it has no bbox).</li>
-          <li>Switch <strong>By Operating Unit</strong> and <strong>PAP</strong> with the tabs.</li>
-          <li>Expand/collapse with the tree chevrons; search filters label, code, and kind.</li>
-        </ul>
+        <h3>Need help with controls?</h3>
+        <p>
+          Tap the <span className="inline-info-icon"><Icon name="info" size={16}/></span>{" "}
+          <strong>info</strong> button in each pane for a quick guide to that pane&apos;s actions and features.
+        </p>
 
         <h3>Also useful</h3>
         <ul>
           <li><strong>Download data</strong> — JSON and CSV extracts for analysis.</li>
-          <li><strong>About</strong> (footer) — source PDF, repository, and disclaimer.</li>
-          <li>On desktop, drag the center splitter to resize the panes.</li>
-          <li>On phones, use the compact <strong>PDF | Data</strong> switch. Selecting a PDF row jumps to Data and focuses the matching tree entry; selecting a tree row with a PDF location jumps to PDF. Page with the floating arrows / page chip; open extra PDF or tree options from the floating buttons.</li>
+          <li><strong>About</strong> — source PDF, repository, and disclaimer.</li>
+          <li>Shareable links keep document, page, tree, and selection in the URL.</li>
         </ul>
       </div>
       <div className="welcome-footer">

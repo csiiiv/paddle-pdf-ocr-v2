@@ -8,6 +8,7 @@ import {
 } from "../lib/treeHierarchy.js";
 import {DEFAULT_HIERARCHY} from "../lib/viewState.js";
 import {useResizableColumns} from "../lib/useResizableColumns.js";
+import {colGripGutter, colWidth} from "../lib/treeTableLayout.js";
 
 const KNOWN_AMOUNT_ORDER = ["PS","MOOE","CO"];
 
@@ -45,19 +46,26 @@ const hierarchyOptions = [
 
 const amountColumnKey = (role) => `amount:${role}`;
 
-function ResizeHeader({columnKey, className, children, width, onResizeStart}) {
-  return <th className={className} style={{width}}>
-    {children}
-    <span className="col-resize-handle" role="separator" aria-orientation="vertical"
-          aria-label="Resize column"
-          onPointerDown={(event) => onResizeStart(columnKey, event)}/>
+function ResizeHeader({columnKey, className, children, width, compact, active, onResizeStart}) {
+  return <th className={`tree-th-resizable${className ? ` ${className}` : ""}`} style={{width}}>
+    <div className="tree-th-layout">
+      <div className="tree-col-head">{children}</div>
+      <div className="tree-col-gutter">
+        <button type="button"
+                className={`col-resize-grip${active ? " is-active" : ""}${compact ? " is-compact" : ""}`}
+                aria-label="Drag to resize column"
+                onPointerDown={(event) => onResizeStart(columnKey, event)}>
+          <Icon name="arrows_outward" size={compact ? 16 : 14}/>
+        </button>
+      </div>
+    </div>
   </th>;
 }
 
 /** Searchable, collapsible hierarchy table over a slim exported tree. */
 export default function TreePanel({
   tree, currentPage, selectedId, onSelect, compact = false, active = true,
-  hierarchyMode = DEFAULT_HIERARCHY, onHierarchyModeChange,
+  hierarchyMode = DEFAULT_HIERARCHY, onHierarchyModeChange, onOpenHelp,
 }) {
   const nodes = tree?.nodes || [];
   const dualHierarchy = hasDualHierarchy(tree);
@@ -153,17 +161,21 @@ export default function TreePanel({
     () => (tree ? (tree.columns || collectAmountColumns(nodes)) : []),
     [tree, nodes],
   );
-  const columnDefs = useMemo(() => [
-    {key: "label", default: compact ? 280 : 360, min: 160},
-    {key: "kind", default: compact ? 96 : 110, min: 72},
-    {key: "page", default: compact ? 48 : 55, min: 44},
-    ...amountColumns.map((role) => ({
-      key: amountColumnKey(role),
-      default: compact ? 104 : 120,
-      min: 72,
-    })),
-  ], [amountColumns, compact]);
-  const {widths, startResize, totalWidth} = useResizableColumns(columnDefs);
+  const columnDefs = useMemo(() => {
+    const gutter = colGripGutter(compact);
+    return [
+      {key: "kind", default: colWidth(compact ? 96 : 110, compact), min: colWidth(72, compact), gutter},
+      {key: "page", default: colWidth(compact ? 48 : 55, compact), min: colWidth(44, compact), gutter},
+      {key: "label", default: colWidth(compact ? 280 : 360, compact), min: colWidth(160, compact), gutter},
+      ...amountColumns.map((role) => ({
+        key: amountColumnKey(role),
+        default: colWidth(compact ? 104 : 120, compact),
+        min: colWidth(72, compact),
+        gutter,
+      })),
+    ];
+  }, [amountColumns, compact]);
+  const {widths, startResize, totalWidth, resizingKey} = useResizableColumns(columnDefs);
 
   if (!tree) return <p className="muted">No tree loaded.</p>;
 
@@ -177,7 +189,8 @@ export default function TreePanel({
         <option key={option.value} value={option.value}>{option.label}</option>)}
     </select>;
 
-  return <div className={`tree-panel${compact ? " is-compact" : ""}`}>
+  return <div className={`tree-panel${compact ? " is-compact" : ""}`}
+              style={{"--col-grip-gutter": `${colGripGutter(compact)}px`}}>
     {!compact &&
       <div className="card tree-summary">
         <div><strong>{tree.title || tree.id || "Tree"}</strong><br/>
@@ -189,6 +202,10 @@ export default function TreePanel({
         </div>
       </div>}
     <div className="tree-toolbar">
+      {onOpenHelp &&
+        <button type="button" className="pane-info-btn" onClick={onOpenHelp} aria-label="Data pane help">
+          <Icon name="info"/>
+        </button>}
       {compact && hierarchySelect}
       <input aria-label="Search tree" type="search" placeholder={compact ? "Search…" : "Search label, code, or kind…"} value={queryDraft} onChange={(event) => setQueryDraft(event.target.value)}/>
       <label className="check"><input type="checkbox" checked={currentOnly} onChange={(event) => setCurrentOnly(event.target.checked)}/>{compact ? `p.${currentPage ?? "—"}` : `Page ${currentPage} only`}</label>
@@ -207,26 +224,36 @@ export default function TreePanel({
               <col key={column.key} style={{width: widths[column.key]}}/>)}
           </colgroup>
           <thead><tr>
-            <ResizeHeader columnKey="label" width={widths.label} onResizeStart={startResize}>
+            <ResizeHeader columnKey="kind" className="tree-kind-col" width={widths.kind}
+                          compact={compact} active={resizingKey === "kind"} onResizeStart={startResize}>
+              Kind
+            </ResizeHeader>
+            <ResizeHeader columnKey="page" className="tree-page-col" width={widths.page}
+                          compact={compact} active={resizingKey === "page"} onResizeStart={startResize}>
+              Page
+            </ResizeHeader>
+            <ResizeHeader columnKey="label" className="tree-label-col" width={widths.label} compact={compact}
+                          active={resizingKey === "label"} onResizeStart={startResize}>
               <div className="tree-hierarchy-head">
                 <span>Hierarchy label</span>
                 {!compact && hierarchySelect}
               </div>
             </ResizeHeader>
-            <ResizeHeader columnKey="kind" className="tree-kind-col" width={widths.kind}
-                          onResizeStart={startResize}>Kind</ResizeHeader>
-            <ResizeHeader columnKey="page" className="tree-page-col" width={widths.page}
-                          onResizeStart={startResize}>Page</ResizeHeader>
-            {amountColumns.map((role) =>
-              <ResizeHeader key={role} columnKey={amountColumnKey(role)} className="tree-amount-col"
-                            width={widths[amountColumnKey(role)]} onResizeStart={startResize}>
+            {amountColumns.map((role) => {
+              const columnKey = amountColumnKey(role);
+              return <ResizeHeader key={role} columnKey={columnKey} className="tree-amount-col"
+                                   width={widths[columnKey]} compact={compact}
+                                   active={resizingKey === columnKey} onResizeStart={startResize}>
                 {role}
-              </ResizeHeader>)}
+              </ResizeHeader>;
+            })}
           </tr></thead>
           <tbody>{rows.map(({node, depth, hasChildren}) => {
             const selected = selectedId === node.id;
             return <tr key={node.id} data-node-id={node.id} className={`${node.page === currentPage ? "current-page " : ""}${selected ? "selected" : ""}`} onClick={() => select(node)}>
-              <td>
+              <td className="tree-kind">{kindLabel(node.kind)}</td>
+              <td className="tree-page-col">{node.page ? <button className="link" onClick={(event) => {event.stopPropagation(); select(node)}}>p.{node.page}</button> : "—"}</td>
+              <td className="tree-label-col">
                 <div className="tree-label" style={{"--tree-depth":depth}}>
                   {hasChildren
                     ? <button className="tree-toggle" aria-label={`${expanded.has(node.id) ? "Collapse" : "Expand"} ${node.label}`} aria-expanded={expanded.has(node.id)} onClick={(event) => {event.stopPropagation(); toggle(node.id)}}>
@@ -236,8 +263,6 @@ export default function TreePanel({
                   <span><span className={`tree-kind-dot kind-${node.kind}`}/>{node.label || "(blank label)"}{node.code && <code>{node.code}</code>}</span>
                 </div>
               </td>
-              <td className="tree-kind">{kindLabel(node.kind)}</td>
-              <td>{node.page ? <button className="link" onClick={(event) => {event.stopPropagation(); select(node)}}>p.{node.page}</button> : "—"}</td>
               {amountColumns.map((role) => <td key={role} className="tree-amount">{formatAmountCell(node, role) || "—"}</td>)}
             </tr>;
           })}</tbody>

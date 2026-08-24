@@ -27,13 +27,15 @@ button .icon,
 .mobile-icon-btn .icon,
 .fab .icon,
 .modal-close .icon,
-.tree-toggle .icon {
+.tree-toggle .icon,
+.col-resize-grip .icon {
   pointer-events: none;
 }
 button:has(> .icon:only-child),
 .mobile-icon-btn,
 .fab:not(.fab-page),
-.modal-close {
+.modal-close,
+.pane-info-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -248,11 +250,38 @@ main {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 10px;
   padding: 6px 12px;
   background: #1b1f25;
   border-bottom: 1px solid #3a404a;
+}
+.pane-info-btn {
+  flex: 0 0 auto;
+  width: 32px;
+  min-width: 32px;
+  padding: 0;
+  margin-left: auto;
+  color: #9fc9ef;
+  background: #1b2129;
+  border-color: #4a5564;
+}
+.pane-info-btn:hover {
+  background: #2a3544;
+  border-color: #5a7390;
+}
+.pane-info-btn .icon {
+  font-size: 18px;
+}
+.inline-info-icon {
+  display: inline-flex;
+  vertical-align: middle;
+  margin: 0 2px;
+  color: #9fc9ef;
+}
+.pane-help-body {
+  max-height: min(58vh, 480px);
+  overflow: auto;
 }
 .page-input {
   width: 72px;
@@ -364,6 +393,11 @@ aside {
   background: #1b1f25;
   border-bottom: 1px solid #3a404a;
 }
+.panel-tabs .pane-info-btn {
+  margin-left: auto;
+  position: sticky;
+  right: 0;
+}
 .panel-tabs button.active {
   border-color: #43a9ff;
   background: #183853;
@@ -435,6 +469,10 @@ tbody tr.selected {
   flex-direction: column;
   min-height: 0;
   flex: 1;
+  --col-grip-gutter: 30px;
+}
+.tree-panel.is-compact {
+  --col-grip-gutter: 36px;
 }
 .tree-summary {
   display: flex;
@@ -482,64 +520,130 @@ tbody tr.selected {
 .tree-table {
   table-layout: fixed;
   min-width: 720px;
+  border-collapse: separate;
+  border-spacing: 0;
 }
-.tree-table thead th {
+.tree-table thead th.tree-th-resizable {
   position: sticky;
   top: 0;
   z-index: 2;
+  padding: 0;
   background: #20242c;
   box-shadow: 0 1px 0 #3a404a;
-  overflow: hidden;
+  border-right: 1px solid #343a43;
+  vertical-align: middle;
 }
-.tree-table th:first-child,
-.tree-table td:first-child {
+.tree-th-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--col-grip-gutter);
+  align-items: center;
+  gap: 0;
+  min-height: 40px;
+  padding: 6px 0 6px 6px;
+}
+.tree-col-gutter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  position: relative;
+  padding: 0 2px;
+}
+.tree-col-gutter::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: linear-gradient(180deg, #343a43, #5a6b82 45%, #5a6b82 55%, #343a43);
+  pointer-events: none;
+}
+.tree-table tbody td {
+  border-right: 1px solid #2a3038;
+}
+.tree-table th:last-child,
+.tree-table td:last-child {
+  border-right: 0;
+}
+.tree-table th.tree-label-col,
+.tree-table td.tree-label-col {
   min-width: 0;
 }
 .tree-hierarchy-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
+  min-width: 0;
+}
+.tree-hierarchy-head > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .tree-hierarchy-select {
   min-height: 26px;
+  max-width: 100%;
   padding: 2px 6px;
   font-size: 11px;
   color: #dcefff;
   border: 1px solid #4a5564;
   border-radius: 4px;
   background: #1b2129;
+  flex: 0 1 auto;
 }
 .tree-toolbar .tree-hierarchy-select {
   flex: 0 0 auto;
   max-width: 118px;
 }
-.col-resize-handle {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 3;
-  width: 10px;
-  height: 100%;
-  margin-right: -5px;
+.tree-toolbar .pane-info-btn {
+  margin-left: 0;
+}
+.tree-col-head {
+  min-width: 0;
+  padding-right: 6px;
+  overflow: hidden;
+}
+.tree-table th.tree-amount-col .tree-col-head {
+  text-align: right;
+  padding-right: 6px;
+  padding-left: 2px;
+}
+.col-resize-grip {
+  position: relative;
+  z-index: 1;
+  width: 16px;
+  height: 34px;
+  padding: 0;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: col-resize;
   touch-action: none;
+  color: #9eb4cc;
+  background: linear-gradient(180deg, #2a3340 0%, #1f2731 100%);
+  border: 1px solid #5a7390;
+  border-radius: 999px;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
-.col-resize-handle::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 2px;
-  transform: translateX(-50%);
-  background: transparent;
-  transition: background 120ms ease;
+.col-resize-grip .icon {
+  pointer-events: none;
+  opacity: 0.95;
 }
-.col-resize-handle:hover::after,
-.col-resize-handle:focus-visible::after,
-body.col-resizing .col-resize-handle::after {
-  background: #5a9fd4;
+.col-resize-grip:hover,
+.col-resize-grip:focus-visible,
+.col-resize-grip.is-active {
+  color: #eef6ff;
+  background: linear-gradient(180deg, #3a6284 0%, #2a4f6c 100%);
+  border-color: #79b8f3;
+  box-shadow:
+    0 0 0 1px #1a3044,
+    0 3px 10px rgba(67, 169, 255, 0.25);
 }
 body.col-resizing {
   cursor: col-resize;
@@ -559,7 +663,7 @@ body.col-resizing .tree-table-wrap {
   white-space: nowrap;
 }
 .tree-table th.tree-page-col,
-.tree-table td:nth-child(3) {
+.tree-table td.tree-page-col {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -773,225 +877,263 @@ footer {
 .sheet-backdrop {
   display: none;
 }
-@media (max-width: 800px) {
-  .app.is-mobile {
-    grid-template-rows: auto minmax(0, 1fr) 24px;
-  }
-  .app.is-mobile header {
-    min-height: 0;
-    padding: 6px 8px 0;
-    flex-wrap: nowrap;
-  }
-  .mobile-top {
-    display: grid;
-    width: 100%;
-    gap: 6px;
-  }
-  .mobile-top-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .mobile-brand {
-    flex: 0 0 auto;
-    font-size: 13px;
-    letter-spacing: -0.01em;
-  }
-  .mobile-doc {
-    flex: 1 1 auto;
-    min-width: 0;
-    min-height: 34px;
-    font-size: 12px;
-  }
-  .mobile-icon-btn {
-    flex: 0 0 34px;
-    width: 34px;
-    min-height: 34px;
-    padding: 0;
-    font-weight: 700;
-  }
-  .mobile-switch {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px;
-    padding: 0 0 6px;
-    background: transparent;
-    border: 0;
-  }
-  .mobile-switch button {
-    min-height: 36px;
-    font-size: 13px;
-    font-weight: 600;
-    border-radius: 999px;
-  }
-  main.mobile-layout {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: minmax(0, 1fr);
-  }
-  main.mobile-layout .pdf-pane,
-  main.mobile-layout .splitter,
-  main.mobile-layout aside {
-    grid-area: 1 / 1;
-  }
-  main.mobile-layout .splitter {
-    display: none;
-  }
-  main.mobile-layout .pdf-pane,
-  main.mobile-layout aside {
-    min-width: 0;
-    min-height: 0;
-    width: 100%;
-    height: 100%;
-  }
-  main.mobile-layout[data-pane="data"] .pdf-pane,
-  main.mobile-layout[data-pane="pdf"] aside {
-    visibility: hidden;
-    pointer-events: none;
-    z-index: 0;
-  }
-  main.mobile-layout[data-pane="pdf"] .pdf-pane,
-  main.mobile-layout[data-pane="data"] aside {
-    visibility: visible;
-    pointer-events: auto;
-    z-index: 1;
-  }
-  .app.is-mobile .panel {
-    padding: 6px;
-  }
-  .tree-panel.is-compact .tree-toolbar {
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 6px;
-    padding: 6px;
-  }
-  .tree-panel.is-compact .tree-toolbar input[type="search"] {
-    flex: 1 1 100%;
-    min-width: 0;
-    min-height: 38px;
-  }
-  .tree-panel.is-compact .tree-actions {
-    margin-left: auto;
-  }
-  .tree-panel.is-compact .tree-actions button {
-    min-height: 34px;
-    font-size: 12px;
-  }
-  .tree-panel.is-compact .col-resize-handle {
-    width: 16px;
-    margin-right: -8px;
-  }
-  .fab-stack {
-    display: flex;
-    position: absolute;
-    right: 12px;
-    bottom: 16px;
-    z-index: 6;
-    flex-direction: column;
-    gap: 8px;
-    pointer-events: none;
-  }
-  .fab {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: auto;
-    width: 48px;
-    min-height: 48px;
-    padding: 0;
-    border-radius: 999px;
-    background: #1e2834ee;
-    border-color: #5a7390;
-    box-shadow: 0 8px 20px #00000088;
-    font-size: 18px;
-    font-weight: 600;
-  }
-  .fab-page {
-    width: auto;
-    min-width: 48px;
-    padding: 0 12px;
-    flex-direction: column;
-    gap: 0;
-    line-height: 1.1;
-    font-size: 15px;
-  }
-  .fab-page span {
-    font-size: 10px;
-    color: #9eb0c4;
-    font-weight: 500;
-  }
-  .fab-data {
-    position: absolute;
-    right: 12px;
-    bottom: 16px;
-    z-index: 6;
-  }
-  .sheet-backdrop {
-    display: grid;
-    place-items: end center;
-    position: fixed;
-    inset: 0;
-    z-index: 45;
-    background: #0b0d1199;
-    padding: 0;
-  }
-  .sheet {
-    width: 100%;
-    max-height: min(72vh, 520px);
-    overflow: auto;
-    padding: 8px 14px 16px;
-    background: #1b1f25;
-    border: 1px solid #46505e;
-    border-bottom: 0;
-    border-radius: 16px 16px 0 0;
-    box-shadow: 0 -12px 32px #00000088;
-  }
-  .sheet-handle {
-    width: 36px;
-    height: 4px;
-    margin: 4px auto 10px;
-    border-radius: 999px;
-    background: #5a6574;
-  }
-  .sheet-title {
-    margin: 0 0 8px;
-    font-size: 13px;
-    font-weight: 600;
-  }
-  .sheet-toolbar {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 10px 12px;
-    padding: 0 0 10px;
-    background: transparent;
-    border: 0;
-  }
-  .sheet-toolbar button,
-  .sheet-toolbar select,
-  .sheet-toolbar input {
-    min-height: 40px;
-  }
-  .sheet-tabs {
-    padding: 0 0 10px;
-    background: transparent;
-    border: 0;
-  }
-  .sheet-tabs button {
-    min-height: 40px;
-  }
-  .sheet-done {
-    width: 100%;
-    min-height: 42px;
-    margin-top: 4px;
-    font-weight: 600;
-  }
-  .status {
-    display: none;
-  }
-  .app.is-mobile footer {
-    min-height: 24px;
-    padding: 0 10px;
-  }
-  .pdf-scroll-pinch {
-    touch-action: pan-x pan-y;
-  }
+.app.is-mobile {
+  height: 100dvh;
+  max-height: 100dvh;
+  grid-template-rows: auto minmax(0, 1fr) 24px;
+}
+.app.is-mobile header {
+  min-height: 0;
+  padding: 6px 8px 0;
+  flex-wrap: nowrap;
+}
+.app.is-mobile.is-landscape header {
+  padding: 4px 8px 0;
+}
+.mobile-top {
+  display: none;
+}
+.app.is-mobile .mobile-top {
+  display: grid;
+  width: 100%;
+  gap: 6px;
+}
+.app.is-mobile.is-landscape .mobile-top {
+  gap: 4px;
+}
+.mobile-top-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.mobile-brand {
+  flex: 0 0 auto;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+}
+.mobile-doc {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 34px;
+  font-size: 12px;
+}
+.mobile-icon-btn {
+  flex: 0 0 34px;
+  width: 34px;
+  min-height: 34px;
+  padding: 0;
+  font-weight: 700;
+}
+.mobile-switch {
+  display: none;
+}
+.app.is-mobile .mobile-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 0 0 6px;
+  background: transparent;
+  border: 0;
+}
+.app.is-mobile.is-landscape .mobile-switch {
+  padding-bottom: 4px;
+}
+.app.is-mobile.is-landscape .mobile-switch button {
+  min-height: 32px;
+}
+.mobile-switch button {
+  min-height: 36px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+}
+main.mobile-layout {
+  grid-template-columns: 1fr !important;
+  grid-template-rows: minmax(0, 1fr);
+}
+main.mobile-layout .pdf-pane,
+main.mobile-layout .splitter,
+main.mobile-layout aside {
+  grid-area: 1 / 1;
+}
+main.mobile-layout .splitter {
+  display: none;
+}
+main.mobile-layout .pdf-pane,
+main.mobile-layout aside {
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+main.mobile-layout[data-pane="data"] .pdf-pane,
+main.mobile-layout[data-pane="pdf"] aside {
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+main.mobile-layout[data-pane="pdf"] .pdf-pane,
+main.mobile-layout[data-pane="data"] aside {
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 1;
+}
+.app.is-mobile .panel {
+  padding: 6px;
+}
+.app.is-mobile.is-landscape .panel {
+  padding: 4px;
+}
+.tree-panel.is-compact .tree-toolbar {
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+  padding: 6px;
+}
+.tree-panel.is-compact .tree-toolbar input[type="search"] {
+  flex: 1 1 100%;
+  min-width: 0;
+  min-height: 38px;
+}
+.tree-panel.is-compact .tree-actions {
+  margin-left: auto;
+}
+.tree-panel.is-compact .tree-actions button {
+  min-height: 34px;
+  font-size: 12px;
+}
+.app.is-mobile .col-resize-grip.is-compact {
+  width: 20px;
+  height: 42px;
+}
+.app.is-mobile .tree-panel.is-compact .tree-th-layout {
+  min-height: 46px;
+}
+.app.is-mobile .fab-stack {
+  display: flex;
+  position: absolute;
+  right: 12px;
+  bottom: 16px;
+  z-index: 6;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.app.is-mobile .fab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  width: 48px;
+  min-height: 48px;
+  padding: 0;
+  border-radius: 999px;
+  background: #1e2834ee;
+  border-color: #5a7390;
+  box-shadow: 0 8px 20px #00000088;
+  font-size: 18px;
+  font-weight: 600;
+}
+.app.is-mobile .fab-help-pdf {
+  display: inline-flex;
+  position: absolute;
+  left: 12px;
+  bottom: 16px;
+  z-index: 6;
+  pointer-events: auto;
+}
+.app.is-mobile .fab-page {
+  width: auto;
+  min-width: 48px;
+  padding: 0 12px;
+  flex-direction: column;
+  gap: 0;
+  line-height: 1.1;
+  font-size: 15px;
+}
+.app.is-mobile .fab-page span {
+  font-size: 10px;
+  color: #9eb0c4;
+  font-weight: 500;
+}
+.app.is-mobile .fab-data {
+  position: absolute;
+  right: 12px;
+  bottom: 16px;
+  z-index: 6;
+}
+.app.is-mobile .sheet-backdrop {
+  display: grid;
+  place-items: end center;
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: #0b0d1199;
+  padding: 0;
+}
+.app.is-mobile .sheet {
+  width: 100%;
+  max-height: min(72vh, 520px);
+  overflow: auto;
+  padding: 8px 14px 16px;
+  background: #1b1f25;
+  border: 1px solid #46505e;
+  border-bottom: 0;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -12px 32px #00000088;
+}
+.app.is-mobile .sheet-handle {
+  width: 36px;
+  height: 4px;
+  margin: 4px auto 10px;
+  border-radius: 999px;
+  background: #5a6574;
+}
+.app.is-mobile .sheet-title {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.app.is-mobile .sheet-toolbar {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 10px 12px;
+  padding: 0 0 10px;
+  background: transparent;
+  border: 0;
+}
+.app.is-mobile .sheet-toolbar button,
+.app.is-mobile .sheet-toolbar select,
+.app.is-mobile .sheet-toolbar input {
+  min-height: 40px;
+}
+.app.is-mobile .sheet-tabs {
+  padding: 0 0 10px;
+  background: transparent;
+  border: 0;
+}
+.app.is-mobile .sheet-tabs button {
+  min-height: 40px;
+}
+.app.is-mobile .sheet-done {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+.app.is-mobile .status {
+  display: none;
+}
+.app.is-mobile footer {
+  min-height: 24px;
+  padding: 0 10px;
+}
+.app.is-mobile.is-landscape {
+  grid-template-rows: auto minmax(0, 1fr) 20px;
+}
+.app.is-mobile.is-landscape footer {
+  min-height: 20px;
+}
+.app.is-mobile .pdf-scroll-pinch {
+  touch-action: pan-x pan-y;
 }

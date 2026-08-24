@@ -3,7 +3,7 @@ import Icon from "./Icon.jsx";
 
 export default function PdfToolbar({
   page, pageDraft, pdfPageCount, zoom, overlayMode, syncEnabled,
-  onPrev, onNext, onPageChange, onPageBlur, onZoom, onOverlay, onSync,
+  onPrev, onNext, onPageChange, onPageBlur, onZoom, onOverlay, onSync, onHelp,
 }) {
   return <>
     <div className="group"><label>Page</label>
@@ -49,5 +49,9 @@ export default function PdfToolbar({
         {syncEnabled ? "Sync on" : "Sync off"}
       </button>
     </div>
+    {onHelp &&
+      <button type="button" className="pane-info-btn" onClick={onHelp} aria-label="PDF pane help">
+        <Icon name="info"/>
+      </button>}
   </>;
 }

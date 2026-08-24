@@ -4,29 +4,17 @@ import {DEFAULT_PANE, PANE_MODES, parseView, writeView, DEFAULT_HIERARCHY, HIERA
 import DownloadModal from "./components/DownloadModal.jsx";
 import AboutModal from "./components/AboutModal.jsx";
 import WelcomeModal, {shouldShowWelcome} from "./components/WelcomeModal.jsx";
+import PaneHelpModal from "./components/PaneHelpModal.jsx";
+import {DataPaneHelpContent, PdfPaneHelpContent} from "./lib/paneHelpContent.jsx";
 import PdfPane from "./components/PdfPane.jsx";
 import PdfToolbar from "./components/PdfToolbar.jsx";
 import Icon from "./components/Icon.jsx";
 import TreePanel from "./components/TreePanel.jsx";
-
-const MOBILE_QUERY = "(max-width: 800px)";
-
-function useIsMobile() {
-  const [mobile, setMobile] = useState(() =>
-    typeof matchMedia !== "undefined" && matchMedia(MOBILE_QUERY).matches);
-  useEffect(() => {
-    const mql = matchMedia(MOBILE_QUERY);
-    const onChange = () => setMobile(mql.matches);
-    onChange();
-    mql.addEventListener("change", onChange);
-    return () => mql.removeEventListener("change", onChange);
-  }, []);
-  return mobile;
-}
+import {useViewportLayout} from "./lib/useViewportLayout.js";
 
 export default function App() {
   const initial = useMemo(() => parseView(new URLSearchParams(location.search)), []);
-  const isMobile = useIsMobile();
+  const {isMobile, landscape} = useViewportLayout();
   const [docs, setDocs] = useState([]);
   const [doc, setDoc] = useState(initial.doc);
   const [manifest, setManifest] = useState(null);
@@ -49,6 +37,8 @@ export default function App() {
   const [downloadOpen, setDownloadOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [welcomeOpen, setWelcomeOpen] = useState(() => shouldShowWelcome());
+  const [pdfHelpOpen, setPdfHelpOpen] = useState(false);
+  const [dataHelpOpen, setDataHelpOpen] = useState(false);
   const [pdfSheetOpen, setPdfSheetOpen] = useState(false);
   const [dataSheetOpen, setDataSheetOpen] = useState(false);
   const [pdfPageCount, setPdfPageCount] = useState(null);
@@ -131,10 +121,10 @@ export default function App() {
     const params = new URLSearchParams();
     writeView(params, {
       doc, tree:treeId, page, node:selectedNode?.id || "", zoom, split,
-      overlay:overlayMode, pane:mobilePane, hierarchy:hierarchyMode,
+      overlay:overlayMode, pane:isMobile ? mobilePane : DEFAULT_PANE, hierarchy:hierarchyMode,
     });
     history.replaceState(null, "", `${location.pathname}?${params.toString()}`);
-  }, [doc, treeId, page, selectedNode, zoom, split, overlayMode, mobilePane, hierarchyMode]);
+  }, [doc, treeId, page, selectedNode, zoom, split, overlayMode, isMobile, mobilePane, hierarchyMode]);
 
   useEffect(() => {
     const move = (e) => {
@@ -241,9 +231,14 @@ export default function App() {
     onPageChange={(value) => { setPageDraft(value); if (value !== "") goToPage(value); }}
     onPageBlur={commitPageDraft} onZoom={setZoom} onOverlay={setOverlayMode}
     onSync={() => setSyncEnabled((on) => !on)}
+    onHelp={() => setPdfHelpOpen(true)}
   />;
 
-  return <div className={`app${isMobile ? " is-mobile" : ""}`}>
+  const mainStyle = isMobile ? undefined : {
+    gridTemplateColumns: `minmax(360px,${split}%) 6px minmax(300px,1fr)`,
+  };
+
+  return <div className={`app${isMobile ? " is-mobile" : ""}${isMobile && landscape ? " is-landscape" : ""}`}>
     <header>
       {isMobile
         ? <div className="mobile-top">
@@ -286,10 +281,16 @@ export default function App() {
     <DownloadModal open={downloadOpen} files={downloadFiles} onClose={() => setDownloadOpen(false)} />
     <AboutModal open={aboutOpen} onClose={() => setAboutOpen(false)} />
     <WelcomeModal open={welcomeOpen} onClose={() => setWelcomeOpen(false)} />
+    <PaneHelpModal open={pdfHelpOpen} title="PDF pane" onClose={() => setPdfHelpOpen(false)}>
+      <PdfPaneHelpContent isMobile={isMobile}/>
+    </PaneHelpModal>
+    <PaneHelpModal open={dataHelpOpen} title="Data pane" onClose={() => setDataHelpOpen(false)}>
+      <DataPaneHelpContent isMobile={isMobile}/>
+    </PaneHelpModal>
     {toast && <div key={toastTick} className="toast" role="status" aria-live="polite">{toast}</div>}
     <main className={isMobile ? "mobile-layout" : undefined}
           data-pane={isMobile ? mobilePane : undefined}
-          style={isMobile ? undefined : {gridTemplateColumns:`minmax(360px,${split}%) 6px minmax(300px,1fr)`}}>
+          style={mainStyle}>
       <div className="pdf-pane">
         {!isMobile && <div className="pdf-toolbar">{pdfToolbar}</div>}
         <div className="pdf-view">
@@ -299,6 +300,11 @@ export default function App() {
                    onNodeClick={syncEnabled ? ((node) => selectNode(node)) : undefined}
                    onDocumentLoad={setPdfPageCount}
                    onZoomChange={setZoom} pinchZoom={isMobile} />
+          {isMobile &&
+            <button type="button" className="fab fab-help-pdf" onClick={() => setPdfHelpOpen(true)}
+                    aria-label="PDF pane help">
+              <Icon name="info" size={24}/>
+            </button>}
           {isMobile &&
             <div className="fab-stack">
               <button type="button" className="fab" disabled={!page || page <= 1}
@@ -328,6 +334,10 @@ export default function App() {
           <div className="panel-tabs" role="tablist" aria-label="Tree selection">
             {(manifest?.trees || []).map((meta) =>
               <button key={meta.id} role="tab" aria-selected={meta.id === treeId} className={meta.id === treeId ? "active" : ""} onClick={() => setTreeId(meta.id)}>{meta.label}</button>)}
+            <button type="button" className="pane-info-btn" onClick={() => setDataHelpOpen(true)}
+                    aria-label="Data pane help">
+              <Icon name="info"/>
+            </button>
           </div>}
         <div className="panel">
           {treeLoading && <p className="muted">Loading tree…</p>}
@@ -338,6 +348,7 @@ export default function App() {
                        onHierarchyModeChange={(mode) => {
                          if (HIERARCHY_MODES.includes(mode)) setHierarchyMode(mode);
                        }}
+                       onOpenHelp={isMobile ? () => setDataHelpOpen(true) : undefined}
                        onSelect={(node) => selectNode(node, {fromTree:true})} />}
         </div>
         {isMobile &&
