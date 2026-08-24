@@ -8,15 +8,37 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT = path.resolve(HERE, "..");
 const MIME = {".json":"application/json; charset=utf-8", ".pdf":"application/pdf"};
 
+function buildFlagIndex(run) {
+  const pagesDir = path.join(PROJECT, "output", run, "002.20-table-structure", "pages");
+  if (!fs.existsSync(pagesDir)) return [];
+  return fs.readdirSync(pagesDir).filter((name)=>/^page-\d+\.json$/.test(name)).sort().flatMap((name)=>{
+    try {
+      const payload = JSON.parse(fs.readFileSync(path.join(pagesDir, name), "utf8"));
+      const n = Number(payload?.diagnostics?.n_flags ?? payload?.flagged_objects?.length ?? 0);
+      const page = Number(payload?.page ?? name.match(/page-(\d+)/)?.[1]);
+      return Number.isInteger(page) && n > 0 ? [{page, n_flags:n}] : [];
+    } catch { return []; }
+  });
+}
+
 function repositoryData() {
   const handler = (req, res, next) => {
-    if (req.url?.split("?")[0] === "/api/runs") {
+    const url = new URL(req.url || "/", "http://localhost");
+    if (url.pathname === "/api/runs") {
       const root = path.join(PROJECT, "output");
       const runs = fs.existsSync(root) ? fs.readdirSync(root, {withFileTypes:true})
         .filter((entry)=>entry.isDirectory() && fs.existsSync(path.join(root, entry.name, "viewer.json")))
         .map((entry)=>entry.name).sort() : [];
       res.setHeader("Content-Type", "application/json; charset=utf-8");
       res.end(JSON.stringify(runs)); return;
+    }
+    if (url.pathname === "/api/flag-index") {
+      const run = url.searchParams.get("run") || "";
+      const safe = run && !run.includes("/") && !run.includes("..");
+      const pages = safe ? buildFlagIndex(run) : [];
+      const total = pages.reduce((sum, item)=>sum + item.n_flags, 0);
+      res.setHeader("Content-Type", "application/json; charset=utf-8");
+      res.end(JSON.stringify({run, n_flags:total, n_flagged_pages:pages.length, pages})); return;
     }
     const match = req.url?.split("?")[0].match(/^\/(output|pdfs|fixtures)\/(.+)$/);
     if (!match) return next();

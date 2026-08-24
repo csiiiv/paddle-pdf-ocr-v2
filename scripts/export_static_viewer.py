@@ -145,12 +145,13 @@ def rewrite_amounts(node: dict[str, Any],
     return amounts, total
 
 
-def slim_node(node: dict[str, Any], mapping: dict[str, str] | None = None) -> dict[str, Any]:
+def slim_node(node: dict[str, Any], mapping: dict[str, str] | None = None,
+              *, dual_hierarchy: bool = False) -> dict[str, Any]:
     key_map = mapping or {}
     amounts, total = rewrite_amounts(node, key_map)
-    return {
+    slim: dict[str, Any] = {
         "id": node.get("id"),
-        "parent": node.get("parent"),
+        "parent": node.get("parent_prexc") if dual_hierarchy else node.get("parent"),
         "kind": node.get("kind"),
         "tier": node.get("tier"),
         "label": node.get("label"),
@@ -159,8 +160,13 @@ def slim_node(node: dict[str, Any], mapping: dict[str, str] | None = None) -> di
         "bbox": node.get("bbox"),
         "amounts": amounts,
         "total": total,
-        "children": node.get("children") or [],
     }
+    if dual_hierarchy:
+        slim["parent_pdf"] = node.get("parent_pdf")
+        slim["parent_prexc"] = node.get("parent_prexc")
+    else:
+        slim["children"] = node.get("children") or []
+    return slim
 
 
 def validate_tree(slim: dict[str, Any], source: Path) -> None:
@@ -172,13 +178,24 @@ def validate_tree(slim: dict[str, Any], source: Path) -> None:
     if not roots:
         raise ValueError(f"Tree has no roots: {source}")
     by_id = {node["id"]: node for node in nodes}
+    dual = bool(slim.get("hierarchy_modes"))
+    parent_fields = ("parent_pdf", "parent_prexc") if dual else ("parent",)
     for node in nodes:
-        if node["id"] in roots and node["parent"] is not None:
-            raise ValueError(f"Root {node['id']} has a parent in {source}")
-        if node["id"] not in roots and node["parent"] not in ids:
-            raise ValueError(f"Node {node['id']} has unresolvable parent "
-                             f"{node['parent']!r} in {source}")
-        for child in node["children"]:
+        if node["id"] in roots:
+            for field in parent_fields:
+                if node.get(field) is not None:
+                    raise ValueError(f"Root {node['id']} has {field} in {source}")
+            continue
+        for field in parent_fields:
+            parent = node.get(field)
+            if parent not in ids:
+                raise ValueError(f"Node {node['id']} has unresolvable {field} "
+                                 f"{parent!r} in {source}")
+        if dual:
+            if node["bbox"] is not None and node["page"] is None:
+                raise ValueError(f"Node {node['id']} has bbox without page in {source}")
+            continue
+        for child in node.get("children") or []:
             if child not in ids:
                 raise ValueError(f"Node {node['id']} references missing child "
                                  f"{child!r} in {source}")
@@ -236,14 +253,17 @@ def export_tree(tree_id: str, stage_name: str, run_root: Path, out_dir: Path,
     source = run_root / STAGE_DIRS[stage_name] / "tree.json"
     tree = read_json(source)
     raw_nodes = tree.get("nodes") or []
+    if tree_id == "by-ou":
+        raw_nodes = [node for node in raw_nodes if not node.get("synthetic")]
     column_map = (resolve_by_ou_columns(raw_nodes) if tree_id == "by-ou" else {})
     pap_name = PAP_COLUMN_NAME if tree_id == "pap" else None
+    dual_hierarchy = tree_id == "by-ou"
     nodes = []
     for node in raw_nodes:
         mapping = column_map.get(int(node.get("page") or -1), {}) if node.get("page") else {}
         if pap_name:
             mapping = {role: pap_name for role in (node.get("amounts") or {})}
-        slim = slim_node(node, mapping)
+        slim = slim_node(node, mapping, dual_hierarchy=dual_hierarchy)
         if pap_name and slim["total"] and slim["total"].get("role"):
             slim["total"]["role"] = pap_name
         nodes.append(slim)
@@ -254,6 +274,9 @@ def export_tree(tree_id: str, stage_name: str, run_root: Path, out_dir: Path,
         "roots": tree.get("roots") or [],
         "nodes": nodes,
     }
+    if dual_hierarchy:
+        slim["hierarchy_modes"] = ["pdf", "prexc"]
+        slim["default_hierarchy"] = "prexc"
     present = {role for node in nodes for role in (node.get("amounts") or {})}
     present.update(node["total"]["role"] for node in nodes
                    if node.get("total") and node["total"].get("role"))

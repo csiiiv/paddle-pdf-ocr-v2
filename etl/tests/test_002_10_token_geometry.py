@@ -39,6 +39,14 @@ def test_recurring_right_aligned_amount_column_is_measured_not_classified() -> N
     assert result["fit_candidates"][0]["n_pairs"] == 3
     assert result["column_candidates"][0]["amount_left_x"] == 500
     assert result["label_indent_anchors"][0]["n_phrases"] == 3
+    assert result["phrases"][0]["relative_anchor"] == {
+        "alignment_edge": "left", "raw_x": 100.0, "corrected_x": 100.0,
+        "reference_right_x": 560.0, "distance_pt": 460.0,
+        "reference_support": "rightmost_recurring_amount_anchor",
+        "drift_slope_dx_dy": 0.0,
+    }
+    assert result["phrases"][1]["relative_anchor"]["distance_pt"] == 0.0
+    assert result["phrases"][1]["relative_anchor"]["alignment_edge"] == "right"
     assert len(result["separator_candidates"]) == 3
     assert "classification" not in result
     assert "candidate_cells" not in result
@@ -98,6 +106,60 @@ def test_generic_phrase_split_requires_nine_physical_points() -> None:
     assert result["gaps"][0]["gap_pt"] == 8
     assert result["gaps"][0]["split"] is False
     assert [phrase["text"] for phrase in result["phrases"]] == ["Alpha Beta"]
+
+
+def test_program_code_is_split_from_following_label_and_not_money() -> None:
+    tokens = [
+        tok("100000000000000", [131.4, 20, 190.8, 29], 0),
+        tok("General", [201.24, 20, 226.44, 29], 1),
+        tok("Administration", [236.16, 20, 290.52, 29], 1),
+    ]
+    result = derive_token_geometry(tokens, page_size=[720, 864])
+    assert [phrase["text"] for phrase in result["phrases"]] == [
+        "100000000000000", "General Administration",
+    ]
+    assert [phrase["observation"] for phrase in result["phrases"]] == [
+        "code_candidate", "text_candidate",
+    ]
+    assert result["gaps"][0]["reason"] == "program_code_boundary"
+    assert result["gaps"][0]["estimated_spaces"] < 3
+    assert all(0 not in indent["phrase_ids"] for indent in result["label_indent_anchors"])
+
+
+def test_amount_aligned_label_is_main_and_unaligned_label_is_wrapped() -> None:
+    tokens = []
+    for row, y in enumerate((20, 40, 60)):
+        tokens.extend([
+            tok("Wrapped" if row == 0 else f"Main {row}", [100, y, 180, y + 9], row),
+            *([] if row == 0 else [tok(f"{row},000,000", [500, y, 560, y + 9], row)]),
+        ])
+    result = derive_token_geometry(tokens, page_size=[600, 100])
+    labels = [phrase for phrase in result["phrases"]
+              if phrase["observation"] in {"text_candidate", "mixed_candidate"}]
+    assert labels[0]["text_candidate_type"] == "wrapped_text_candidate"
+    assert [phrase["text_candidate_type"] for phrase in labels[1:]] == [
+        "main_text_candidate", "main_text_candidate",
+    ]
+    assert labels[1]["aligned_amount_phrase_ids"]
+
+
+def test_detached_and_attached_currency_prefixes_split_amount_columns() -> None:
+    tokens = [
+        tok("TOTAL", [40, 20, 80, 29], 0),
+        tok("P", [280, 20, 282, 29], 0), tok("14", [289, 20, 297, 29], 0),
+        tok(",", [299, 20, 301, 29], 0), tok("922", [304, 20, 316, 29], 0),
+        tok("P603", [324, 20, 340, 29], 0), tok(",", [343, 20, 345, 29], 0),
+        tok("000", [348, 20, 360, 29], 0),
+    ]
+    result = derive_token_geometry(tokens, page_size=[400, 100])
+    assert [phrase["text"] for phrase in result["phrases"]] == [
+        "TOTAL", "P 14, 922", "P603, 000",
+    ]
+    assert [phrase["observation"] for phrase in result["phrases"]] == [
+        "text_candidate", "money_candidate", "money_candidate",
+    ]
+    reasons = [gap["reason"] for gap in result["gaps"] if gap["split"]]
+    assert reasons.count("currency_prefix_boundary") == 2
 
 
 def test_sloped_amount_edges_merge_after_drift_correction() -> None:

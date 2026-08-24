@@ -18,24 +18,75 @@ and thresholds. It is not a trained OCR or layout model. PaddleOCR still creates
 the source tokens; stage `002.10` deterministically derives measurements from the
 retained token text and bounding boxes.
 
+Whitespace is measured in representative character-width units, not relative
+to other observed gaps. A leftmost standalone token of 12 or more digits is
+separated from following label text by an explicit program-code boundary even
+when its gap is narrower than the normal 9 pt / three-character-space rule. It
+is classified as `code_candidate` and excluded from label-indent evidence. This
+prevents program codes from becoming money phrases or contaminating downstream
+label text while retaining source provenance.
+
 ## Final pipeline position
 
 The active extraction sequence is now:
 
 ```text
 001.00 Paddle OCR
-  ├──→ 002.10 Token Geometry
-  └──→ 004.00 Extract → 005.00 Schema
+  └──→ 002.10 Token Geometry → 002.20 Table Structure
 ```
 
-The old `002.00-layout` and `003.00-table-cells` model stages are inactive. Their
-scripts and retained artifacts remain available only for explicitly labeled A/B
-comparison in the viewer. Canonical extract generation does not read them.
+The retired model layout/cells and fallback extract/schema stages are archived
+under `etl/archive/`. The maintained viewer and active DAG do not load them.
 
 Token geometry is measurement-only. It does not yet classify PAP versus By-OU,
 own wrapped lines, construct rows, materialize cells, or assign semantic
 hierarchy. Those decisions belong to the planned deterministic table-structure
 stage.
+
+Each non-marker, non-code phrase retains a skew-corrected measurement relative
+to the page's rightmost recurring amount anchor. Label and mixed-text phrases
+use their left edge; money phrases use their right edge. If recurring evidence
+is unavailable, the rightmost singleton amount anchor is retained as a
+provisional reference. These distances support downstream amount-slot and
+hierarchy clustering without assigning semantic roles in stage `002.10`.
+
+Text-like phrases are further tagged as `main_text_candidate` when they are the
+leftmost eligible label phrase on a band containing amount anchors. Other
+text-like phrases remain `wrapped_text_candidate`. Stage `002.20` applies an
+explicit reviewed layout span to the repaired `002.11` geometry: By-OU rows
+wrap upward and end at a main-text boundary; PAP rows wrap downward and begin
+at a main-text boundary. Pages not covered by a reviewed layout span remain
+classified for review.
+
+Row boundaries reuse the main phrase's existing baseline-band segment. They do
+not reconstruct horizontal geometry from anchor distance or borrow the amount
+column's drift slope. Anchor-relative distance remains evidence for hierarchy
+and page-level column clustering only.
+
+Baseline bands are produced with a bootstrap. A conservative raw-bottom pass
+first seeks wide, low-residual slope observations. If strict support is
+insufficient, a relaxed short-span estimate seeds a second clustering pass;
+the result is then re-estimated with the strict full-span acceptance test. The
+accepted robust slope normalizes token bottoms to the page midpoint before
+final clustering.
+Adjacent corrected bands may be reconciled only when their token boxes do not
+overlap horizontally and their combined fitted baseline has low error. Raw
+bottoms, corrected bottoms, slope support, MAD, confidence, and reconciliation
+counts remain in the artifact.
+
+Stage `002.11-token-geometry-repair` is a separate, auditable insertion. It
+detects money phrases not claimed by any main label and walks downward only
+through claims that contradict the page's supported baseline convention. An
+orphan amount replaces the contradicted claim, the evicted amount continues
+the walk, and an unclaimed text candidate must absorb the tail. Only closed
+chains are applied; healthy claims are never stolen and open chains are
+reported for review.
+
+Applied repairs update label/amount relations, promote absorbing labels,
+transfer amount phrase membership to the partner label's band, refit affected
+bands, and rebuild separator and fit candidates. Every page receives an
+independent `002.11` artifact with a `pairing_repair` audit record; `002.10`
+remains immutable and rerunning the repair cannot preserve stale edits.
 
 ## Source OCR configuration
 
@@ -400,6 +451,11 @@ The proposed next node is `002.20-table-structure.py`. It should consume stage
 viewer layers. It should not reintroduce model layout proposals as hidden
 fallbacks.
 
+The reviewed By-OU start/end and per-page carry boundary are defined separately
+in [`BY_OU_TABLE_STRUCTURE_CONTRACT.md`](BY_OU_TABLE_STRUCTURE_CONTRACT.md).
+That contract annotates existing geometry IDs; it does not expand the scope of
+stage 002.10.
+
 Other limitations to retain in QA:
 
 - bare numeric phrases remain lexically ambiguous;
@@ -441,3 +497,7 @@ python etl/002.10-token-geometry.py \
 
 Review the independent geometry overlays in `viewer-react`, especially pages
 18, 23, 26, 27, 29, 195, 680, and 688–690.
+
+Empirical anchor-distance bins and the proposed table-local hierarchy procedure
+are documented in
+[TABLE_HIERARCHY_BIN_CALIBRATION.md](TABLE_HIERARCHY_BIN_CALIBRATION.md).

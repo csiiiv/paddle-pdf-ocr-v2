@@ -76,6 +76,23 @@ button.active {
   background: #316a9f;
   border-color: #5690c5;
 }
+.flag-button.active {
+  color: #ffd166;
+  background: #3a321a;
+  border-color: #806829;
+}
+.flag-panel-controls {
+  display: grid;
+  gap: 8px;
+}
+.flag-filters {
+  flex-wrap: wrap;
+}
+.flag-filters .flag-range {
+  width: 96px;
+  font-size: 11px;
+  padding: 4px 6px;
+}
 button:disabled {
   opacity: 0.4;
 }
@@ -129,7 +146,8 @@ main {
   position: absolute;
   inset: 0;
 }
-.overlay rect {
+.overlay rect,
+.overlay polygon {
   cursor: pointer;
   vector-effect: non-scaling-stroke;
 }
@@ -212,6 +230,41 @@ th {
   z-index: 1;
   background: #22262d;
 }
+.sort-header {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.sort-header:hover {
+  color: #8ecbff;
+}
+.sub-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 10px 0;
+}
+.sub-tabs button {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+.sub-tabs button span {
+  color: #9aa4b2;
+  font-size: 11px;
+}
+.sub-tabs button.active {
+  border-color: #43a9ff;
+  background: #183853;
+  color: #dcefff;
+}
 tbody tr:hover {
   background: #242b35;
 }
@@ -269,6 +322,165 @@ pre {
   border: 0;
   background: transparent;
   font-weight: 700;
+}
+.tree-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.tree-actions,
+.tree-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.tree-actions {
+  flex: 0 0 auto;
+}
+.tree-toolbar {
+  position: sticky;
+  top: -10px;
+  z-index: 3;
+  margin: 0 -10px 8px;
+  padding: 8px 10px;
+  background: #171b21f2;
+  border-bottom: 1px solid #343a43;
+}
+.tree-toolbar input[type="search"] {
+  flex: 1 1 230px;
+  min-width: 150px;
+}
+.tree-toolbar .muted {
+  margin-left: auto;
+  white-space: nowrap;
+}
+.tree-table-wrap {
+  overflow-x: auto;
+}
+.tree-table {
+  min-width: 720px;
+}
+.tree-table th:first-child {
+  min-width: 360px;
+}
+.tree-table th:nth-child(2) {
+  width: 110px;
+}
+.tree-table th:nth-child(3) {
+  width: 55px;
+}
+.tree-table th.tree-amount-col,
+.tree-table td.tree-amount {
+  width: 120px;
+  min-width: 100px;
+  text-align: right;
+}
+.tree-table tbody tr {
+  cursor: pointer;
+}
+.tree-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 3px;
+  padding-left: calc(var(--tree-depth) * 18px);
+}
+.tree-toggle {
+  flex: 0 0 18px;
+  width: 18px;
+  min-height: 18px;
+  padding: 0;
+  color: #9fc9ef;
+  border: 0;
+  background: transparent;
+  line-height: 18px;
+}
+.tree-collapse-children {
+  flex: 0 0 18px;
+  width: 18px;
+  min-height: 18px;
+  padding: 0;
+  color: #8fa8c1;
+  border: 0;
+  background: transparent;
+  font-size: 13px;
+  line-height: 18px;
+}
+.tree-collapse-children:hover {
+  color: #d7e8f8;
+  background: #26384b;
+}
+.tree-child-action-spacer {
+  flex: 0 0 18px;
+}
+.tree-spacer {
+  flex: 0 0 18px;
+}
+.tree-label code {
+  display: block;
+  margin-top: 2px;
+  color: #96a4b8;
+  font-size: 10px;
+}
+.tree-kind {
+  color: #aab6c6;
+  text-transform: capitalize;
+}
+.tree-kind-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin: 0 6px 1px 0;
+  border-radius: 50%;
+  background: #66778b;
+}
+.kind-table_root,
+.kind-expense_class,
+.kind-section,
+.kind-subsection {
+  background: #c084fc;
+}
+.kind-program,
+.kind-outcome,
+.kind-activity {
+  background: #52b8ff;
+}
+.kind-region {
+  background: #6cdb9b;
+}
+.kind-office {
+  background: #a9b7c8;
+}
+.kind-group,
+.kind-intermediate {
+  background: #86a8d8;
+}
+.kind-project {
+  background: #7cc8c3;
+}
+.kind-subtotal,
+.kind-grand_total {
+  background: #ffd166;
+}
+.kind-funding {
+  background: #ef8b8b;
+}
+.tree-flag {
+  display: inline-grid;
+  place-items: center;
+  width: 15px;
+  height: 15px;
+  margin-left: 6px;
+  color: #171b21;
+  background: #ffd166;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 800;
+}
+.tree-amount {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 .qa-modal {
   position: absolute;

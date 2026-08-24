@@ -142,8 +142,16 @@ the full hierarchy (`parent` / `children`).
 Node field rules:
 
 - `id` and `parent` are opaque strings; `parent` is `null` only for roots.
+- By-OU trees also carry `parent_pdf` (layout indent) and `parent_prexc`
+  (code-based indent among existing rows only). The viewer toggles these via
+  `hierarchy_modes: ["pdf", "prexc"]`; row order stays document order and only
+  indents change. Synthetic PREXC shell nodes are omitted from the export pack.
 - `kind` uses the pipeline vocabulary (`table_root`, `section`, `program`,
-  `region`, `office`, `project`, `funding`, `subtotal`, `grand_total`, …).
+  `activity`, `region`, `office`, `project`, `funding`, `subtotal`,
+  `grand_total`, plus synthetic PREXC shells `prexc_oo`, `prexc_program`,
+  `prexc_subprogram`, `prexc_identifier`, …). By-OU coded rows are nested by
+  PREXC code after the layout pass (see `docs/prexc_code.md`); uncoded
+  region/office children stay under their coded parent.
 - `page` is the 1-based source page or `null` for synthetic nodes.
 - `bbox` is `[x0, y0, x1, y1]` in PDF points for the node's label row; null
   when the node has no single source row.
@@ -177,7 +185,7 @@ Query parameters are retained for shareable links:
 - All parameters are optional; the viewer defaults to the first tree, the
   first page, and fit-width zoom.
 - `overlay` controls the PDF row boxes: `show` draws them, `hide` keeps them
-  clickable but invisible, `off` disables clicking entirely.
+  clickable but invisible (the default), `off` disables clicking entirely.
 - Changing `doc` reloads the manifest; the viewer never rewrites the URL
   silently on load, only on user action.
 

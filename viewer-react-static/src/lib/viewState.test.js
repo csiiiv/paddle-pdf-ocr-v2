@@ -13,6 +13,12 @@ describe("parseView", () => {
     expect(view.split).toBe(58);
     expect(view.overlay).toBe("hide");
     expect(view.pane).toBe("data");
+    expect(view.hierarchy).toBe("prexc");
+  });
+
+  it("reads hierarchy mode", () => {
+    expect(parseView(params("hierarchy=pdf")).hierarchy).toBe("pdf");
+    expect(parseView(params("hierarchy=bogus")).hierarchy).toBe("prexc");
   });
 
   it("reads doc, tree, page, node, custom zoom, overlay, and pane", () => {
@@ -50,7 +56,8 @@ describe("parseView", () => {
 describe("writeView", () => {
   it("round-trips a populated view", () => {
     const view = {doc:"NEP-2027-VOLUME-2B", tree:"pap", page:115, node:"r1",
-                  zoom:{mode:"custom", percent:150}, split:66, overlay:"hide", pane:"pdf"};
+                  zoom:{mode:"custom", percent:150}, split:66, overlay:"hide", pane:"pdf",
+                  hierarchy:"prexc"};
     const out = writeView(new URLSearchParams(), view).toString();
     const parsed = parseView(params(out));
     expect(parsed).toEqual({...view, node:"r1"});
@@ -59,7 +66,7 @@ describe("writeView", () => {
   it("omits default values", () => {
     const out = writeView(new URLSearchParams(), {
       doc:"", tree:"", page:null, node:"", zoom:{mode:"fit", percent:100}, split:58,
-      overlay:"hide", pane:"data",
+      overlay:"hide", pane:"data", hierarchy:"prexc",
     });
     expect(out.toString()).toBe("");
   });

@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "purpose": "Reviewed PAP table span, hierarchy centers, and carry policy for deterministic tree assembly.",
+  "pdf": "pdfs/NEP-2027-VOLUME-2B_OCR.pdf",
+  "tables": [
+    {
+      "table_id": "pap-001",
+      "table_type": "pap",
+      "status": "reviewed_span_and_calibration",
+      "start": {
+        "page": 115
+      },
+      "end": {
+        "page": 690
+      },
+      "distance_centers_pt": [
+        514.6,
+        499.5,
+        482.7,
+        464.8,
+        448.6,
+        426.6,
+        409.0,
+        391.3
+      ],
+      "funding_metadata_centers_pt": [
+        104.7,
+        140.5
+      ],
+      "matching_tolerance_pt": 4.0,
+      "carry_policy": {
+        "contiguous_pages_only": true,
+        "reset_on_gap": true,
+        "carry_geometric_parent_stack": true,
+        "expense_class_resets_tree_branch": true
+      },
+      "development_pages": [
+        115,
+        116,
+        195,
+        247,
+        507,
+        678,
+        688,
+        690
+      ]
+    }
+  ]
+}

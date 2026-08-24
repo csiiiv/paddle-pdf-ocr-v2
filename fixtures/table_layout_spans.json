@@ -1,0 +1,20 @@
+{
+  "artifact_version": 1,
+  "purpose": "Reviewed row-ownership layout spans for deterministic table structure.",
+  "spans": [
+    {
+      "start_page": 13,
+      "end_page": 108,
+      "table_type": "by_ou",
+      "wrap_direction": "wraps_up",
+      "source": "reviewed_by_ou_span"
+    },
+    {
+      "start_page": 115,
+      "end_page": 690,
+      "table_type": "pap",
+      "wrap_direction": "wraps_down",
+      "source": "reviewed_pap_span"
+    }
+  ]
+}

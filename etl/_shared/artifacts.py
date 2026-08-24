@@ -9,20 +9,25 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
 
-LayerName = Literal["paddle", "layout", "token_geometry", "cells"]
+LayerName = Literal[
+    "paddle", "token_geometry", "token_geometry_repair",
+    "table_structure", "by_ou_tree", "pap_tree", "tree_totals",
+]
 StageName = Literal[
-    "foundation", "paddle", "layout", "token_geometry", "cells", "extract", "schema",
+    "foundation", "paddle", "token_geometry", "token_geometry_repair",
+    "table_structure", "by_ou_tree", "pap_tree", "tree_totals",
     "rows", "domain", "hierarchy", "collation",
 ]
 
 STAGE_DIRS: dict[StageName, str] = {
     "foundation": "000.00-foundation",
     "paddle": "001.00-paddle-ocr",
-    "layout": "002.00-layout",
     "token_geometry": "002.10-token-geometry",
-    "cells": "003.00-table-cells",
-    "extract": "004.00-extract",
-    "schema": "005.00-schema",
+    "token_geometry_repair": "002.11-token-geometry-repair",
+    "table_structure": "002.20-table-structure",
+    "by_ou_tree": "002.30-by-ou-tree",
+    "pap_tree": "002.40-pap-tree",
+    "tree_totals": "002.50-tree-totals",
     "rows": "006.00-rows",
     "domain": "007.00-domain",
     "hierarchy": "008.00-hierarchy",
@@ -41,12 +46,6 @@ class ArtifactStore:
 
     def layer_path(self, layer: LayerName, page_no: int) -> Path:
         return self.stage_root(layer) / "pages" / f"page-{page_no:04d}.json"
-
-    def extract_path(self, page_no: int) -> Path:
-        return self.stage_root("extract") / "pages" / f"page-{page_no:04d}.json"
-
-    def schema_path(self, page_no: int) -> Path:
-        return self.stage_root("schema") / "pages" / f"page-{page_no:04d}.json"
 
     def structured_path(self, page_no: int) -> Path:
         return self.stage_root("hierarchy") / "pages" / f"page-{page_no:04d}.json"
@@ -67,7 +66,10 @@ class ArtifactStore:
         return self.root / "999.00-run-qa" / name
 
     def discover_pages(
-        self, stage: Literal["extract", "rows", "hierarchy"] = "extract"
+        self, stage: Literal[
+            "paddle", "token_geometry", "token_geometry_repair",
+            "table_structure", "rows", "hierarchy",
+        ] = "paddle"
     ) -> list[int]:
         folder = self.stage_root(stage) / "pages"
         pages: list[int] = []

@@ -13,7 +13,7 @@ STORAGE = load_etl_node("storage_estimate.py")
 
 
 def test_page_count_scales_output_storage() -> None:
-    stages = ["001.00-paddle-ocr", "002.00-layout", "003.00-table-cells", "004.00-extract"]
+    stages = ["001.00-paddle-ocr", "002.10-token-geometry", "002.20-table-structure"]
     one = STORAGE.estimate_run_storage(
         pages=[13], stages=stages, output_root=PROJECT / "output",
         free_bytes=10 * 1024 ** 3,
@@ -37,7 +37,7 @@ def test_page_count_scales_output_storage() -> None:
 def test_storage_refuses_when_free_disk_too_low() -> None:
     estimate = STORAGE.estimate_run_storage(
         pages=list(range(1, 501)),
-        stages=["001.00-paddle-ocr", "004.00-extract"],
+        stages=["001.00-paddle-ocr", "002.10-token-geometry", "002.20-table-structure"],
         output_root=PROJECT / "output",
         free_bytes=1024,  # 1 KiB free
     )

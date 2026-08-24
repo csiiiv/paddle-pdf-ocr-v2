@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useRef, useState} from "react";
 import {loadIndex, loadManifest, loadTree, pdfHref, treeDownloads} from "./lib/api.js";
-import {DEFAULT_PANE, PANE_MODES, parseView, writeView} from "./lib/viewState.js";
+import {DEFAULT_PANE, PANE_MODES, parseView, writeView, DEFAULT_HIERARCHY, HIERARCHY_MODES} from "./lib/viewState.js";
 import DownloadModal from "./components/DownloadModal.jsx";
 import AboutModal from "./components/AboutModal.jsx";
 import WelcomeModal, {shouldShowWelcome} from "./components/WelcomeModal.jsx";
@@ -45,6 +45,7 @@ export default function App() {
     if (initial.node || initial.page) return "pdf";
     return DEFAULT_PANE;
   });
+  const [hierarchyMode, setHierarchyMode] = useState(initial.hierarchy);
   const [downloadOpen, setDownloadOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [welcomeOpen, setWelcomeOpen] = useState(() => shouldShowWelcome());
@@ -108,6 +109,12 @@ export default function App() {
     return () => { live = false; };
   }, [doc, manifest, treeId]);
 
+  useEffect(() => {
+    if (treeId !== "by-ou" && hierarchyMode !== DEFAULT_HIERARCHY) {
+      setHierarchyMode(DEFAULT_HIERARCHY);
+    }
+  }, [treeId, hierarchyMode]);
+
   // Keep page inside the full PDF range (clamp under/overflow; never hard-reset to 1 on overflow).
   useEffect(() => {
     if (!pdfPageCount) return;
@@ -124,10 +131,10 @@ export default function App() {
     const params = new URLSearchParams();
     writeView(params, {
       doc, tree:treeId, page, node:selectedNode?.id || "", zoom, split,
-      overlay:overlayMode, pane:mobilePane,
+      overlay:overlayMode, pane:mobilePane, hierarchy:hierarchyMode,
     });
     history.replaceState(null, "", `${location.pathname}?${params.toString()}`);
-  }, [doc, treeId, page, selectedNode, zoom, split, overlayMode, mobilePane]);
+  }, [doc, treeId, page, selectedNode, zoom, split, overlayMode, mobilePane, hierarchyMode]);
 
   useEffect(() => {
     const move = (e) => {
@@ -327,6 +334,10 @@ export default function App() {
           {!treeLoading && !error &&
             <TreePanel tree={tree} currentPage={page} selectedId={selectedNode?.id} compact={isMobile}
                        active={!isMobile || mobilePane === "data"}
+                       hierarchyMode={treeId === "by-ou" ? hierarchyMode : DEFAULT_HIERARCHY}
+                       onHierarchyModeChange={(mode) => {
+                         if (HIERARCHY_MODES.includes(mode)) setHierarchyMode(mode);
+                       }}
                        onSelect={(node) => selectNode(node, {fromTree:true})} />}
         </div>
         {isMobile &&

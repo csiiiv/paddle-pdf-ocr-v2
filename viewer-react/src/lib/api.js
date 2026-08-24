@@ -24,6 +24,19 @@ export async function listRuns() {
 export const runPath = (run, path) => `output/${encodeURIComponent(run)}/${path}`;
 export const pagePath = (run, stage, page) => runPath(run, `${stage}/pages/page-${String(page).padStart(4,"0")}.json`);
 
+/** Prefer static qa/flag-index.json; fall back to /api/flag-index which scans page artifacts. */
+export async function flagIndex(run) {
+  const cached = await json(runPath(run, "002.20-table-structure/qa/flag-index.json"), true);
+  if (cached?.pages) return cached;
+  if (import.meta.env.DEV) {
+    try {
+      const response = await fetch(`/api/flag-index?run=${encodeURIComponent(run)}`, {cache:"no-store"});
+      if (response.ok) return response.json();
+    } catch { /* ignore */ }
+  }
+  return null;
+}
+
 export function pdfUrls(metadataPath) {
   const filename = String(metadataPath || "").split(/[\\/]/).pop();
   const remote = /^https?:\/\//i.test(String(metadataPath || "")) ? metadataPath : null;

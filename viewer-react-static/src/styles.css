@@ -492,6 +492,25 @@ tbody tr.selected {
 .tree-table th:first-child {
   min-width: 360px;
 }
+.tree-hierarchy-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.tree-hierarchy-select {
+  min-height: 26px;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #dcefff;
+  border: 1px solid #4a5564;
+  border-radius: 4px;
+  background: #1b2129;
+}
+.tree-toolbar .tree-hierarchy-select {
+  flex: 0 0 auto;
+  max-width: 118px;
+}
 .tree-table th:nth-child(2) {
   width: 110px;
 }

@@ -39,8 +39,11 @@ class ActiveStage:
 ACTIVE_STAGES = (
     ActiveStage(1, 0, "001.00-paddle-ocr.py", ("device",)),
     ActiveStage(2, 10, "002.10-token-geometry.py"),
-    ActiveStage(4, 0, "004.00-extract.py"),
-    ActiveStage(5, 0, "005.00-schema.py"),
+    ActiveStage(2, 11, "002.11-token-geometry-repair.py"),
+    ActiveStage(2, 20, "002.20-table-structure.py"),
+    ActiveStage(2, 30, "002.30-by-ou-tree.py"),
+    ActiveStage(2, 40, "002.40-pap-tree.py"),
+    ActiveStage(2, 50, "002.50-tree-totals.py"),
 )
 
 SETTING_FLAGS = {
@@ -103,7 +106,7 @@ def main() -> None:
         help="Object name inside --pages-json (e.g. edge_pages, contiguous_spans)",
     )
     parser.add_argument("--start-stage", default="1")
-    parser.add_argument("--end-stage", default="5")
+    parser.add_argument("--end-stage", default="2.50")
     parser.add_argument(
         "--run",
         help="Output run name under output/ (default: PDF stem; overwrites in place)",

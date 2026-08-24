@@ -10,7 +10,7 @@ from typing import Any
 
 PROJECT = Path(__file__).resolve().parents[1]
 REPO = PROJECT.parent
-from _shared.artifacts import STAGE_DIRS, ArtifactStore, write_json_atomic
+from _shared.artifacts import STAGE_DIRS, ArtifactStore, read_json, write_json_atomic
 from _shared.manifest import build_manifest, write_manifest
 
 
@@ -21,8 +21,6 @@ class StageContext:
     pages: list[int]
     dpi: float
     device: str
-    layout_score: float
-    cells_score: float
 
     @property
     def store(self) -> ArtifactStore:
@@ -115,8 +113,6 @@ def add_stage_arguments(
     parser: argparse.ArgumentParser,
     *,
     gpu: bool = False,
-    layout_score: bool = False,
-    cells_score: bool = False,
 ) -> None:
     parser.add_argument("--pdf", type=Path, required=True)
     parser.add_argument("--pages", required=True)
@@ -124,10 +120,6 @@ def add_stage_arguments(
     parser.add_argument("--dpi", type=float, default=200.0)
     if gpu:
         parser.add_argument("--device", default="gpu:0")
-    if layout_score:
-        parser.add_argument("--layout-score", type=float, default=0.4)
-    if cells_score:
-        parser.add_argument("--cells-score", type=float, default=0.3)
 
 
 def make_context(args: argparse.Namespace, *, paddle_lang: str = "en") -> StageContext:
@@ -141,20 +133,24 @@ def make_context(args: argparse.Namespace, *, paddle_lang: str = "en") -> StageC
     context = StageContext(
         pdf=pdf, run_dir=PROJECT / "output" / args.run, pages=pages,
         dpi=args.dpi, device=getattr(args, "device", "gpu:0"),
-        layout_score=getattr(args, "layout_score", 0.4),
-        cells_score=getattr(args, "cells_score", 0.3),
     )
     manifest = build_manifest(
         pdf_path=context.pdf, pages=context.pages, dpi=context.dpi,
         settings={"paddle": {"lang": paddle_lang, "device": context.device,
                   "return_word_box": True},
-                  "layout": {"score_thresh": context.layout_score},
-                  "cells": {"score_thresh": context.cells_score}},
+                  },
     )
     write_manifest(context.run_dir, manifest)
-    write_json_atomic(context.run_dir / "viewer.json", {
+    viewer_path = context.run_dir / "viewer.json"
+    retained_pages = set(context.pages)
+    if viewer_path.exists():
+        try:
+            retained_pages.update(read_json(viewer_path).get("pages") or [])
+        except (OSError, ValueError, TypeError):
+            pass
+    write_json_atomic(viewer_path, {
         "artifact_version": 1, "run": context.run_dir.name,
-        "pdf": manifest["pdf"], "pages": context.pages, "dpi": context.dpi,
+        "pdf": manifest["pdf"], "pages": sorted(retained_pages), "dpi": context.dpi,
         "run_layout_version": manifest["run_layout_version"],
         "stage_directories": dict(STAGE_DIRS),
     })

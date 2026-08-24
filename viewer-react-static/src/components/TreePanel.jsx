@@ -1,5 +1,12 @@
 import {useEffect, useMemo, useState} from "react";
 import Icon from "./Icon.jsx";
+import {
+  buildDocumentOrderRows,
+  buildHierarchyIndex,
+  hasDualHierarchy,
+  parentId,
+} from "../lib/treeHierarchy.js";
+import {DEFAULT_HIERARCHY} from "../lib/viewState.js";
 
 const KNOWN_AMOUNT_ORDER = ["PS","MOOE","CO"];
 
@@ -30,15 +37,35 @@ const formatAmountCell = (node, role) => node?.amounts?.[role]?.text
   || (node?.total?.role === role ? node.total.text : "");
 const kindLabel = (kind) => String(kind || "").replaceAll("_", " ");
 
+const hierarchyOptions = [
+  {value: "prexc", label: "PREXC code"},
+  {value: "pdf", label: "PDF layout"},
+];
+
 /** Searchable, collapsible hierarchy table over a slim exported tree. */
-export default function TreePanel({tree, currentPage, selectedId, onSelect, compact = false, active = true}) {
+export default function TreePanel({
+  tree, currentPage, selectedId, onSelect, compact = false, active = true,
+  hierarchyMode = DEFAULT_HIERARCHY, onHierarchyModeChange,
+}) {
   const nodes = tree?.nodes || [];
+  const dualHierarchy = hasDualHierarchy(tree);
   const byId = useMemo(() => new Map(nodes.map((node) => [node.id, node])), [nodes]);
-  const parentIds = useMemo(() => new Set(nodes.filter((node) => node.children?.length).map((node) => node.id)), [nodes]);
+  const hierarchyIndex = useMemo(
+    () => (dualHierarchy ? buildHierarchyIndex(nodes, hierarchyMode) : null),
+    [nodes, hierarchyMode, dualHierarchy],
+  );
+  const parentIds = useMemo(() => {
+    if (dualHierarchy) return hierarchyIndex.parentIds;
+    return new Set(nodes.filter((node) => node.children?.length).map((node) => node.id));
+  }, [nodes, hierarchyIndex, dualHierarchy]);
   const [expanded, setExpanded] = useState(() => new Set(tree?.roots || []));
   const [queryDraft, setQueryDraft] = useState("");
   const [query, setQuery] = useState("");
   const [currentOnly, setCurrentOnly] = useState(false);
+
+  useEffect(() => {
+    setExpanded(new Set(tree?.roots || []));
+  }, [tree?.id, hierarchyMode]);
 
   // Debounce search so large trees don't refilter on every keystroke.
   useEffect(() => {
@@ -54,7 +81,12 @@ export default function TreePanel({tree, currentPage, selectedId, onSelect, comp
     setExpanded((value) => {
       const next = new Set(value);
       let cursor = byId.get(selectedId);
-      while (cursor?.parent) { next.add(cursor.parent); cursor = byId.get(cursor.parent); }
+      while (cursor) {
+        const pid = dualHierarchy ? parentId(cursor, hierarchyMode) : cursor.parent;
+        if (!pid) break;
+        next.add(pid);
+        cursor = byId.get(pid);
+      }
       return next;
     });
     const frame = requestAnimationFrame(() => {
@@ -62,7 +94,7 @@ export default function TreePanel({tree, currentPage, selectedId, onSelect, comp
         ?.scrollIntoView({block: "nearest"});
     });
     return () => cancelAnimationFrame(frame);
-  }, [selectedId, tree, byId, active]);
+  }, [selectedId, tree, byId, active, dualHierarchy, hierarchyMode]);
 
   const included = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -73,10 +105,14 @@ export default function TreePanel({tree, currentPage, selectedId, onSelect, comp
       const matchesPage = !currentOnly || node.page === currentPage;
       if (!matchesText || !matchesPage) continue;
       let cursor = node;
-      while (cursor) { visible.add(cursor.id); cursor = cursor.parent ? byId.get(cursor.parent) : null; }
+      while (cursor) {
+        visible.add(cursor.id);
+        const pid = dualHierarchy ? parentId(cursor, hierarchyMode) : cursor.parent;
+        cursor = pid ? byId.get(pid) : null;
+      }
     }
     return visible;
-  }, [query, currentOnly, currentPage, nodes, byId]);
+  }, [query, currentOnly, currentPage, nodes, byId, dualHierarchy, hierarchyMode]);
 
   const toggle = (id) => setExpanded((value) => {
     const next = new Set(value);
@@ -84,21 +120,35 @@ export default function TreePanel({tree, currentPage, selectedId, onSelect, comp
     return next;
   });
 
-  const rows = [];
-  const visit = (id, depth) => {
-    const node = byId.get(id);
-    if (!node || included && !included.has(id)) return;
-    rows.push({node, depth});
-    if ((expanded.has(id) || included) && node.children?.length)
-      node.children.forEach((child) => visit(child, depth + 1));
-  };
-  (tree?.roots || []).forEach((id) => visit(id, 0));
+  const rows = useMemo(() => {
+    if (dualHierarchy) {
+      return buildDocumentOrderRows(nodes, hierarchyMode, expanded, included);
+    }
+    const legacy = [];
+    const visit = (id, depth) => {
+      const node = byId.get(id);
+      if (!node || included && !included.has(id)) return;
+      legacy.push({node, depth, hasChildren: Boolean(node.children?.length)});
+      if ((expanded.has(id) || included) && node.children?.length) {
+        node.children.forEach((child) => visit(child, depth + 1));
+      }
+    };
+    (tree?.roots || []).forEach((id) => visit(id, 0));
+    return legacy;
+  }, [dualHierarchy, nodes, hierarchyMode, expanded, included, byId, tree?.roots]);
 
   if (!tree) return <p className="muted">No tree loaded.</p>;
 
-  // Fixed column vocabulary from the export; fallback covers older packs.
   const amountColumns = tree.columns || collectAmountColumns(nodes);
   const select = (node) => onSelect(node);
+
+  const hierarchySelect = dualHierarchy &&
+    <select className="tree-hierarchy-select" aria-label="Hierarchy level"
+            value={hierarchyMode}
+            onChange={(event) => onHierarchyModeChange?.(event.target.value)}>
+      {hierarchyOptions.map((option) =>
+        <option key={option.value} value={option.value}>{option.label}</option>)}
+    </select>;
 
   return <div className={`tree-panel${compact ? " is-compact" : ""}`}>
     {!compact &&
@@ -112,6 +162,7 @@ export default function TreePanel({tree, currentPage, selectedId, onSelect, comp
         </div>
       </div>}
     <div className="tree-toolbar">
+      {compact && hierarchySelect}
       <input aria-label="Search tree" type="search" placeholder={compact ? "Search…" : "Search label, code, or kind…"} value={queryDraft} onChange={(event) => setQueryDraft(event.target.value)}/>
       <label className="check"><input type="checkbox" checked={currentOnly} onChange={(event) => setCurrentOnly(event.target.checked)}/>{compact ? `p.${currentPage ?? "—"}` : `Page ${currentPage} only`}</label>
       {!compact && <span className="muted">{rows.length} visible</span>}
@@ -124,11 +175,17 @@ export default function TreePanel({tree, currentPage, selectedId, onSelect, comp
     {!rows.length ? <p className="muted">No matching hierarchy rows.</p> :
       <div className="tree-table-wrap">
         <table className="tree-table">
-          <thead><tr><th>Hierarchy label</th><th>Kind</th><th>Page</th>
+          <thead><tr>
+            <th>
+              <div className="tree-hierarchy-head">
+                <span>Hierarchy label</span>
+                {!compact && hierarchySelect}
+              </div>
+            </th>
+            <th>Kind</th><th>Page</th>
             {amountColumns.map((role) => <th key={role} className="tree-amount-col">{role}</th>)}
           </tr></thead>
-          <tbody>{rows.map(({node, depth}) => {
-            const hasChildren = Boolean(node.children?.length);
+          <tbody>{rows.map(({node, depth, hasChildren}) => {
             const selected = selectedId === node.id;
             return <tr key={node.id} data-node-id={node.id} className={`${node.page === currentPage ? "current-page " : ""}${selected ? "selected" : ""}`} onClick={() => select(node)}>
               <td>

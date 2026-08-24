@@ -2,7 +2,7 @@
 
 **Status:** Canonical architecture and execution contract  
 **Recorded at:** 2026-08-23T08:42:39+08:00  
-**Last updated:** 2026-08-23T20:17:55+08:00
+**Last updated:** 2026-08-23T22:00:00+08:00
 
 This document is the map for `paddle_pdf_ocr_v2`: what each numbered node
 consumes, what it produces, which edges exist, and how changes propagate. ADRs
@@ -27,35 +27,64 @@ flowchart LR
     F[000.00 Foundation QA]
     P[001.00 Paddle OCR]
     G[002.10 Token Geometry]
-    E[004.00 Extract]
-    S[005.00 Schema]
+    R[002.11 Pairing Repair]
+    T[002.20 Table Sections]
+    B[002.30 By-OU Tree]
+    A[002.40 PAP Tree]
+    V[002.50 Tree Totals]
     Q[999.00 Cross-stage QA]
 
     PDF --> P
     P --> G
-    P --> E
-    E --> S
+    G --> R
+    R --> T
+    T --> B
+    T --> A
+    B --> V
+    A --> V
     F -. repository evidence .-> Q
     P -. QA .-> Q
-    E -. QA .-> Q
-    S -. QA .-> Q
+    G -. QA .-> Q
+    R -. QA .-> Q
+    T -. QA .-> Q
+    B -. QA .-> Q
+    A -. QA .-> Q
+    V -. QA .-> Q
 ```
 
 Equivalent dependency notation:
 
 ```text
 PDF ──→ 001.00-paddle-ocr ──→ 002.10-token-geometry
-                    └────────→ 004.00-extract ──→ 005.00-schema
+    ──→ 002.11-token-geometry-repair ──→ 002.20-table-structure
+    ├──→ 002.30-by-ou-tree
+    └──→ 002.40-pap-tree
+002.30-by-ou-tree + 002.40-pap-tree ──→ 002.50-tree-totals
 
-002.00-layout and 003.00-table-cells are archived comparison scripts only.
-004.00-extract does not read their artifacts.
+002.00-layout, 003.00-table-cells, 004.00-extract, and 005.00-schema are
+archived under etl/archive/ and are not active artifact owners.
 
 000.00-foundation and stage QA ──→ 999.00-run-qa
 ```
 
 The active scripts use one fixed topological execution order: 001.00, 002.10,
-004.00, 005.00. Extract emits one deterministic page-level fallback zone until
-the planned table-structure stage supplies geometry-derived sections.
+002.11, 002.20, 002.30, 002.40, 002.50. Stage 002.11 copies the geometry layer and repairs only
+closed orphan-amount pairing chains; ambiguous open chains remain unchanged and
+are reported in its QA. Stage 002.20 emits reviewed header sections, one label
+section, and one section for every observed
+amount-column candidate. Reviewed seeds name known roles (PS, MOOE, CO, Total);
+otherwise roles remain neutral. Row sections are bounded by the reviewed root,
+consolidated alignment fits, and page bottom. Their intersections produce
+geometric cell sections with ordered text evidence. Semantic-row
+materialization remains downstream work for other table families. Stage 002.30
+materializes a By-OU-specific, viewer-ready tree: it fits page-local hierarchy
+centers, applies the program-code discriminator, carries parents across
+contiguous pages, and preserves subtotals and funding metadata as semantic
+nodes. Stage 002.40 independently materializes the PAP tree from the same
+repaired geometry and table sections, using its eight-level local profile,
+expense-class resets, and excluded GOP/Loan Proceeds funding children. Stage
+002.50 checks every selected parent total against its immediate additive
+children and retains pass, mismatch, incomplete, and partial-boundary results.
 
 ## Planned graph after extraction
 
@@ -65,8 +94,7 @@ local QA.
 
 ```mermaid
 flowchart LR
-    E[004.00 Extract] --> S[005.00 Schema]
-    S --> R[006.00 Rows]
+    T[002.20 Table Structure] --> R[006.00 Rows]
     R --> D[007.00 Domain]
     D --> H[008.00 Hierarchy]
     H --> C[009.00 Collation]
@@ -83,12 +111,13 @@ row construction.
 |---|---|---|---|---|
 | `000.00-foundation` | Implemented | ETL source and `etl/tests/` | Test records | `000.00-foundation/qa/` |
 | `001.00-paddle-ocr` | Implemented | Source PDF pages | Tokens and lines | `001.00-paddle-ocr/qa/` |
-| `002.00-layout` | Archived comparison, inactive | Source PDF pages | Model layout proposals | `002.00-layout/qa/` |
 | `002.10-token-geometry` | Implemented, measurement-only | 001 tokens | Deterministic bands, gaps, phrases, right-edge groups, and fits | `002.10-token-geometry/qa/` |
-| `003.00-table-cells` | Archived comparison, inactive | PDF, 001, archived 002 | Model cell proposals | `003.00-table-cells/qa/` |
-| `004.00-extract` | Implemented, model-layout-free | 001 | Canonical page extract with page fallback zone | `004.00-extract/qa/` |
-| `005.00-schema` | Implemented | 004 | Per-zone modes, roles, confidence, findings | `005.00-schema/qa/` |
-| `006.00-rows` | Reserved | 005 | Canonical pre-hierarchy rows | Local QA required |
+| `002.11-token-geometry-repair` | Implemented repair insertion | 002.10 geometry + 001 tokens | Repaired geometry copy with pairing audit | `002.11-token-geometry-repair/qa/` |
+| `002.20-table-structure` | Implemented, geometry-only | 002.11 repaired geometry + reviewed seeds | Header, column, row, boundary, and cell sections with text evidence | `002.20-table-structure/qa/` |
+| `002.30-by-ou-tree` | Implemented | 002.11 geometry + 002.20 sections + reviewed seeds | Cross-page By-OU tree and page slices | `002.30-by-ou-tree/qa/` |
+| `002.40-pap-tree` | Implemented | 002.11 geometry + 002.20 sections + reviewed PAP profile | Cross-page PAP tree and page slices | `002.40-pap-tree/qa/` |
+| `002.50-tree-totals` | Implemented validation | 002.30 By-OU tree + 002.40 PAP tree | Immediate-child total checks and page slices | `002.50-tree-totals/qa/` |
+| `006.00-rows` | Reserved | promoted table cells/state | Canonical pre-hierarchy rows | Local QA required |
 | `007.00-domain` | Reserved | 006 | Domain annotations | Local QA required |
 | `008.00-hierarchy` | Reserved | 007 | Parent/level structure | Local QA required |
 | `009.00-collation` | Reserved | 008 | Cross-page tables/documents | Local QA required |
@@ -122,17 +151,26 @@ output/<run>/
 ├── 001.00-paddle-ocr/
 │   ├── pages/page-0008.json
 │   └── qa/summary.json
-├── 002.00-layout/
-│   ├── pages/page-0008.json
-│   └── qa/summary.json
 ├── 002.10-token-geometry/
 │   ├── pages/page-0008.json
 │   └── qa/summary.json
-├── 003.00-table-cells/
-│   ├── pages/page-0013.json
+├── 002.11-token-geometry-repair/
+│   ├── pages/page-0008.json
 │   └── qa/summary.json
-└── 004.00-extract/
-    ├── pages/page-0008.json
+├── 002.20-table-structure/
+│   ├── pages/page-0008.json
+│   └── qa/summary.json
+├── 002.30-by-ou-tree/
+│   ├── pages/page-0008.json
+│   ├── tree.json
+│   └── qa/summary.json
+├── 002.40-pap-tree/
+│   ├── pages/page-0115.json
+│   ├── tree.json
+│   └── qa/summary.json
+└── 002.50-tree-totals/
+    ├── pages/page-0115.json
+    ├── validation.json
     └── qa/summary.json
 ```
 
@@ -147,10 +185,12 @@ The implementation mirrors the artifact graph:
 
 ```text
 etl/001.00-paddle-ocr.py  → output/<run>/001.00-paddle-ocr/
-etl/002.00-layout.py      → output/<run>/002.00-layout/
 etl/002.10-token-geometry.py → output/<run>/002.10-token-geometry/
-etl/003.00-table-cells.py → output/<run>/003.00-table-cells/
-etl/004.00-extract.py     → output/<run>/004.00-extract/
+etl/002.11-token-geometry-repair.py → output/<run>/002.11-token-geometry-repair/
+etl/002.20-table-structure.py → output/<run>/002.20-table-structure/
+etl/002.30-by-ou-tree.py → output/<run>/002.30-by-ou-tree/
+etl/002.40-pap-tree.py → output/<run>/002.40-pap-tree/
+etl/002.50-tree-totals.py → output/<run>/002.50-tree-totals/
 ```
 
 Every numbered executable owns input loading, transformation, diagnostics,
@@ -165,9 +205,12 @@ ETL tests live beside the DAG under `etl/tests/` and mirror their owner:
 ```text
 test_000_00_*  repository, artifact, migration, and DAG contracts
 test_001_00_*  Paddle OCR transformation
-test_002_00_*  layout transformation
-test_003_00_*  table-cell transformation
-test_004_00_*  extract assembly
+test_002_10_*  token-geometry transformation
+test_002_11_*  label-amount pairing repair
+test_002_20_*  table-section transformation
+test_002_30_*  By-OU hierarchy-tree transformation
+test_002_40_*  PAP hierarchy-tree transformation
+test_002_50_*  immediate-child totals validation
 ```
 
 The retained foundation command writes every named result to
@@ -234,7 +277,7 @@ Pass an explicit distinct `--run` when you need to retain a comparison copy.
 | `--pages-json` | unset | Optional JSON file of named page sets; overrides `--pages` |
 | `--pages-obj` | unset | Object name inside `--pages-json` (required with it) |
 | `--start-stage` | `1` | Begin with the first active extraction node |
-| `--end-stage` | `5` | Produce the current canonical schema artifact |
+| `--end-stage` | `2.50` | Validate immediate-child totals in the table-family trees |
 | `--run` | PDF stem | Reuse/overwrite the same `output/<stem>/` for smokes and partial reruns |
 | `--dpi` | `200` | Reviewed production extraction resolution |
 | `--device` | `gpu:0` | Intended production Paddle execution device |
@@ -287,7 +330,7 @@ the requested bounds. For example:
 ```
 
 A defunct insertion is removed from `ACTIVE_STAGES`; its decision and evidence
-remain in history and its script may be retained under `etl/retired/`. Removing,
+remain in history and its script may be retained under `etl/archive/`. Removing,
 adding, or reordering any active stage changes the pipeline definition and
 requires a new run plus rebuild of every downstream stage. Main `.00` stages
 remain stable; a change that alters their ordering is an architectural revision,

@@ -1,9 +1,9 @@
 {
   "format": 1,
   "doc": "NEP-2027-VOLUME-2B",
-  "title": "National Expenditure Program FY 2027 · Volume 2B",
+  "title": "NEP 2027 Volume 2B",
   "run": "NEP-2027-VOLUME-2B_OCR",
-  "generated_at": "2026-08-25T01:25:42+08:00",
+  "generated_at": "2026-08-25T03:15:20+08:00",
   "source": {
     "by-ou": "002.30-by-ou-tree/tree.json",
     "pap": "002.40-pap-tree/tree.json"

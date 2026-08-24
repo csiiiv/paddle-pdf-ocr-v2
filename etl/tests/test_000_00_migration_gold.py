@@ -76,3 +76,37 @@ def test_load_pages_from_migration_gold_table_structure_spans() -> None:
         Path("fixtures/migration_gold.json"), "table_structure_spans"
     )
     assert pages == list(range(105, 121))
+
+
+def test_load_pages_from_migration_gold_by_ou_structure_spans() -> None:
+    pages = COMMON.load_pages_from_json(
+        Path("fixtures/migration_gold.json"), "by_ou_structure_spans"
+    )
+    assert pages == list(range(13, 29))
+
+
+def test_reviewed_by_ou_seed_contract() -> None:
+    fixture = json.loads(
+        (ROOT / "fixtures/by_ou_table_seeds.json").read_text(encoding="utf-8")
+    )
+    table = fixture["tables"][0]
+    assert table["table_id"] == "by-ou-001"
+    assert table["start"] == {
+        "page": 13,
+        "page_header_band_ids": [0],
+        "table_title_band_ids": [1],
+        "column_header_band_ids": [2, 3, 4, 5, 6],
+        "body_first_band_id": 7,
+    }
+    assert table["end"] == {
+        "page": 108,
+        "terminal_band_id": 9,
+        "terminal_total_phrase_id": 26,
+        "next_table_first_band_id": 10,
+    }
+    assert [item["role"] for item in table["column_seed"]["roles"]] == [
+        "PS", "MOOE", "CO", "Total"
+    ]
+    assert table["hierarchy_seed"]["phrase_id"] == 13
+    assert table["development_pages"] == [13, 14, 15]
+    assert table["carry_policy"]["reset_on_gap"] is True

@@ -15,21 +15,25 @@ from typing import Any
 # Average retained page JSON size from extraction-smoke (bytes / page).
 STAGE_PAGE_BYTES: dict[str, int] = {
     "001.00-paddle-ocr": 159_000,
-    "002.00-layout": 1_500,
     "002.10-token-geometry": 110_000,
-    "003.00-table-cells": 45_000,
-    "004.00-extract": 211_000,
-    "005.00-schema": 8_000,
+    "002.11-token-geometry-repair": 112_000,
+    "002.20-table-structure": 25_000,
+    # 002.30 emits one compact tree node slice per page (no geometry duplication).
+    "002.30-by-ou-tree": 6_000,
+    # PAP labels are long and retained in both page slices and the whole tree.
+    "002.40-pap-tree": 100_000,
+    "002.50-tree-totals": 12_000,
 }
 
 # Fixed per-stage overhead (qa/summary.json, empty dirs, etc.).
 STAGE_FIXED_BYTES: dict[str, int] = {
     "001.00-paddle-ocr": 4_000,
-    "002.00-layout": 2_000,
     "002.10-token-geometry": 3_000,
-    "003.00-table-cells": 2_000,
-    "004.00-extract": 4_000,
-    "005.00-schema": 3_000,
+    "002.20-table-structure": 3_000,
+    "002.11-token-geometry-repair": 12_000,
+    "002.30-by-ou-tree": 40_000,  # whole-table tree.json in addition to page slices
+    "002.40-pap-tree": 100_000,
+    "002.50-tree-totals": 60_000,
 }
 
 # Run-level files written beside stage dirs.

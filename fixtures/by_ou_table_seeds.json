@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "purpose": "Reviewed By-OU table boundaries and initial carry state. These seed observations; they do not replace token geometry.",
+  "pdf": "pdfs/NEP-2027-VOLUME-2B_OCR.pdf",
+  "tables": [
+    {
+      "table_id": "by-ou-001",
+      "table_type": "by_ou",
+      "status": "reviewed_seed",
+      "start": {
+        "page": 13,
+        "page_header_band_ids": [0],
+        "table_title_band_ids": [1],
+        "column_header_band_ids": [2, 3, 4, 5, 6],
+        "body_first_band_id": 7
+      },
+      "end": {
+        "page": 108,
+        "terminal_band_id": 9,
+        "terminal_total_phrase_id": 26,
+        "next_table_first_band_id": 10
+      },
+      "column_seed": {
+        "page": 13,
+        "reference": "total_relative",
+        "roles": [
+          {"role": "PS", "column_candidate_id": 0},
+          {"role": "MOOE", "column_candidate_id": 1},
+          {"role": "CO", "column_candidate_id": 2},
+          {"role": "Total", "column_candidate_id": 3}
+        ]
+      },
+      "hierarchy_seed": {
+        "page": 13,
+        "band_id": 7,
+        "phrase_id": 13,
+        "text": "A. REGULAR PROGRAMS",
+        "level": 0,
+        "role": "hierarchy_root"
+      },
+      "carry_policy": {
+        "contiguous_pages_only": true,
+        "reset_on_gap": true,
+        "walk_from_root_or_require_reviewed_carried_in": true,
+        "close_at_declared_terminal_band": true
+      },
+      "development_pages": [13, 14, 15],
+      "page_expectations": [
+        {"page": 13, "carry_source": "explicit_root", "page_header_band_ids": [0], "has_table_header": true},
+        {"page": 14, "carry_source_page": 13, "page_header_band_ids": [0], "has_table_header": false},
+        {"page": 15, "carry_source_page": 14, "page_header_band_ids": [0], "has_table_header": false}
+      ]
+    }
+  ]
+}

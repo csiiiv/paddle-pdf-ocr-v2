@@ -2,8 +2,10 @@ export const DEFAULT_ZOOM = {mode:"fit", percent:100};
 export const DEFAULT_SPLIT = 58;
 export const DEFAULT_OVERLAY = "hide";
 export const DEFAULT_PANE = "data";
+export const DEFAULT_HIERARCHY = "prexc";
 export const OVERLAY_MODES = ["show","hide","off"];
 export const PANE_MODES = ["pdf","data"];
+export const HIERARCHY_MODES = ["pdf","prexc"];
 
 const CUSTOM_ZOOM = "custom,";
 
@@ -13,7 +15,7 @@ const bounded = (value, min, max, fallback) => {
   return Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : fallback;
 };
 
-/** Parse shareable view state: ?doc=&tree=&page=&node=&zoom=&split=&overlay=&pane= */
+/** Parse shareable view state: ?doc=&tree=&page=&node=&zoom=&split=&overlay=&pane=&hierarchy= */
 export function parseView(params) {
   const zoomParam = params.get("zoom");
   let zoom = DEFAULT_ZOOM;
@@ -21,6 +23,7 @@ export function parseView(params) {
   else if (zoomParam?.startsWith(CUSTOM_ZOOM)) zoom = {mode:"custom", percent:bounded(zoomParam.slice(CUSTOM_ZOOM.length),25,400,100)};
   const overlayParam = params.get("overlay");
   const paneParam = params.get("pane");
+  const hierarchyParam = params.get("hierarchy");
   return {
     doc: params.get("doc") || "",
     tree: params.get("tree") || "",
@@ -30,10 +33,11 @@ export function parseView(params) {
     split: bounded(params.get("split"), 32, 76, DEFAULT_SPLIT),
     overlay: OVERLAY_MODES.includes(overlayParam) ? overlayParam : DEFAULT_OVERLAY,
     pane: PANE_MODES.includes(paneParam) ? paneParam : DEFAULT_PANE,
+    hierarchy: HIERARCHY_MODES.includes(hierarchyParam) ? hierarchyParam : DEFAULT_HIERARCHY,
   };
 }
 
-export function writeView(params, {doc, tree, page, node, zoom, split, overlay, pane}) {
+export function writeView(params, {doc, tree, page, node, zoom, split, overlay, pane, hierarchy}) {
   const setValue = (key, value, fallback) => {
     if (value === undefined || value === null || value === "" || value === fallback) params.delete(key);
     else params.set(key, value);
@@ -47,5 +51,6 @@ export function writeView(params, {doc, tree, page, node, zoom, split, overlay, 
   if (split === DEFAULT_SPLIT) params.delete("split"); else params.set("split", split);
   setValue("overlay", overlay, DEFAULT_OVERLAY);
   setValue("pane", pane, DEFAULT_PANE);
+  setValue("hierarchy", hierarchy, DEFAULT_HIERARCHY);
   return params;
 }

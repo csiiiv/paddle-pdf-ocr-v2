@@ -19,11 +19,12 @@ def test_implemented_etl_scripts_mirror_numbered_stages() -> None:
     assert scripts == [
         "000.00-foundation.py",
         "001.00-paddle-ocr.py",
-        "002.00-layout.py",
         "002.10-token-geometry.py",
-        "003.00-table-cells.py",
-        "004.00-extract.py",
-        "005.00-schema.py",
+        "002.11-token-geometry-repair.py",
+        "002.20-table-structure.py",
+        "002.30-by-ou-tree.py",
+        "002.40-pap-tree.py",
+        "002.50-tree-totals.py",
     ]
 
 
@@ -63,30 +64,34 @@ def test_numbered_nodes_do_not_import_each_other() -> None:
 def test_tests_are_visibly_numbered_by_dag_owner() -> None:
     tests = sorted(path.name for path in (ETL / "tests").glob("test_*.py"))
     assert all(name.startswith("test_00") for name in tests)
-    for prefix in ("test_000_00_", "test_001_00_", "test_002_00_", "test_002_10_", "test_003_00_", "test_004_00_", "test_005_00_"):
+    for prefix in ("test_000_00_", "test_001_00_", "test_002_10_", "test_002_20_",
+                   "test_002_30_", "test_002_40_", "test_002_50_"):
         assert any(name.startswith(prefix) for name in tests), prefix
 
 
-def test_shared_modules_have_multiple_numbered_consumers() -> None:
+def test_shared_modules_have_declared_active_consumers() -> None:
     expected_consumers = {
-        "artifacts": {"001", "002", "003", "004", "005"},
-        "contracts": {"001", "002", "003", "004", "005"},
-        "manifest": {"001", "002", "003", "004", "005"},  # through _common
-        "raster": {"001", "002", "003"},
-        "regions": {"002", "003", "004"},
-        "timestamps": {"000", "001", "002", "003", "004", "005"},
+        "artifacts": {"001", "002"},
+        "contracts": {"001", "002"},
+        "manifest": {"001", "002"},  # through _common
+        "raster": {"001"},
+        "timestamps": {"000", "001", "002"},
     }
     modules = {path.stem for path in (ETL / "_shared").glob("*.py")
                if path.stem != "__init__"}
     assert modules == set(expected_consumers)
-    assert all(len(consumers) >= 2 for consumers in expected_consumers.values())
+    assert all(consumers for consumers in expected_consumers.values())
+    assert all(len(consumers) >= 2 for name, consumers in expected_consumers.items()
+               if name != "raster")
 
 
 def test_canonical_dag_document_covers_registered_nodes() -> None:
     document = (PROJECT / "docs" / "ETL_DAG.md").read_text(encoding="utf-8")
     for directory in (
         "000.00-foundation", "001.00-paddle-ocr", "002.00-layout",
-        "002.10-token-geometry",
+        "002.10-token-geometry", "002.11-token-geometry-repair",
+        "002.20-table-structure", "002.30-by-ou-tree", "002.40-pap-tree",
+        "002.50-tree-totals",
         "003.00-table-cells", "004.00-extract", "005.00-schema",
         "006.00-rows", "007.00-domain", "008.00-hierarchy",
         "009.00-collation", "999.00-run-qa",
@@ -103,6 +108,8 @@ def test_orchestrator_selects_inclusive_ordered_major_range() -> None:
     )
     assert [stage.name for stage in selected] == [
         "001.00-paddle-ocr", "002.10-token-geometry",
+        "002.11-token-geometry-repair", "002.20-table-structure",
+        "002.30-by-ou-tree", "002.40-pap-tree", "002.50-tree-totals",
     ]
 
 
@@ -116,14 +123,17 @@ def test_orchestrator_rejects_page_zero() -> None:
 
 
 def test_orchestrator_includes_active_insertions_in_major_range(monkeypatch) -> None:
-    insertion = ORCHESTRATOR.ActiveStage(2, 20, "002.20-example.py")
+    insertion = ORCHESTRATOR.ActiveStage(2, 60, "002.60-example.py")
     monkeypatch.setattr(
         ORCHESTRATOR, "ACTIVE_STAGES",
-        tuple(sorted((*ORCHESTRATOR.ACTIVE_STAGES, insertion), key=lambda stage: stage.key)),
+        tuple(sorted((*ORCHESTRATOR.ACTIVE_STAGES, insertion),
+                     key=lambda stage: stage.key)),
     )
     selected = ORCHESTRATOR.select_stages((2, 0), (2, 99))
     assert [stage.name for stage in selected] == [
-        "002.10-token-geometry", "002.20-example",
+        "002.10-token-geometry", "002.11-token-geometry-repair",
+        "002.20-table-structure", "002.30-by-ou-tree",
+        "002.40-pap-tree", "002.50-tree-totals", "002.60-example",
     ]
 
 

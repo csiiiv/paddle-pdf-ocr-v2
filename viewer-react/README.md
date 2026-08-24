@@ -7,8 +7,12 @@ does not mutate pipeline data.
 The maintained geometry workbench exposes independent overlays for Paddle
 tokens/lines and deterministic stage-002.10 evidence: baseline bands, gaps,
 phrases, marker and money phrases, amount right anchors, amount bands, label
-indents, separator candidates, and alignment fits. Defunct model-generated
-layout and cell artifacts are not loaded by this application. Selection links overlays to their source IDs and
+indents, separator candidates, and alignment fits. Stage-002.20 header polygons,
+label/amount column polygons, fit-bounded row polygons, intersecting cell polygons,
+consolidated boundaries, and reviewed By-OU bands are independently toggleable
+under **Sections**.
+Defunct zones, schema, extract, and model-cell artifacts are not loaded by this
+application. Selection links overlays to their source IDs and
 measurements; run/page/panel/zoom state is shareable through the URL.
 
 ```bash

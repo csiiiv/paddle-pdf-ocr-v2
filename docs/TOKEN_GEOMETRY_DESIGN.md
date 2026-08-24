@@ -123,6 +123,7 @@ evidence. Dividing every phrase immediately into `amount` and `label/title` is
 still too binary, so retain these observations first:
 
 - `numeric_candidate`: contains only permitted numeric punctuation;
+- `code_candidate`: a structurally separated leftmost 12+ digit program code;
 - `marker_candidate`: short leading numeric/letter punctuation run;
 - `text_candidate`: contains letters or other nonnumeric content;
 - `mixed_candidate`: contains both money-like and prose material.
@@ -131,6 +132,12 @@ Whether a numeric phrase is an amount depends on column repetition and table
 context. Bare numbers can instead be years, counts, PREXC values, station data,
 page numbers, or list markers. Likewise, non-amount text is not automatically a
 label or title.
+
+For cross-page comparison, retain each eligible phrase's corrected edge and
+distance from the rightmost amount anchor. Use the left edge for label-like
+phrases and the right edge for amount-like phrases. This page-local origin
+removes horizontal page shifts while preserving evidence for later hierarchy
+indent and amount-slot clustering.
 
 A canonical comma-grouped phrase can receive high
 `money_lexical_confidence` immediately. It becomes a high-confidence
@@ -229,6 +236,9 @@ the final cross-page semantic hierarchy level:
 The geometry stage should emit `prose_start_candidate_x` and
 `local_indent_group` clusters. The later hierarchy stage maps these to semantic
 levels using inherited state until a defined root resets it.
+
+Measured starting profiles for that later stage are recorded in
+[TABLE_HIERARCHY_BIN_CALIBRATION.md](TABLE_HIERARCHY_BIN_CALIBRATION.md).
 
 ### 8. Candidate cells
 

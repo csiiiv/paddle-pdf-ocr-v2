@@ -50,6 +50,9 @@
   "table_structure_spans": [
     {"pages": "105-120", "purpose": "Multi-table transition sample: late By-OU tables, the pages 107-108 By-OU to By-Year boundary, performance-indicator year/target tables, compact PS/MOOE/CO/Total summary lattice, and the start of PAP"}
   ],
+  "by_ou_structure_spans": [
+    {"pages": "13-28", "purpose": "Contiguous By-OU development span beginning at the first table; preserve sparse PS/MOOE/CO occupancy, wrapped labels, Total anchors, and page carry"}
+  ],
   "cross_volume_sources": [
     "paddle_pdf_ocr/fixtures/vol1_smoke.json",
     "paddle_pdf_ocr/fixtures/vol2a_smoke.json",

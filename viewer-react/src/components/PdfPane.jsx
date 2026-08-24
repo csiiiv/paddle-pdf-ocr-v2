@@ -8,19 +8,20 @@ pdfjs.GlobalWorkerOptions.workerPort=new PdfWorker();
 export default function PdfPane({viewer,page,layers,overlays,zoom,selection,onSelect}){
   const host=useRef(null),canvas=useRef(null),[pdf,setPdf]=useState(null),[pdfPage,setPdfPage]=useState(null),[viewport,setViewport]=useState(null),[error,setError]=useState(""),[size,setSize]=useState({width:700,height:800});
   useEffect(()=>{if(!host.current)return;const observer=new ResizeObserver(([entry])=>setSize({width:entry.contentRect.width,height:entry.contentRect.height}));observer.observe(host.current);return()=>observer.disconnect()},[]);
-  useEffect(()=>{if(!viewer?.pdf)return;let live=true,task;setError("");(async()=>{const failures=[];for(const url of pdfUrls(viewer.pdf)){try{task=pdfjs.getDocument({url,isEvalSupported:false,disableStream:true,disableAutoFetch:true,rangeChunkSize:65536});const doc=await task.promise;if(live){setPdf(doc);return}}catch(reason){failures.push(`${url}: ${reason?.message||reason}`)}}if(live)setError(`PDF failed to load. ${failures.join(" | ")}`)})();return()=>{live=false;task?.destroy()}},[viewer?.pdf]);
-  useEffect(()=>{if(!pdf||!page)return;let live=true;pdf.getPage(page).then((value)=>{if(live)setPdfPage(value)});return()=>{live=false}},[pdf,page]);
+  useEffect(()=>{if(!viewer?.pdf){setPdf(null);setPdfPage(null);setViewport(null);return;}let live=true,task;setError("");(async()=>{const failures=[];for(const url of pdfUrls(viewer.pdf)){try{task=pdfjs.getDocument({url,isEvalSupported:false,disableStream:true,disableAutoFetch:true,rangeChunkSize:65536});const doc=await task.promise;if(live){setPdf(doc);return}}catch(reason){failures.push(`${url}: ${reason?.message||reason}`)}}if(live)setError(`PDF failed to load. ${failures.join(" | ")}`)})();return()=>{live=false;task?.destroy()}},[viewer?.pdf]);
+  useEffect(()=>{if(!pdf||!page){setPdfPage(null);return;}let live=true;pdf.getPage(page).then((value)=>{if(live)setPdfPage(value)}).catch(()=>{if(live)setPdfPage(null)});return()=>{live=false}},[pdf,page]);
   useEffect(()=>{if(!pdfPage||!canvas.current)return;const base=pdfPage.getViewport({scale:1}),fitW=Math.max(.25,(size.width-28)/base.width),fitH=Math.max(.25,(size.height-28)/base.height),scale=zoom.mode==="height"?fitH:fitW*(zoom.mode==="custom"?zoom.percent/100:1),vp=pdfPage.getViewport({scale:Math.min(5,scale)});setViewport(vp);const el=canvas.current;el.width=Math.ceil(vp.width);el.height=Math.ceil(vp.height);el.style.width=`${vp.width}px`;el.style.height=`${vp.height}px`;const task=pdfPage.render({canvasContext:el.getContext("2d"),viewport:vp});return()=>task.cancel()},[pdfPage,size,zoom]);
-  const marks=useMemo(()=>buildMarks(layers,overlays,viewport,selection),[layers,overlays,viewport,selection]);
-  return <section className="pdf-pane" ref={host} aria-label="PDF page">{error&&<div className="pdf-error">{error}</div>}<div className="page-stage"><canvas ref={canvas}/>{viewport&&<svg className="overlay" width={viewport.width} height={viewport.height} viewBox={`0 0 ${viewport.width} ${viewport.height}`}>{marks.map((mark)=><g key={mark.key}>{mark.line?<line {...mark.line} className={`${mark.cls}${mark.selected?" selected-box":""}`} onClick={()=>onSelect(mark.type,mark.id,mark.item)}/>:<rect {...mark.rect} className={`${mark.cls}${mark.selected?" selected-box":""}`} onClick={()=>onSelect(mark.type,mark.id,mark.item)}/>}<title>{mark.title}</title>{mark.label&&<text x={mark.label.x} y={mark.label.y}>{mark.label.text}</text>}</g>)}</svg>}</div></section>;
+  const marks=useMemo(()=>buildMarks(layers,overlays,viewport,selection,page),[layers,overlays,viewport,selection,page]);
+  return <section className="pdf-pane" ref={host} aria-label="PDF page">{error&&<div className="pdf-error">{error}</div>}<div className="page-stage"><canvas ref={canvas}/>{viewport&&<svg className="overlay" width={viewport.width} height={viewport.height} viewBox={`0 0 ${viewport.width} ${viewport.height}`}>{marks.map((mark)=><g key={mark.key}>{mark.line?<line {...mark.line} className={`${mark.cls}${mark.selected?" selected-box":""}`} onClick={()=>onSelect(mark.type,mark.id,mark.item)}/>:mark.polygon?<polygon {...mark.polygon} className={`${mark.cls}${mark.selected?" selected-box":""}`} onClick={()=>onSelect(mark.type,mark.id,mark.item)}/>:<rect {...mark.rect} className={`${mark.cls}${mark.selected?" selected-box":""}`} onClick={()=>onSelect(mark.type,mark.id,mark.item)}/>}<title>{mark.title}</title>{mark.label&&<text x={mark.label.x} y={mark.label.y}>{mark.label.text}</text>}</g>)}</svg>}</div></section>;
 }
 
-function buildMarks(layers,show,viewport,selection){
+function buildMarks(layers,show,viewport,selection,page){
   if(!viewport)return[];
-  const source=layers.extract||layers.paddle,size=source?.page_size_pt||[viewport.width/viewport.scale,viewport.height/viewport.scale],sx=viewport.width/size[0],sy=viewport.height/size[1],out=[];
+  const source=layers.paddle,size=source?.page_size_pt||[viewport.width/viewport.scale,viewport.height/viewport.scale],sx=viewport.width/size[0],sy=viewport.height/size[1],out=[];
   const selected=(type,id)=>selection?.type===type&&String(selection.id)===String(id);
   const addBox=(item,type,id,cls,title,label)=>{const b=item.bbox;if(!b)return;const rect={x:b[0]*sx,y:b[1]*sy,width:Math.max(.6,(b[2]-b[0])*sx),height:Math.max(.6,(b[3]-b[1])*sy)};out.push({key:`${type}-${id}`,type,id,item,cls,title,rect,selected:selected(type,id),label:show.labels&&label?{x:rect.x+2,y:Math.max(10,rect.y+10),text:label}:null})};
   const addLine=(item,type,id,cls,segment,title,label,keyId)=>{if(!segment)return;const line={x1:segment[0]*sx,y1:segment[1]*sy,x2:segment[2]*sx,y2:segment[3]*sy};out.push({key:`${type}-${keyId??id}`,type,id,item,cls,title,line,selected:selected(type,id),label:show.labels&&label?{x:line.x1+2,y:Math.max(10,line.y1-2),text:label}:null})};
+  const addPolygon=(item,type,id,cls,title,label)=>{if(!item.polygon?.length)return;const points=item.polygon.map(([x,y])=>`${x*sx},${y*sy}`).join(" "),first=item.polygon[0];out.push({key:`${type}-${id}`,type,id,item,cls,title,polygon:{points},selected:selected(type,id),label:show.labels&&label?{x:first[0]*sx+2,y:Math.max(10,first[1]*sy+10),text:label}:null})};
   if(show.tokens)(source?.tokens||[]).forEach((item,i)=>addBox(item,"token",i,"box-token",item.text));
   if(show.lines)(source?.lines||[]).forEach((item,i)=>addBox(item,"line",item.line_id??i,"box-line",item.text));
   const geometry=layers.geometry;
@@ -34,5 +35,46 @@ function buildMarks(layers,show,viewport,selection){
   if(show.labelIndents)(geometry?.label_indent_anchors||[]).forEach((item,i)=>addLine(item,"indent",item.indent_id??i,item.review?"guide-indent-review":"guide-indent",item.line_segment,`${item.support} · x ${item.left_x} · n=${item.n_phrases}`,`I${item.indent_id} n${item.n_phrases}`));
   if(show.separators)(geometry?.separator_candidates||[]).forEach((item,i)=>addLine(item,"separator",item.separator_id??i,"guide-separator",item.line_segment,`label/amount gap ${item.gap_pt}pt · review candidate`,`S${item.separator_id}`));
   if(show.fits)(geometry?.fit_candidates||[]).forEach((fit)=>(fit.segments||[]).forEach((segment,i)=>addLine(fit,"fit",fit.fit_id,fit.review?"guide-fit-review":"guide-fit",segment,`slope ${fit.slope} · MAD ${fit.slope_mad}`,`F${fit.fit_id}`,`${fit.fit_id}:${i}`)));
+  if(show.headerSections)(layers.sections?.header_sections||[]).forEach((item,i)=>addPolygon(item,"headerSection",item.header_section_id??i,"box-header-section",`${item.role} · ${item.text}`,item.role));
+  if(show.columnSections)(layers.sections?.column_sections||[]).forEach((item,i)=>addPolygon(item,"columnSection",item.column_section_id??i,"box-column-section",`${item.role} · ${item.phrase_ids?.length||0} phrases`,item.role));
+  if(show.rowSections)(layers.sections?.row_sections||[]).forEach((item,i)=>addPolygon(item,"rowSection",item.row_section_id??i,"box-row-section",`row section ${item.row_section_id} · ${item.phrase_ids?.length||0} phrases`,`R${item.row_section_id}`));
+  if(show.cellSections)(layers.sections?.cell_sections||[]).forEach((item,i)=>addPolygon(item,"cellSection",item.cell_section_id??i,item.empty?"box-cell-section-empty":"box-cell-section",`${item.column_role} · ${item.text||"empty"}`,`C${item.row_section_id}:${item.column_section_id}`));
+  if(show.rowBoundaries)(layers.sections?.row_boundaries||[]).forEach((item,i)=>addLine(item,"rowBoundary",item.boundary_id??i,item.kind==="alignment_fit"?"guide-row-boundary":"guide-row-boundary-root",item.line_segment,`${item.kind} · ${item.n_observations??item.source??""}`,item.kind==="alignment_fit"?`RB${item.boundary_id}`:item.kind));
+  if(show.reviewedReferences)reviewedBandMarks(layers.reviewedTable,geometry).forEach((item)=>addBox(item,"reviewedBand",`${item.role}:${item.band_id}`,"box-reviewed-band",`${item.role} · band ${item.band_id}`,item.role));
+  appendTreeSelection(out,selection,page,geometry,sx,sy,show.labels);
   return out;
+}
+
+function appendTreeSelection(out,selection,page,geometry,sx,sy,showLabels){
+  if(selection?.type!=="treeNode"||Number(selection.item?.__page)!==Number(page))return;
+  const item=selection.item,id=selection.id,title=item.label||item.kind||String(id);
+  const pushBox=(bbox,key)=>{
+    if(!bbox)return;
+    const rect={x:bbox[0]*sx,y:bbox[1]*sy,width:Math.max(.6,(bbox[2]-bbox[0])*sx),height:Math.max(.6,(bbox[3]-bbox[1])*sy)};
+    out.push({key:`treeNode-${key}`,type:"treeNode",id,item,cls:"box-tree-node",title,rect,selected:true,label:showLabels?{x:rect.x+2,y:Math.max(10,rect.y+10),text:title}:null});
+  };
+  if(item.bbox){pushBox(item.bbox,id);return;}
+  if(!item.phrase_ids?.length||!geometry?.phrases)return;
+  const byId=new Map(geometry.phrases.map((phrase)=>[phrase.phrase_id,phrase]));
+  item.phrase_ids.forEach((phraseId,index)=>{
+    const phrase=byId.get(phraseId);
+    if(phrase?.bbox)pushBox(phrase.bbox,`${id}:${phraseId}:${index}`);
+  });
+}
+
+function reviewedBandMarks(table,geometry){
+  if(!table||!geometry)return[];
+  const page=geometry.page,roles=[];
+  if(page===table.start.page){
+    for(const id of table.start.page_header_band_ids||[])roles.push([id,"page_header"]);
+    for(const id of table.start.table_title_band_ids||[])roles.push([id,"table_title"]);
+    for(const id of table.start.column_header_band_ids||[])roles.push([id,"column_header"]);
+    roles.push([table.hierarchy_seed.band_id,"hierarchy_root"]);
+  }else{
+    const expectation=table.page_expectations?.find((item)=>item.page===page);
+    for(const id of expectation?.page_header_band_ids||[])roles.push([id,"page_header"]);
+  }
+  if(page===table.end.page)roles.push([table.end.terminal_band_id,"table_terminal"],[table.end.next_table_first_band_id,"next_table"]);
+  const bands=new Map((geometry.baseline_bands||[]).map((band)=>[band.band_id,band]));
+  return roles.map(([band_id,role])=>({...bands.get(band_id),band_id,role})).filter((item)=>item.bbox);
 }

@@ -1,4 +1,4 @@
-"""Region assignment used unchanged by cells and extract nodes."""
+"""Archived region/zone assignment used by retired layout and cell nodes."""
 
 from __future__ import annotations
 
