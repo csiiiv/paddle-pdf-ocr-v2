@@ -1,4 +1,5 @@
 import {useEffect, useRef} from "react";
+import Icon from "./Icon.jsx";
 
 /** Modal listing every downloadable pack file for the current document. */
 export default function DownloadModal({open, files, onClose}) {
@@ -19,7 +20,9 @@ export default function DownloadModal({open, files, onClose}) {
          ref={dialog} onClick={(event) => event.stopPropagation()}>
       <div className="modal-header">
         <h2 id="download-modal-title">Download data</h2>
-        <button type="button" className="modal-close" onClick={onClose} aria-label="Close">×</button>
+        <button type="button" className="modal-close" onClick={onClose} aria-label="Close">
+          <Icon name="close"/>
+        </button>
       </div>
       <p className="muted modal-lead">Machine-readable extracts from the current document.</p>
       {!files.length

@@ -1,4 +1,5 @@
 import {useEffect, useMemo, useState} from "react";
+import Icon from "./Icon.jsx";
 
 const KNOWN_AMOUNT_ORDER = ["PS","MOOE","CO"];
 
@@ -30,17 +31,26 @@ const formatAmountCell = (node, role) => node?.amounts?.[role]?.text
 const kindLabel = (kind) => String(kind || "").replaceAll("_", " ");
 
 /** Searchable, collapsible hierarchy table over a slim exported tree. */
-export default function TreePanel({tree, currentPage, selectedId, onSelect}) {
+export default function TreePanel({tree, currentPage, selectedId, onSelect, compact = false, active = true}) {
   const nodes = tree?.nodes || [];
   const byId = useMemo(() => new Map(nodes.map((node) => [node.id, node])), [nodes]);
   const parentIds = useMemo(() => new Set(nodes.filter((node) => node.children?.length).map((node) => node.id)), [nodes]);
-  const [expanded, setExpanded] = useState(() => new Set(tree?.roots || []));  const [query, setQuery] = useState("");
+  const [expanded, setExpanded] = useState(() => new Set(tree?.roots || []));
+  const [queryDraft, setQueryDraft] = useState("");
+  const [query, setQuery] = useState("");
   const [currentOnly, setCurrentOnly] = useState(false);
+
+  // Debounce search so large trees don't refilter on every keystroke.
+  useEffect(() => {
+    const timer = setTimeout(() => setQuery(queryDraft), 250);
+    return () => clearTimeout(timer);
+  }, [queryDraft]);
 
   // Reveal the selected row: expand only its ancestor chain (never the node
   // itself, so its own children stay collapsed) and scroll it into view.
+  // Wait until the pane is visible (mobile Data tab) so scrollIntoView works.
   useEffect(() => {
-    if (!selectedId || !tree) return;
+    if (!selectedId || !tree || !active) return;
     setExpanded((value) => {
       const next = new Set(value);
       let cursor = byId.get(selectedId);
@@ -52,7 +62,7 @@ export default function TreePanel({tree, currentPage, selectedId, onSelect}) {
         ?.scrollIntoView({block: "nearest"});
     });
     return () => cancelAnimationFrame(frame);
-  }, [selectedId, tree, byId]);
+  }, [selectedId, tree, byId, active]);
 
   const included = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -90,20 +100,26 @@ export default function TreePanel({tree, currentPage, selectedId, onSelect}) {
   const amountColumns = tree.columns || collectAmountColumns(nodes);
   const select = (node) => onSelect(node);
 
-  return <div className="tree-panel">
-    <div className="card tree-summary">
-      <div><strong>{tree.title || tree.id || "Tree"}</strong><br/>
-        <span className="muted">{nodes.length} nodes · {tree.pages?.length ?? new Set(nodes.map((n) => n.page).filter(Boolean)).size} pages</span>
-      </div>
-      <div className="tree-actions">
-        <button onClick={() => setExpanded(new Set(parentIds))}>Expand all</button>
-        <button onClick={() => setExpanded(new Set(tree.roots || []))}>Collapse</button>
-      </div>
-    </div>
+  return <div className={`tree-panel${compact ? " is-compact" : ""}`}>
+    {!compact &&
+      <div className="card tree-summary">
+        <div><strong>{tree.title || tree.id || "Tree"}</strong><br/>
+          <span className="muted">{nodes.length} nodes · {tree.pages?.length ?? new Set(nodes.map((n) => n.page).filter(Boolean)).size} pages</span>
+        </div>
+        <div className="tree-actions">
+          <button type="button" onClick={() => setExpanded(new Set(parentIds))}>Expand all</button>
+          <button type="button" onClick={() => setExpanded(new Set(tree.roots || []))}>Collapse</button>
+        </div>
+      </div>}
     <div className="tree-toolbar">
-      <input aria-label="Search tree" type="search" placeholder="Search label, code, or kind…" value={query} onChange={(event) => setQuery(event.target.value)}/>
-      <label className="check"><input type="checkbox" checked={currentOnly} onChange={(event) => setCurrentOnly(event.target.checked)}/>Page {currentPage} only</label>
-      <span className="muted">{rows.length} visible</span>
+      <input aria-label="Search tree" type="search" placeholder={compact ? "Search…" : "Search label, code, or kind…"} value={queryDraft} onChange={(event) => setQueryDraft(event.target.value)}/>
+      <label className="check"><input type="checkbox" checked={currentOnly} onChange={(event) => setCurrentOnly(event.target.checked)}/>{compact ? `p.${currentPage ?? "—"}` : `Page ${currentPage} only`}</label>
+      {!compact && <span className="muted">{rows.length} visible</span>}
+      {compact &&
+        <div className="tree-actions">
+          <button type="button" onClick={() => setExpanded(new Set(parentIds))}>Expand</button>
+          <button type="button" onClick={() => setExpanded(new Set(tree.roots || []))}>Collapse</button>
+        </div>}
     </div>
     {!rows.length ? <p className="muted">No matching hierarchy rows.</p> :
       <div className="tree-table-wrap">
@@ -118,7 +134,9 @@ export default function TreePanel({tree, currentPage, selectedId, onSelect}) {
               <td>
                 <div className="tree-label" style={{"--tree-depth":depth}}>
                   {hasChildren
-                    ? <button className="tree-toggle" aria-label={`${expanded.has(node.id) ? "Collapse" : "Expand"} ${node.label}`} aria-expanded={expanded.has(node.id)} onClick={(event) => {event.stopPropagation(); toggle(node.id)}}>{expanded.has(node.id) ? "▾" : "▸"}</button>
+                    ? <button className="tree-toggle" aria-label={`${expanded.has(node.id) ? "Collapse" : "Expand"} ${node.label}`} aria-expanded={expanded.has(node.id)} onClick={(event) => {event.stopPropagation(); toggle(node.id)}}>
+                        <Icon name={expanded.has(node.id) ? "expand_more" : "chevron_right"} size={18}/>
+                      </button>
                     : <span className="tree-spacer"/>}
                   <span><span className={`tree-kind-dot kind-${node.kind}`}/>{node.label || "(blank label)"}{node.code && <code>{node.code}</code>}</span>
                 </div>

@@ -1,6 +1,9 @@
 export const DEFAULT_ZOOM = {mode:"fit", percent:100};
 export const DEFAULT_SPLIT = 58;
+export const DEFAULT_OVERLAY = "hide";
+export const DEFAULT_PANE = "data";
 export const OVERLAY_MODES = ["show","hide","off"];
+export const PANE_MODES = ["pdf","data"];
 
 const CUSTOM_ZOOM = "custom,";
 
@@ -10,13 +13,14 @@ const bounded = (value, min, max, fallback) => {
   return Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : fallback;
 };
 
-/** Parse shareable view state: ?doc=&tree=&page=&node=&zoom=&split=&overlay= */
+/** Parse shareable view state: ?doc=&tree=&page=&node=&zoom=&split=&overlay=&pane= */
 export function parseView(params) {
   const zoomParam = params.get("zoom");
   let zoom = DEFAULT_ZOOM;
   if (zoomParam === "fit" || zoomParam === "height") zoom = {mode:zoomParam, percent:100};
   else if (zoomParam?.startsWith(CUSTOM_ZOOM)) zoom = {mode:"custom", percent:bounded(zoomParam.slice(CUSTOM_ZOOM.length),25,400,100)};
   const overlayParam = params.get("overlay");
+  const paneParam = params.get("pane");
   return {
     doc: params.get("doc") || "",
     tree: params.get("tree") || "",
@@ -24,11 +28,12 @@ export function parseView(params) {
     node: params.get("node") || "",
     zoom,
     split: bounded(params.get("split"), 32, 76, DEFAULT_SPLIT),
-    overlay: OVERLAY_MODES.includes(overlayParam) ? overlayParam : "show",
+    overlay: OVERLAY_MODES.includes(overlayParam) ? overlayParam : DEFAULT_OVERLAY,
+    pane: PANE_MODES.includes(paneParam) ? paneParam : DEFAULT_PANE,
   };
 }
 
-export function writeView(params, {doc, tree, page, node, zoom, split, overlay}) {
+export function writeView(params, {doc, tree, page, node, zoom, split, overlay, pane}) {
   const setValue = (key, value, fallback) => {
     if (value === undefined || value === null || value === "" || value === fallback) params.delete(key);
     else params.set(key, value);
@@ -40,6 +45,7 @@ export function writeView(params, {doc, tree, page, node, zoom, split, overlay})
   const zoomValue = zoom.mode === "custom" ? `${CUSTOM_ZOOM}${zoom.percent}` : zoom.mode;
   if (zoomValue === DEFAULT_ZOOM.mode) params.delete("zoom"); else params.set("zoom", zoomValue);
   if (split === DEFAULT_SPLIT) params.delete("split"); else params.set("split", split);
-  setValue("overlay", overlay, "show");
+  setValue("overlay", overlay, DEFAULT_OVERLAY);
+  setValue("pane", pane, DEFAULT_PANE);
   return params;
 }

@@ -1,12 +1,32 @@
 import {useEffect, useMemo, useRef, useState} from "react";
 import {loadIndex, loadManifest, loadTree, pdfHref, treeDownloads} from "./lib/api.js";
-import {parseView, writeView} from "./lib/viewState.js";
+import {DEFAULT_PANE, PANE_MODES, parseView, writeView} from "./lib/viewState.js";
 import DownloadModal from "./components/DownloadModal.jsx";
+import AboutModal from "./components/AboutModal.jsx";
+import WelcomeModal, {shouldShowWelcome} from "./components/WelcomeModal.jsx";
 import PdfPane from "./components/PdfPane.jsx";
+import PdfToolbar from "./components/PdfToolbar.jsx";
+import Icon from "./components/Icon.jsx";
 import TreePanel from "./components/TreePanel.jsx";
+
+const MOBILE_QUERY = "(max-width: 800px)";
+
+function useIsMobile() {
+  const [mobile, setMobile] = useState(() =>
+    typeof matchMedia !== "undefined" && matchMedia(MOBILE_QUERY).matches);
+  useEffect(() => {
+    const mql = matchMedia(MOBILE_QUERY);
+    const onChange = () => setMobile(mql.matches);
+    onChange();
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
+  return mobile;
+}
 
 export default function App() {
   const initial = useMemo(() => parseView(new URLSearchParams(location.search)), []);
+  const isMobile = useIsMobile();
   const [docs, setDocs] = useState([]);
   const [doc, setDoc] = useState(initial.doc);
   const [manifest, setManifest] = useState(null);
@@ -18,11 +38,25 @@ export default function App() {
   const [zoom, setZoom] = useState(initial.zoom);
   const [split, setSplit] = useState(initial.split);
   const [overlayMode, setOverlayMode] = useState(initial.overlay);
+  const [syncEnabled, setSyncEnabled] = useState(true);
+  const [mobilePane, setMobilePane] = useState(() => {
+    const raw = new URLSearchParams(location.search).get("pane");
+    if (PANE_MODES.includes(raw)) return raw;
+    if (initial.node || initial.page) return "pdf";
+    return DEFAULT_PANE;
+  });
   const [downloadOpen, setDownloadOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [welcomeOpen, setWelcomeOpen] = useState(() => shouldShowWelcome());
+  const [pdfSheetOpen, setPdfSheetOpen] = useState(false);
+  const [dataSheetOpen, setDataSheetOpen] = useState(false);
   const [pdfPageCount, setPdfPageCount] = useState(null);
+  const [toast, setToast] = useState("");
+  const [toastTick, setToastTick] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const dragging = useRef(false);
+  const toastTimer = useRef(null);
 
   // Load the multi-doc index once; fall back to the first document.
   useEffect(() => {
@@ -74,51 +108,104 @@ export default function App() {
     return () => { live = false; };
   }, [doc, manifest, treeId]);
 
-  // Keep page inside the full PDF range (not just tree-covered pages).
+  // Keep page inside the full PDF range (clamp under/overflow; never hard-reset to 1 on overflow).
   useEffect(() => {
     if (!pdfPageCount) return;
-    if (!page || page < 1 || page > pdfPageCount) setPage(1);
-  }, [pdfPageCount, page]);
+    setPage((current) => {
+      const n = Math.trunc(Number(current));
+      if (!Number.isFinite(n) || n < 1) return 1;
+      if (n > pdfPageCount) return pdfPageCount;
+      return n;
+    });
+  }, [pdfPageCount]);
 
   // Retain shareable state in the URL.
   useEffect(() => {
     const params = new URLSearchParams();
-    writeView(params, {doc, tree:treeId, page, node:selectedNode?.id || "", zoom, split, overlay:overlayMode});
+    writeView(params, {
+      doc, tree:treeId, page, node:selectedNode?.id || "", zoom, split,
+      overlay:overlayMode, pane:mobilePane,
+    });
     history.replaceState(null, "", `${location.pathname}?${params.toString()}`);
-  }, [doc, treeId, page, selectedNode, zoom, split, overlayMode]);
+  }, [doc, treeId, page, selectedNode, zoom, split, overlayMode, mobilePane]);
 
   useEffect(() => {
-    const move = (e) => { if (dragging.current) setSplit(Math.max(32, Math.min(76, e.clientX / innerWidth * 100))); };
+    const move = (e) => {
+      if (!dragging.current || isMobile) return;
+      setSplit(Math.max(32, Math.min(76, e.clientX / innerWidth * 100)));
+    };
     const up = () => { dragging.current = false; document.body.classList.remove("dragging"); };
     addEventListener("pointermove", move); addEventListener("pointerup", up);
     return () => { removeEventListener("pointermove", move); removeEventListener("pointerup", up); };
-  }, []);
+  }, [isMobile]);
 
-  // Full PDF page list — tree-only pages would hide covers, dividers, notes.
-  const pages = useMemo(
-    () => pdfPageCount ? Array.from({length: pdfPageCount}, (_, i) => i + 1) : [],
-    [pdfPageCount],
-  );
-  const at = pages.indexOf(page);
+  useEffect(() => {
+    if (!isMobile) {
+      setPdfSheetOpen(false);
+      setDataSheetOpen(false);
+    }
+  }, [isMobile]);
+
+  const clampPage = (value) => {
+    if (!pdfPageCount) return null;
+    const n = Math.trunc(Number(value));
+    if (!Number.isFinite(n)) return 1;
+    return Math.min(pdfPageCount, Math.max(1, n));
+  };
+  const goToPage = (value) => {
+    const next = clampPage(value);
+    if (next != null) setPage(next);
+  };
+
+  // Draft lets the field go empty while typing; committed page stays clamped.
+  const [pageDraft, setPageDraft] = useState(() => (initial.page == null ? "" : String(initial.page)));
+  useEffect(() => { setPageDraft(page == null ? "" : String(page)); }, [page]);
+  const commitPageDraft = () => goToPage(pageDraft === "" ? 1 : pageDraft);
+
   const keyboardNav = (event) => {
-    if (event.target.matches("input,select")) return;
-    if (event.key === "ArrowLeft" && at > 0) setPage(pages[at - 1]);
-    if (event.key === "ArrowRight" && at >= 0 && at < pages.length - 1) setPage(pages[at + 1]);
+    if (event.target.matches("input,select,textarea")) return;
+    if (!page || !pdfPageCount) return;
+    if (event.key === "ArrowLeft" && page > 1) goToPage(page - 1);
+    if (event.key === "ArrowRight" && page < pdfPageCount) goToPage(page + 1);
   };
   useEffect(() => {
     addEventListener("keydown", keyboardNav);
     return () => removeEventListener("keydown", keyboardNav);
-  }, [at, pages.length]);
+  }, [page, pdfPageCount]);
 
-  const selectNode = (node) => {
+  const showToast = (message) => {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    setToast(message);
+    // Remount so the nudge animation replays even for the same message.
+    setToastTick((tick) => tick + 1);
+    toastTimer.current = setTimeout(() => setToast(""), 2800);
+  };
+  useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current); }, []);
+
+  const hasBbox = (node) => Array.isArray(node?.bbox) && node.bbox.length === 4;
+
+  const selectNode = (node, {fromTree = false} = {}) => {
+    // Sync off: tree still selects locally; PDF clicks are ignored (no onNodeClick).
+    if (!syncEnabled) {
+      if (fromTree) setSelectedNode(node);
+      return;
+    }
     setSelectedNode(node);
     if (node?.page) setPage(node.page);
+    if (node && !hasBbox(node)) {
+      showToast("no bbox in pdf");
+      return;
+    }
+    if (!isMobile || !node) return;
+    // Tree → PDF when the row maps onto the page; PDF → Data so the row is focused.
+    if (fromTree && hasBbox(node)) setMobilePane("pdf");
+    else if (!fromTree) setMobilePane("data");
   };
 
-  // Nodes of the current page, for clickable PDF overlays.
+  // Every node on this page that has a row bbox — leaves and parents alike.
   const pageNodes = useMemo(() => {
     if (!tree || !page) return [];
-    return tree.nodes.filter((node) => node.page === page && node.bbox);
+    return tree.nodes.filter((node) => Number(node.page) === Number(page) && Array.isArray(node.bbox) && node.bbox.length === 4);
   }, [tree, page]);
 
   // Restore a shared-link node selection once its tree is loaded.
@@ -140,62 +227,140 @@ export default function App() {
     [manifest, doc],
   );
 
-  return <div className="app">
+  const pdfToolbar = <PdfToolbar
+    page={page} pageDraft={pageDraft} pdfPageCount={pdfPageCount} zoom={zoom}
+    overlayMode={overlayMode} syncEnabled={syncEnabled}
+    onPrev={() => goToPage(page - 1)} onNext={() => goToPage(page + 1)}
+    onPageChange={(value) => { setPageDraft(value); if (value !== "") goToPage(value); }}
+    onPageBlur={commitPageDraft} onZoom={setZoom} onOverlay={setOverlayMode}
+    onSync={() => setSyncEnabled((on) => !on)}
+  />;
+
+  return <div className={`app${isMobile ? " is-mobile" : ""}`}>
     <header>
-      <div className="brand"><strong>Budget Explorer</strong><span>static export</span></div>
-      <div className="group"><label>Document</label>
-        <select value={doc} onChange={(e) => { setDoc(e.target.value); setTreeId(""); setPage(null); }} aria-label="Document">
-          {docs.map((name) => <option key={name} value={name}>{name}</option>)}
-        </select>
-      </div>
-      {downloadFiles.length > 0 &&
-        <button type="button" onClick={() => setDownloadOpen(true)}>Download data</button>}
-      <div className="group zoom">
-        <button className={zoom.mode === "fit" ? "active" : ""} onClick={() => setZoom({mode:"fit", percent:100})}>Fit W</button>
-        <button className={zoom.mode === "height" ? "active" : ""} onClick={() => setZoom({mode:"height", percent:100})}>Fit H</button>
-        <button onClick={() => setZoom({mode:"custom", percent:Math.max(25, zoom.percent - 10)})}>−</button>
-        <input type="number" min="25" max="400" value={zoom.percent} onChange={(e) => setZoom({mode:"custom", percent:Number(e.target.value)})}/>
-        <span>%</span>
-        <button onClick={() => setZoom({mode:"custom", percent:Math.min(400, zoom.percent + 10)})}>+</button>
-      </div>
-      <span className={`status ${error ? "error" : ""}`}>{status}</span>
+      {isMobile
+        ? <div className="mobile-top">
+            <div className="mobile-top-row">
+              <strong className="mobile-brand">NEP Explorer</strong>
+              <select className="mobile-doc" value={doc}
+                      onChange={(e) => { setDoc(e.target.value); setTreeId(""); setPage(null); }}
+                      aria-label="Document">
+                {docs.map((name) => <option key={name} value={name}>{name}</option>)}
+              </select>
+              {downloadFiles.length > 0 &&
+                <button type="button" className="mobile-icon-btn" onClick={() => setDownloadOpen(true)} aria-label="Download data">
+                  <Icon name="download"/>
+                </button>}
+              <button type="button" className="mobile-icon-btn" onClick={() => setAboutOpen(true)} aria-label="About">
+                <Icon name="info"/>
+              </button>
+            </div>
+            <div className="mobile-switch" role="tablist" aria-label="View mode">
+              <button type="button" role="tab" aria-selected={mobilePane === "pdf"}
+                      className={mobilePane === "pdf" ? "active" : ""}
+                      onClick={() => { setMobilePane("pdf"); setDataSheetOpen(false); }}>PDF</button>
+              <button type="button" role="tab" aria-selected={mobilePane === "data"}
+                      className={mobilePane === "data" ? "active" : ""}
+                      onClick={() => { setMobilePane("data"); setPdfSheetOpen(false); }}>Data</button>
+            </div>
+          </div>
+        : <>
+            <div className="brand"><strong>NEP Budget Explorer</strong><span>static export</span></div>
+            <div className="group"><label>Document</label>
+              <select value={doc} onChange={(e) => { setDoc(e.target.value); setTreeId(""); setPage(null); }} aria-label="Document">
+                {docs.map((name) => <option key={name} value={name}>{name}</option>)}
+              </select>
+            </div>
+            {downloadFiles.length > 0 &&
+              <button type="button" onClick={() => setDownloadOpen(true)}>Download data</button>}
+            <span className={`status ${error ? "error" : ""}`}>{status}</span>
+          </>}
     </header>
     <DownloadModal open={downloadOpen} files={downloadFiles} onClose={() => setDownloadOpen(false)} />
-    <main style={{gridTemplateColumns:`minmax(360px,${split}%) 6px minmax(300px,1fr)`}}>
+    <AboutModal open={aboutOpen} onClose={() => setAboutOpen(false)} />
+    <WelcomeModal open={welcomeOpen} onClose={() => setWelcomeOpen(false)} />
+    {toast && <div key={toastTick} className="toast" role="status" aria-live="polite">{toast}</div>}
+    <main className={isMobile ? "mobile-layout" : undefined}
+          data-pane={isMobile ? mobilePane : undefined}
+          style={isMobile ? undefined : {gridTemplateColumns:`minmax(360px,${split}%) 6px minmax(300px,1fr)`}}>
       <div className="pdf-pane">
-        <div className="pdf-toolbar">
-          <div className="group"><label>Page</label>
-            <button disabled={at <= 0} onClick={() => setPage(pages[at - 1])} aria-label="Previous page">←</button>
-            <select value={pages.includes(page) ? page : (pages[0] ?? "")} onChange={(e) => setPage(Number(e.target.value))} disabled={!pages.length} aria-label="Page">
-              {pages.map((p) => <option key={p} value={p}>{p}</option>)}
-            </select>
-            <button disabled={at < 0 || at === pages.length - 1} onClick={() => setPage(pages[at + 1])} aria-label="Next page">→</button>
-            <span className="muted">{pages.length ? `${at + 1} / ${pages.length}` : "—"}</span>
-          </div>
-          <div className="group"><label>Row boxes</label>
-            <select value={overlayMode} onChange={(e) => setOverlayMode(e.target.value)} aria-label="Row bounding boxes">
-              <option value="show">Show</option>
-              <option value="hide">Hide (clickable)</option>
-              <option value="off">Off</option>
-            </select>
-          </div>
+        {!isMobile && <div className="pdf-toolbar">{pdfToolbar}</div>}
+        <div className="pdf-view">
+          <PdfPane pdfUrl={manifest ? pdfHref(manifest) : null} page={page}
+                   highlight={syncEnabled ? selectedNode : null}
+                   pageNodes={pageNodes} overlayMode={overlayMode} zoom={zoom}
+                   onNodeClick={syncEnabled ? ((node) => selectNode(node)) : undefined}
+                   onDocumentLoad={setPdfPageCount}
+                   onZoomChange={setZoom} pinchZoom={isMobile} />
+          {isMobile &&
+            <div className="fab-stack">
+              <button type="button" className="fab" disabled={!page || page <= 1}
+                      onClick={() => goToPage(page - 1)} aria-label="Previous page">
+                <Icon name="chevron_left" size={24}/>
+              </button>
+              <button type="button" className="fab fab-page"
+                      onClick={() => setPdfSheetOpen(true)}
+                      aria-label="PDF tools">
+                {page ?? "—"}
+                <span>{pdfPageCount ? `/ ${pdfPageCount}` : ""}</span>
+              </button>
+              <button type="button" className="fab" disabled={!page || !pdfPageCount || page >= pdfPageCount}
+                      onClick={() => goToPage(page + 1)} aria-label="Next page">
+                <Icon name="chevron_right" size={24}/>
+              </button>
+            </div>}
         </div>
-        <PdfPane pdfUrl={manifest ? pdfHref(manifest) : null} page={page} highlight={selectedNode}
-                 pageNodes={pageNodes} overlayMode={overlayMode} onNodeClick={selectNode}
-                 onDocumentLoad={setPdfPageCount} />
       </div>
-      <div className="splitter" onPointerDown={() => { dragging.current = true; document.body.classList.add("dragging"); }}/>
+      <div className="splitter" onPointerDown={() => {
+        if (isMobile) return;
+        dragging.current = true;
+        document.body.classList.add("dragging");
+      }}/>
       <aside>
-        <div className="panel-tabs" role="tablist" aria-label="Tree selection">
-          {(manifest?.trees || []).map((meta) =>
-            <button key={meta.id} role="tab" aria-selected={meta.id === treeId} className={meta.id === treeId ? "active" : ""} onClick={() => setTreeId(meta.id)}>{meta.label}</button>)}
-        </div>
+        {!isMobile &&
+          <div className="panel-tabs" role="tablist" aria-label="Tree selection">
+            {(manifest?.trees || []).map((meta) =>
+              <button key={meta.id} role="tab" aria-selected={meta.id === treeId} className={meta.id === treeId ? "active" : ""} onClick={() => setTreeId(meta.id)}>{meta.label}</button>)}
+          </div>}
         <div className="panel">
           {treeLoading && <p className="muted">Loading tree…</p>}
-          {!treeLoading && !error && <TreePanel tree={tree} currentPage={page} selectedId={selectedNode?.id} onSelect={selectNode} />}
+          {!treeLoading && !error &&
+            <TreePanel tree={tree} currentPage={page} selectedId={selectedNode?.id} compact={isMobile}
+                       active={!isMobile || mobilePane === "data"}
+                       onSelect={(node) => selectNode(node, {fromTree:true})} />}
         </div>
+        {isMobile &&
+          <button type="button" className="fab fab-data" onClick={() => setDataSheetOpen(true)}
+                  aria-label="Tree options">
+            <Icon name="menu" size={24}/>
+          </button>}
       </aside>
     </main>
-    <footer>{selectedNode ? `${selectedNode.label || selectedNode.id}` : "No selection"}</footer>
+    {isMobile && pdfSheetOpen &&
+      <div className="sheet-backdrop" onClick={() => setPdfSheetOpen(false)}>
+        <div className="sheet" role="dialog" aria-label="PDF tools" onClick={(e) => e.stopPropagation()}>
+          <div className="sheet-handle"/>
+          <div className="pdf-toolbar sheet-toolbar">{pdfToolbar}</div>
+          <button type="button" className="sheet-done" onClick={() => setPdfSheetOpen(false)}>Done</button>
+        </div>
+      </div>}
+    {isMobile && dataSheetOpen &&
+      <div className="sheet-backdrop" onClick={() => setDataSheetOpen(false)}>
+        <div className="sheet" role="dialog" aria-label="Tree options" onClick={(e) => e.stopPropagation()}>
+          <div className="sheet-handle"/>
+          <p className="sheet-title">Tree</p>
+          <div className="panel-tabs sheet-tabs" role="tablist" aria-label="Tree selection">
+            {(manifest?.trees || []).map((meta) =>
+              <button key={meta.id} role="tab" aria-selected={meta.id === treeId}
+                      className={meta.id === treeId ? "active" : ""}
+                      onClick={() => { setTreeId(meta.id); setDataSheetOpen(false); }}>{meta.label}</button>)}
+          </div>
+          <button type="button" className="sheet-done" onClick={() => setDataSheetOpen(false)}>Done</button>
+        </div>
+      </div>}
+    <footer>
+      <span className="footer-status">{selectedNode ? `${selectedNode.label || selectedNode.id}` : "No selection"}</span>
+      {!isMobile && <button type="button" className="footer-about" onClick={() => setAboutOpen(true)}>About</button>}
+    </footer>
   </div>;
 }
