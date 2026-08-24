@@ -1,0 +1,52 @@
+/* Keep the viewer toolbar compact on phones rotated to landscape.
+   Width alone is not enough: many landscape phones are wider than the
+   portrait/mobile breakpoint while still having very limited vertical space. */
+@media (orientation: landscape) and (max-width: 1000px) and (max-height: 600px) {
+  header {
+    gap: 6px;
+    min-height: 0;
+    padding: 4px 8px;
+  }
+
+  .brand {
+    width: auto;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .brand span,
+  .muted,
+  .status,
+  .check,
+  .zoom span {
+    font-size: 9px !important;
+  }
+
+  .group {
+    gap: 3px;
+  }
+
+  .group > label:not(.check) {
+    font-size: 8px;
+  }
+
+  button,
+  select,
+  input {
+    min-height: 26px;
+    padding: 3px 6px;
+    font-size: 11px;
+  }
+
+  .brand + .group select {
+    width: min(230px, 28vw);
+  }
+
+  .zoom input {
+    width: 46px;
+  }
+
+  .status {
+    max-width: 150px;
+  }
+}
