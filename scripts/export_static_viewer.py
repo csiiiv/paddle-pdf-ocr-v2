@@ -23,6 +23,7 @@ sys.path.insert(0, str(PROJECT))
 
 from etl._shared.artifacts import STAGE_DIRS  # noqa: E402
 from etl._shared.prexc import parse_prexc  # noqa: E402
+from etl._shared.pap_label_anatomy import enrich_pap_label  # noqa: E402
 from etl._shared.timestamps import iso_now  # noqa: E402
 
 MANIFEST_FORMAT = 1
@@ -56,7 +57,7 @@ DATA_SPECS = {
         "stem": "by-pap",
         "columns": [
             "row_index", "id", "kind", "page", "tier_pdf", "label", "code",
-            "parent_id", "amount",
+            "parent_id", "amount", "chainages", "lat", "lon",
         ],
         "amount_columns": {"amount": "AMOUNT (Php)"},
     },
@@ -185,7 +186,34 @@ def slim_node(node: dict[str, Any], mapping: dict[str, str] | None = None,
     else:
         slim["parent"] = node.get("parent")
         slim["children"] = node.get("children") or []
+        if node.get("label_ocr"):
+            slim["label_ocr"] = node["label_ocr"]
+        if node.get("description"):
+            slim["description"] = node["description"]
+        if node.get("chainages"):
+            slim["chainages"] = node["chainages"]
+        if node.get("coordinates"):
+            slim["coordinates"] = node["coordinates"]
     return slim
+
+
+def pap_node_anatomy(node: dict[str, Any]) -> dict[str, Any]:
+    """Return stripped label + anatomy fields, enriching from OCR when needed."""
+    source = node.get("label_ocr") or str(node.get("label") or "")
+    enriched = enrich_pap_label(
+        source,
+        label_raw=node.get("label_raw"),
+        line_metrics=node.get("label_line_metrics"),
+    )
+    if enriched["label_ocr"]:
+        return enriched
+    return {
+        "label": node.get("label"),
+        "label_ocr": node.get("label_ocr"),
+        "description": node.get("description"),
+        "chainages": node.get("chainages"),
+        "coordinates": node.get("coordinates"),
+    }
 
 
 def compute_depths(nodes: list[dict[str, Any]], parent_key: str) -> dict[str, int]:
@@ -289,6 +317,12 @@ def csv_row_values(node: dict[str, Any], tree_id: str,
         })
     else:
         row["parent_id"] = node.get("parent") or ""
+        chainages = node.get("chainages")
+        row["chainages"] = json.dumps(chainages, ensure_ascii=False) if chainages else ""
+        coords = node.get("coordinates") or []
+        first = coords[0] if coords else {}
+        row["lat"] = first.get("lat", "")
+        row["lon"] = first.get("lon", "")
     for column, role in spec["amount_columns"].items():
         row[column] = csv_amount(node, role)
     return row
@@ -336,6 +370,17 @@ def export_tree(tree_id: str, stage_name: str, run_root: Path, out_dir: Path,
         if pap_name:
             mapping = {role: pap_name for role in (node.get("amounts") or {})}
         slim = slim_node(node, mapping, dual_hierarchy=dual_hierarchy, row_index=row_index)
+        if pap_name:
+            anatomy = pap_node_anatomy(node)
+            slim["label"] = anatomy["label"]
+            if anatomy.get("label_ocr"):
+                slim["label_ocr"] = anatomy["label_ocr"]
+            if anatomy.get("description"):
+                slim["description"] = anatomy["description"]
+            if anatomy.get("chainages"):
+                slim["chainages"] = anatomy["chainages"]
+            if anatomy.get("coordinates"):
+                slim["coordinates"] = anatomy["coordinates"]
         if pap_name and slim["total"] and slim["total"].get("role"):
             slim["total"]["role"] = pap_name
         nodes.append(slim)

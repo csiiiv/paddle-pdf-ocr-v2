@@ -23,6 +23,7 @@ from typing import Any
 from _common import add_stage_arguments, make_context, require_pass, resolve_project_path
 from _shared.artifacts import read_json, write_json_atomic
 from _shared.contracts import stamp_meta
+from _shared.pap_label_anatomy import apply_label_anatomy, build_label_line_metrics
 from _shared.timestamps import iso_now
 
 DEFAULT_SEEDS = Path("fixtures/pap_table_seeds.json")
@@ -129,12 +130,14 @@ def _page_rank(distance: float | None, clusters: list[dict[str, Any]],
 
 
 def _row_view(row: dict[str, Any], structure: dict[str, Any],
-              phrases: dict[int, dict[str, Any]]) -> dict[str, Any] | None:
+              phrases: dict[int, dict[str, Any]],
+              gaps: list[dict[str, Any]] | None = None) -> dict[str, Any] | None:
     row_id = int(row["row_section_id"])
     cells = [cell for cell in structure.get("cell_sections") or []
              if int(cell["row_section_id"]) == row_id]
     label_cell = next((cell for cell in cells if cell["column_role"] == "Labels"), None)
-    label = _clean_text((label_cell or {}).get("text") or "")
+    label_raw = str((label_cell or {}).get("text") or "").strip()
+    label = _clean_text(label_raw)
     amounts: dict[str, dict[str, Any]] = {}
     total: dict[str, Any] | None = None
     for cell in sorted((cell for cell in cells if cell["column_role"] != "Labels"),
@@ -165,6 +168,8 @@ def _row_view(row: dict[str, Any], structure: dict[str, Any],
     return {
         "row_section_id": row_id,
         "label": label,
+        "label_raw": label_raw or label,
+        "label_line_metrics": build_label_line_metrics(label_cell, phrases, gaps),
         "distance": boundary.get("anchor_distance"),
         "marker": marker,
         "prefix_text": " ".join(prefixes) or None,
@@ -259,8 +264,9 @@ class PapTreeBuilder:
             self.flag(page, "carry_gap_reset", from_page=previous_page)
 
         phrases = {int(item["phrase_id"]): item for item in geometry.get("phrases") or []}
+        gaps = geometry.get("gaps") or []
         views = [view for row in structure.get("row_sections") or []
-                 if (view := _row_view(row, structure, phrases)) is not None]
+                 if (view := _row_view(row, structure, phrases, gaps)) is not None]
         fitted, support, clusters = _page_centers(views, self.global_centers)
         self.fits[page] = {
             "global_centers_pt": self.global_centers,
@@ -390,6 +396,8 @@ class PapTreeBuilder:
         return {
             "id": node_id, "parent": None, "kind": kind, "tier": rank,
             "geometric_rank": rank, "label": view["label"],
+            "label_raw": view.get("label_raw"),
+            "label_line_metrics": view.get("label_line_metrics"),
             "marker": view["marker"], "prefix_text": view["prefix_text"],
             "page": page, "row_section_id": view["row_section_id"],
             "phrase_ids": view["phrase_ids"],
@@ -417,6 +425,7 @@ def assemble_tree(page_inputs: list[dict[str, Any]], *, table_seed: dict[str, An
             pages[-1], "end_of_span_open_stack",
             open_node_ids=[entry["id"] for entry in builder.stack[1:]])
     nodes = [builder.nodes[node_id] for node_id in builder.order]
+    anatomy = apply_label_anatomy(nodes)
     kind_counts: dict[str, int] = {}
     for item in nodes:
         kind_counts[item["kind"]] = kind_counts.get(item["kind"], 0) + 1
@@ -446,6 +455,7 @@ def assemble_tree(page_inputs: list[dict[str, Any]], *, table_seed: dict[str, An
         "diagnostics": {
             "n_nodes": len(nodes), "n_pages": len(pages),
             "kind_counts": kind_counts,
+            "anatomy": anatomy,
             "n_review_flags": sum(
                 flag["severity"] == "review" for flags in builder.flags.values()
                 for flag in flags),

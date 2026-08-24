@@ -164,11 +164,33 @@ nodes.
 **CSV headers**
 
 ```text
-row_index,id,kind,page,tier_pdf,label,code,parent_id,amount
+row_index,id,kind,page,tier_pdf,label,code,parent_id,amount,chainages,lat,lon
 ```
 
-**JSON** keeps a single `parent` pointer and `children` id list (same document
-order as CSV). Tree envelope uses `format: 2` without dual hierarchy fields.
+- `chainages` — JSON array of parsed station spans (blank when none).
+- `lat` / `lon` — first parsed coordinate when present (blank otherwise).
+- Full coordinate lists (including LS/RS pairs) remain in JSON.
+
+**JSON node** adds optional anatomy fields on project rows:
+
+```json
+{
+  "row_index": 120,
+  "label": "Maharlika Highway (LZ)",
+  "label_ocr": "Maharlika Highway (LZ) • K0028+150 - K0031+420 …",
+  "description": "The program aims to preserve national roads …",
+  "chainages": [{"kind": "K", "from": "0028+150", "to": "0031+420"}],
+  "coordinates": [{"raw": "(14.672467, 120.942268)", "lat": 14.672467, "lon": 120.942268}]
+}
+```
+
+- `label` — stripped category title (chainage/GPS removed from display text).
+- `label_ocr` — original OCR label before stripping (tooltip in the viewer).
+- `description` — program-description prose split from the title when detected.
+- `chainages` / `coordinates` — parsed anatomy shown as chips beside the label.
+
+Chainage/GPS stripping runs in stage `002.40-pap-tree` (and at export when
+legacy trees lack anatomy). Hierarchy uses the stripped `label`.
 
 ### Schema format 1 (legacy)
 

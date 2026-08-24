@@ -11,6 +11,7 @@ import PdfToolbar from "./components/PdfToolbar.jsx";
 import Icon from "./components/Icon.jsx";
 import TreePanel from "./components/TreePanel.jsx";
 import {useViewportLayout} from "./lib/useViewportLayout.js";
+import {isNodeInSearchResults} from "./lib/treeSearch.js";
 
 export default function App() {
   const initial = useMemo(() => parseView(new URLSearchParams(location.search)), []);
@@ -48,6 +49,7 @@ export default function App() {
   const [error, setError] = useState("");
   const dragging = useRef(false);
   const toastTimer = useRef(null);
+  const searchFilter = useRef({active: false, included: null});
 
   // Load the multi-doc index once; fall back to the first document.
   useEffect(() => {
@@ -189,6 +191,10 @@ export default function App() {
     }
     setSelectedNode(node);
     if (node?.page) setPage(node.page);
+    if (!fromTree && searchFilter.current.active
+        && !isNodeInSearchResults(node?.id, searchFilter.current.included)) {
+      showToast("selection not in search results");
+    }
     if (node && !hasBbox(node)) {
       showToast("no bbox in pdf");
       return;
@@ -224,15 +230,18 @@ export default function App() {
     [manifest, doc],
   );
 
-  const pdfToolbar = <PdfToolbar
-    page={page} pageDraft={pageDraft} pdfPageCount={pdfPageCount} zoom={zoom}
-    overlayMode={overlayMode} syncEnabled={syncEnabled}
-    onPrev={() => goToPage(page - 1)} onNext={() => goToPage(page + 1)}
-    onPageChange={(value) => { setPageDraft(value); if (value !== "") goToPage(value); }}
-    onPageBlur={commitPageDraft} onZoom={setZoom} onOverlay={setOverlayMode}
-    onSync={() => setSyncEnabled((on) => !on)}
-    onHelp={() => setPdfHelpOpen(true)}
-  />;
+  const pdfToolbarProps = {
+    page, pageDraft, pdfPageCount, zoom,
+    overlayMode, syncEnabled,
+    onPrev: () => goToPage(page - 1),
+    onNext: () => goToPage(page + 1),
+    onPageChange: (value) => { setPageDraft(value); if (value !== "") goToPage(value); },
+    onPageBlur: commitPageDraft,
+    onZoom: setZoom,
+    onOverlay: setOverlayMode,
+    onSync: () => setSyncEnabled((on) => !on),
+    onHelp: () => setPdfHelpOpen(true),
+  };
 
   const mainStyle = isMobile ? undefined : {
     gridTemplateColumns: `minmax(360px,${split}%) 6px minmax(300px,1fr)`,
@@ -292,7 +301,7 @@ export default function App() {
           data-pane={isMobile ? mobilePane : undefined}
           style={mainStyle}>
       <div className="pdf-pane">
-        {!isMobile && <div className="pdf-toolbar">{pdfToolbar}</div>}
+        {!isMobile && <div className="pdf-toolbar"><PdfToolbar {...pdfToolbarProps}/></div>}
         <div className="pdf-view">
           <PdfPane pdfUrl={manifest ? pdfHref(manifest) : null} page={page}
                    highlight={syncEnabled ? selectedNode : null}
@@ -349,6 +358,7 @@ export default function App() {
                          if (HIERARCHY_MODES.includes(mode)) setHierarchyMode(mode);
                        }}
                        onOpenHelp={isMobile ? () => setDataHelpOpen(true) : undefined}
+                       onSearchFilterChange={(next) => { searchFilter.current = next; }}
                        onSelect={(node) => selectNode(node, {fromTree:true})} />}
         </div>
         {isMobile &&
@@ -362,7 +372,9 @@ export default function App() {
       <div className="sheet-backdrop" onClick={() => setPdfSheetOpen(false)}>
         <div className="sheet" role="dialog" aria-label="PDF tools" onClick={(e) => e.stopPropagation()}>
           <div className="sheet-handle"/>
-          <div className="pdf-toolbar sheet-toolbar">{pdfToolbar}</div>
+          <div className="pdf-toolbar sheet-toolbar">
+            <PdfToolbar {...pdfToolbarProps} layout="sheet" onHelp={undefined}/>
+          </div>
           <button type="button" className="sheet-done" onClick={() => setPdfSheetOpen(false)}>Done</button>
         </div>
       </div>}

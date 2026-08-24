@@ -9,6 +9,13 @@ import {
 import {DEFAULT_HIERARCHY} from "../lib/viewState.js";
 import {useResizableColumns} from "../lib/useResizableColumns.js";
 import {colGripGutter, colWidth} from "../lib/treeTableLayout.js";
+import {
+  nodeAnatomyChips,
+  nodeLabelDescription,
+  nodeLabelTitle,
+  nodeLabelTooltip,
+} from "../lib/treeLabelDisplay.js";
+import {buildSearchIncluded, isSearchFilterActive} from "../lib/treeSearch.js";
 
 const KNOWN_AMOUNT_ORDER = ["PS","MOOE","CO"];
 
@@ -66,6 +73,7 @@ function ResizeHeader({columnKey, className, children, width, compact, active, o
 export default function TreePanel({
   tree, currentPage, selectedId, onSelect, compact = false, active = true,
   hierarchyMode = DEFAULT_HIERARCHY, onHierarchyModeChange, onOpenHelp,
+  onSearchFilterChange,
 }) {
   const nodes = tree?.nodes || [];
   const dualHierarchy = hasDualHierarchy(tree);
@@ -116,23 +124,23 @@ export default function TreePanel({
     return () => cancelAnimationFrame(frame);
   }, [selectedId, tree, byId, active, dualHierarchy, hierarchyMode]);
 
-  const included = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    if (!needle && !currentOnly) return null;
-    const visible = new Set();
-    for (const node of nodes) {
-      const matchesText = !needle || `${node.label || ""} ${node.code || ""} ${node.kind || ""}`.toLowerCase().includes(needle);
-      const matchesPage = !currentOnly || node.page === currentPage;
-      if (!matchesText || !matchesPage) continue;
-      let cursor = node;
-      while (cursor) {
-        visible.add(cursor.id);
-        const pid = dualHierarchy ? parentId(cursor, hierarchyMode) : cursor.parent;
-        cursor = pid ? byId.get(pid) : null;
-      }
-    }
-    return visible;
-  }, [query, currentOnly, currentPage, nodes, byId, dualHierarchy, hierarchyMode]);
+  const included = useMemo(
+    () => buildSearchIncluded(nodes, {
+      query,
+      currentOnly,
+      currentPage,
+      hierarchyMode,
+      dualHierarchy,
+    }),
+    [query, currentOnly, currentPage, nodes, dualHierarchy, hierarchyMode],
+  );
+
+  useEffect(() => {
+    onSearchFilterChange?.({
+      active: isSearchFilterActive({query, currentOnly}),
+      included,
+    });
+  }, [query, currentOnly, included, onSearchFilterChange]);
 
   const toggle = (id) => setExpanded((value) => {
     const next = new Set(value);
@@ -250,6 +258,10 @@ export default function TreePanel({
           </tr></thead>
           <tbody>{rows.map(({node, depth, hasChildren}) => {
             const selected = selectedId === node.id;
+            const {chainages, coordinates} = nodeAnatomyChips(node);
+            const title = nodeLabelTitle(node);
+            const description = nodeLabelDescription(node);
+            const tooltip = nodeLabelTooltip(node);
             return <tr key={node.id} data-node-id={node.id} className={`${node.page === currentPage ? "current-page " : ""}${selected ? "selected" : ""}`} onClick={() => select(node)}>
               <td className="tree-kind">{kindLabel(node.kind)}</td>
               <td className="tree-page-col">{node.page ? <button className="link" onClick={(event) => {event.stopPropagation(); select(node)}}>p.{node.page}</button> : "—"}</td>
@@ -260,7 +272,20 @@ export default function TreePanel({
                         <Icon name={expanded.has(node.id) ? "expand_more" : "chevron_right"} size={18}/>
                       </button>
                     : <span className="tree-spacer"/>}
-                  <span><span className={`tree-kind-dot kind-${node.kind}`}/>{node.label || "(blank label)"}{node.code && <code>{node.code}</code>}</span>
+                  <span className="tree-label-body">
+                    <span className="tree-label-text" title={tooltip || undefined}>
+                      <span className={`tree-kind-dot kind-${node.kind}`}/>{title || "(blank label)"}{node.code && <code>{node.code}</code>}
+                    </span>
+                    {description &&
+                      <span className="tree-label-description">{description}</span>}
+                    {(chainages.length > 0 || coordinates.length > 0) &&
+                      <span className="tree-label-chips">
+                        {chainages.map((text, index) =>
+                          <span key={`${node.id}:ch:${index}`} className="label-chip label-chip-chainage">{text}</span>)}
+                        {coordinates.map((text, index) =>
+                          <span key={`${node.id}:gps:${index}`} className="label-chip label-chip-gps">{text}</span>)}
+                      </span>}
+                  </span>
                 </div>
               </td>
               {amountColumns.map((role) => <td key={role} className="tree-amount">{formatAmountCell(node, role) || "—"}</td>)}
