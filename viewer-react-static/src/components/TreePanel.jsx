@@ -7,6 +7,7 @@ import {
   parentId,
 } from "../lib/treeHierarchy.js";
 import {DEFAULT_HIERARCHY} from "../lib/viewState.js";
+import {useResizableColumns} from "../lib/useResizableColumns.js";
 
 const KNOWN_AMOUNT_ORDER = ["PS","MOOE","CO"];
 
@@ -41,6 +42,17 @@ const hierarchyOptions = [
   {value: "prexc", label: "PREXC code"},
   {value: "pdf", label: "PDF layout"},
 ];
+
+const amountColumnKey = (role) => `amount:${role}`;
+
+function ResizeHeader({columnKey, className, children, width, onResizeStart}) {
+  return <th className={className} style={{width}}>
+    {children}
+    <span className="col-resize-handle" role="separator" aria-orientation="vertical"
+          aria-label="Resize column"
+          onPointerDown={(event) => onResizeStart(columnKey, event)}/>
+  </th>;
+}
 
 /** Searchable, collapsible hierarchy table over a slim exported tree. */
 export default function TreePanel({
@@ -137,9 +149,24 @@ export default function TreePanel({
     return legacy;
   }, [dualHierarchy, nodes, hierarchyMode, expanded, included, byId, tree?.roots]);
 
+  const amountColumns = useMemo(
+    () => (tree ? (tree.columns || collectAmountColumns(nodes)) : []),
+    [tree, nodes],
+  );
+  const columnDefs = useMemo(() => [
+    {key: "label", default: compact ? 280 : 360, min: 160},
+    {key: "kind", default: compact ? 96 : 110, min: 72},
+    {key: "page", default: compact ? 48 : 55, min: 44},
+    ...amountColumns.map((role) => ({
+      key: amountColumnKey(role),
+      default: compact ? 104 : 120,
+      min: 72,
+    })),
+  ], [amountColumns, compact]);
+  const {widths, startResize, totalWidth} = useResizableColumns(columnDefs);
+
   if (!tree) return <p className="muted">No tree loaded.</p>;
 
-  const amountColumns = tree.columns || collectAmountColumns(nodes);
   const select = (node) => onSelect(node);
 
   const hierarchySelect = dualHierarchy &&
@@ -174,16 +201,27 @@ export default function TreePanel({
     </div>
     {!rows.length ? <p className="muted">No matching hierarchy rows.</p> :
       <div className="tree-table-wrap">
-        <table className="tree-table">
+        <table className="tree-table" style={{width: Math.max(totalWidth, 720)}}>
+          <colgroup>
+            {columnDefs.map((column) =>
+              <col key={column.key} style={{width: widths[column.key]}}/>)}
+          </colgroup>
           <thead><tr>
-            <th>
+            <ResizeHeader columnKey="label" width={widths.label} onResizeStart={startResize}>
               <div className="tree-hierarchy-head">
                 <span>Hierarchy label</span>
                 {!compact && hierarchySelect}
               </div>
-            </th>
-            <th>Kind</th><th>Page</th>
-            {amountColumns.map((role) => <th key={role} className="tree-amount-col">{role}</th>)}
+            </ResizeHeader>
+            <ResizeHeader columnKey="kind" className="tree-kind-col" width={widths.kind}
+                          onResizeStart={startResize}>Kind</ResizeHeader>
+            <ResizeHeader columnKey="page" className="tree-page-col" width={widths.page}
+                          onResizeStart={startResize}>Page</ResizeHeader>
+            {amountColumns.map((role) =>
+              <ResizeHeader key={role} columnKey={amountColumnKey(role)} className="tree-amount-col"
+                            width={widths[amountColumnKey(role)]} onResizeStart={startResize}>
+                {role}
+              </ResizeHeader>)}
           </tr></thead>
           <tbody>{rows.map(({node, depth, hasChildren}) => {
             const selected = selectedId === node.id;

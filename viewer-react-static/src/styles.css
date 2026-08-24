@@ -480,6 +480,7 @@ tbody tr.selected {
   border-radius: 6px;
 }
 .tree-table {
+  table-layout: fixed;
   min-width: 720px;
 }
 .tree-table thead th {
@@ -488,9 +489,11 @@ tbody tr.selected {
   z-index: 2;
   background: #20242c;
   box-shadow: 0 1px 0 #3a404a;
+  overflow: hidden;
 }
-.tree-table th:first-child {
-  min-width: 360px;
+.tree-table th:first-child,
+.tree-table td:first-child {
+  min-width: 0;
 }
 .tree-hierarchy-head {
   display: flex;
@@ -511,17 +514,55 @@ tbody tr.selected {
   flex: 0 0 auto;
   max-width: 118px;
 }
-.tree-table th:nth-child(2) {
-  width: 110px;
+.col-resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  width: 10px;
+  height: 100%;
+  margin-right: -5px;
+  cursor: col-resize;
+  touch-action: none;
 }
-.tree-table th:nth-child(3) {
-  width: 55px;
+.col-resize-handle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: transparent;
+  transition: background 120ms ease;
+}
+.col-resize-handle:hover::after,
+.col-resize-handle:focus-visible::after,
+body.col-resizing .col-resize-handle::after {
+  background: #5a9fd4;
+}
+body.col-resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+body.col-resizing .tree-table-wrap {
+  cursor: col-resize;
 }
 .tree-table th.tree-amount-col,
 .tree-table td.tree-amount {
-  width: 120px;
-  min-width: 100px;
   text-align: right;
+}
+.tree-table th.tree-kind-col,
+.tree-table td.tree-kind {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tree-table th.tree-page-col,
+.tree-table td:nth-child(3) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .tree-table tbody tr {
   cursor: pointer;
@@ -600,6 +641,8 @@ tbody tr.selected {
 .tree-amount {
   text-align: right;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-variant-numeric: tabular-nums;
 }
 footer {
@@ -832,6 +875,10 @@ footer {
   .tree-panel.is-compact .tree-actions button {
     min-height: 34px;
     font-size: 12px;
+  }
+  .tree-panel.is-compact .col-resize-handle {
+    width: 16px;
+    margin-right: -8px;
   }
   .fab-stack {
     display: flex;
