@@ -22,10 +22,11 @@ PROJECT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT))
 
 from etl._shared.artifacts import STAGE_DIRS  # noqa: E402
+from etl._shared.prexc import parse_prexc  # noqa: E402
 from etl._shared.timestamps import iso_now  # noqa: E402
 
 MANIFEST_FORMAT = 1
-TREE_FORMAT = 1
+TREE_FORMAT = 2
 AMOUNT_KEYS = ("text", "value")
 TOTAL_KEYS = ("role", "text", "value")
 # Semantic reading is anchored at the rightmost amount column and assigned
@@ -44,13 +45,20 @@ TREE_STAGES = {
 DATA_SPECS = {
     "by-ou": {
         "stem": "by-operating-units",
-        "columns": ["page", "tier", "code", "label", "ps", "mooe", "co", "total"],
+        "columns": [
+            "row_index", "id", "kind", "page", "tier_pdf", "label", "code",
+            "parent_id_pdf", "parent_id_prexc", "depth_pdf", "depth_prexc",
+            "prexc_identifier", "ps", "mooe", "co", "total",
+        ],
         "amount_columns": {"ps": "PS", "mooe": "MOOE", "co": "CO", "total": "Total"},
     },
     "pap": {
         "stem": "by-pap",
-        "columns": ["page", "tier", "label", "amounts"],
-        "amount_columns": {"amounts": "AMOUNT (Php)"},
+        "columns": [
+            "row_index", "id", "kind", "page", "tier_pdf", "label", "code",
+            "parent_id", "amount",
+        ],
+        "amount_columns": {"amount": "AMOUNT (Php)"},
     },
 }
 
@@ -145,18 +153,25 @@ def rewrite_amounts(node: dict[str, Any],
     return amounts, total
 
 
+def tier_pdf_value(node: dict[str, Any]) -> Any:
+    if "tier_pdf" in node:
+        return node.get("tier_pdf")
+    return node.get("tier")
+
+
 def slim_node(node: dict[str, Any], mapping: dict[str, str] | None = None,
-              *, dual_hierarchy: bool = False) -> dict[str, Any]:
+              *, dual_hierarchy: bool = False, row_index: int = 0) -> dict[str, Any]:
     key_map = mapping or {}
     amounts, total = rewrite_amounts(node, key_map)
+    code = node.get("code")
     slim: dict[str, Any] = {
+        "row_index": row_index,
         "id": node.get("id"),
-        "parent": node.get("parent_prexc") if dual_hierarchy else node.get("parent"),
         "kind": node.get("kind"),
-        "tier": node.get("tier"),
-        "label": node.get("label"),
-        "code": node.get("code"),
         "page": node.get("page"),
+        "tier_pdf": tier_pdf_value(node),
+        "label": node.get("label"),
+        "code": code,
         "bbox": node.get("bbox"),
         "amounts": amounts,
         "total": total,
@@ -164,9 +179,35 @@ def slim_node(node: dict[str, Any], mapping: dict[str, str] | None = None,
     if dual_hierarchy:
         slim["parent_pdf"] = node.get("parent_pdf")
         slim["parent_prexc"] = node.get("parent_prexc")
+        parsed = parse_prexc(code) if code else None
+        if parsed:
+            slim["prexc"] = parsed
     else:
+        slim["parent"] = node.get("parent")
         slim["children"] = node.get("children") or []
     return slim
+
+
+def compute_depths(nodes: list[dict[str, Any]], parent_key: str) -> dict[str, int]:
+    by_id = {node["id"]: node for node in nodes}
+    depth: dict[str, int] = {}
+
+    def depth_of(nid: str, seen: set[str] | None = None) -> int:
+        if nid in depth:
+            return depth[nid]
+        seen = seen or set()
+        if nid in seen:
+            return 0
+        seen.add(nid)
+        node = by_id.get(nid)
+        parent = node.get(parent_key) if node else None
+        value = 0 if not parent or parent not in by_id else depth_of(parent, seen) + 1
+        depth[nid] = value
+        return value
+
+    for node in nodes:
+        depth_of(node["id"])
+    return depth
 
 
 def validate_tree(slim: dict[str, Any], source: Path) -> None:
@@ -174,6 +215,9 @@ def validate_tree(slim: dict[str, Any], source: Path) -> None:
     ids = {node["id"] for node in nodes}
     if len(ids) != len(nodes):
         raise ValueError(f"Duplicate node ids in {source}")
+    indices = [node.get("row_index") for node in nodes]
+    if indices != list(range(len(nodes))):
+        raise ValueError(f"row_index must be 0..{len(nodes) - 1} in document order in {source}")
     roots = slim["roots"]
     if not roots:
         raise ValueError(f"Tree has no roots: {source}")
@@ -181,6 +225,8 @@ def validate_tree(slim: dict[str, Any], source: Path) -> None:
     dual = bool(slim.get("hierarchy_modes"))
     parent_fields = ("parent_pdf", "parent_prexc") if dual else ("parent",)
     for node in nodes:
+        if "tier_pdf" not in node:
+            raise ValueError(f"Node {node['id']} missing tier_pdf in {source}")
         if node["id"] in roots:
             for field in parent_fields:
                 if node.get(field) is not None:
@@ -192,6 +238,8 @@ def validate_tree(slim: dict[str, Any], source: Path) -> None:
                 raise ValueError(f"Node {node['id']} has unresolvable {field} "
                                  f"{parent!r} in {source}")
         if dual:
+            if node.get("parent") is not None:
+                raise ValueError(f"Node {node['id']} must not carry parent in format 2 dual tree")
             if node["bbox"] is not None and node["page"] is None:
                 raise ValueError(f"Node {node['id']} has bbox without page in {source}")
             continue
@@ -218,25 +266,49 @@ def csv_amount(node: dict[str, Any], amount_role: str) -> Any:
     return amount.get("value") if isinstance(amount, dict) else None
 
 
+def csv_row_values(node: dict[str, Any], tree_id: str,
+                   depth_pdf: dict[str, int] | None = None,
+                   depth_prexc: dict[str, int] | None = None) -> dict[str, Any]:
+    spec = DATA_SPECS[tree_id]
+    row: dict[str, Any] = {
+        "row_index": node.get("row_index"),
+        "id": node.get("id"),
+        "kind": node.get("kind") or "",
+        "page": node.get("page"),
+        "tier_pdf": node.get("tier_pdf"),
+        "label": node.get("label") or "",
+        "code": node.get("code") or "",
+    }
+    if tree_id == "by-ou":
+        row.update({
+            "parent_id_pdf": node.get("parent_pdf") or "",
+            "parent_id_prexc": node.get("parent_prexc") or "",
+            "depth_pdf": depth_pdf.get(node["id"], "") if depth_pdf else "",
+            "depth_prexc": depth_prexc.get(node["id"], "") if depth_prexc else "",
+            "prexc_identifier": (node.get("prexc") or {}).get("identifier", ""),
+        })
+    else:
+        row["parent_id"] = node.get("parent") or ""
+    for column, role in spec["amount_columns"].items():
+        row[column] = csv_amount(node, role)
+    return row
+
+
 def write_tree_csv(slim: dict[str, Any], tree_id: str, basename: str,
                    out_dir: Path) -> str:
     """Write the public CSV companion for one tree; returns its pack path."""
     spec = DATA_SPECS[tree_id]
+    nodes = slim["nodes"]
+    depth_pdf = compute_depths(nodes, "parent_pdf") if tree_id == "by-ou" else None
+    depth_prexc = compute_depths(nodes, "parent_prexc") if tree_id == "by-ou" else None
     target = out_dir / "trees" / f"{basename}.csv"
     with target.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.writer(handle)
         writer.writerow(spec["columns"])
-        for node in slim["nodes"]:
+        for node in nodes:
             if node.get("kind") == "table_root":
                 continue
-            row = {
-                "page": node.get("page"),
-                "tier": node.get("tier"),
-                "code": node.get("code") or "",
-                "label": node.get("label") or "",
-            }
-            for column, role in spec["amount_columns"].items():
-                row[column] = csv_amount(node, role)
+            row = csv_row_values(node, tree_id, depth_pdf, depth_prexc)
             writer.writerow([row.get(column) for column in spec["columns"]])
     return f"trees/{target.name}"
 
@@ -259,11 +331,11 @@ def export_tree(tree_id: str, stage_name: str, run_root: Path, out_dir: Path,
     pap_name = PAP_COLUMN_NAME if tree_id == "pap" else None
     dual_hierarchy = tree_id == "by-ou"
     nodes = []
-    for node in raw_nodes:
+    for row_index, node in enumerate(raw_nodes):
         mapping = column_map.get(int(node.get("page") or -1), {}) if node.get("page") else {}
         if pap_name:
             mapping = {role: pap_name for role in (node.get("amounts") or {})}
-        slim = slim_node(node, mapping, dual_hierarchy=dual_hierarchy)
+        slim = slim_node(node, mapping, dual_hierarchy=dual_hierarchy, row_index=row_index)
         if pap_name and slim["total"] and slim["total"].get("role"):
             slim["total"]["role"] = pap_name
         nodes.append(slim)
@@ -297,6 +369,7 @@ def export_tree(tree_id: str, stage_name: str, run_root: Path, out_dir: Path,
         "title": slim["title"],
         "file": f"trees/{target.name}",
         "csv": csv_file,
+        "schema_format": TREE_FORMAT,
         "pages": sorted({node["page"] for node in slim["nodes"]
                          if isinstance(node["page"], int)}),
         "n_nodes": len(slim["nodes"]),

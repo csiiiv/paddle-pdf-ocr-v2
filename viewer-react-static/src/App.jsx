@@ -91,7 +91,7 @@ export default function App() {
     loadTree(doc, meta.file)
       .then((next) => {
         if (!live) return;
-        if (next.format !== 1) throw new Error(`Unsupported tree format ${next.format}`);
+        if (next.format !== 1 && next.format !== 2) throw new Error(`Unsupported tree format ${next.format}`);
         setTree(next);
       })
       .catch((reason) => { if (live) setError(reason.message); })

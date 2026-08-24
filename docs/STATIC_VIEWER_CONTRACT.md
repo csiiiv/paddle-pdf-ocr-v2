@@ -61,14 +61,16 @@ viewer reads exactly one index and exactly one manifest per open document.
       "label": "By Operating Unit",
       "title": "New Appropriations, by Programs / Activities / Projects (Cash-Based), by Operating Units",
       "file": "trees/nep-vol2b-dpwh-by-operating-units.json",
-      "csv": "trees/nep-vol2b-dpwh-by-operating-units.csv"
+      "csv": "trees/nep-vol2b-dpwh-by-operating-units.csv",
+      "schema_format": 2
     },
     {
       "id": "pap",
       "label": "PAP",
       "title": "Programs / Activities / Projects (PAP)",
       "file": "trees/nep-vol2b-dpwh-by-pap.json",
-      "csv": "trees/nep-vol2b-dpwh-by-pap.csv"
+      "csv": "trees/nep-vol2b-dpwh-by-pap.csv",
+      "schema_format": 2
     }
   ],
   "pdf": {
@@ -95,43 +97,106 @@ Field rules:
 - `trees[].csv` is the optional pack-relative public CSV companion. Emitted
   when the exporter runs with `--file-prefix "<volume> <department>"`; absent
   or `null` when disabled. The CSV stem matches the JSON stem.
+- `trees[].schema_format` is the downloadable tree schema version (`2` for
+  current exports). The viewer accepts formats `1` and `2`.
 
 ## Public downloadable data
 
-One JSON + CSV pair per tree, generated from the same slim tree. Filenames
-are kebab-case with no commas:
+One JSON + CSV pair per tree, generated from the same slim tree in **document
+order**. Filenames are kebab-case with no commas. Tree downloads use
+**schema format 2** (`trees[].schema_format` in the manifest).
 
-- **By Operating Units** (`<prefix>-by-operating-units.{json,csv}`):
-  CSV headers `page, tier, code, label, ps, mooe, co, total` — one row per
-  tree node except the synthetic table root; amount columns are numeric
-  values (blank when the row carries none).
-- **PAP** (`<prefix>-by-pap.{json,csv}`):
-  CSV headers `page, tier, label, amounts` — same rules, single `amounts`
-  column.
+### By Operating Units (`<prefix>-by-operating-units.{json,csv}`)
 
-CSV rows follow document order; `page` is the 1-based source page and `tier`
-the hierarchy depth (blank for rows outside the indent ladder). JSON keeps
-the full hierarchy (`parent` / `children`).
+**CSV headers**
+
+```text
+row_index,id,kind,page,tier_pdf,label,code,parent_id_pdf,parent_id_prexc,depth_pdf,depth_prexc,prexc_identifier,ps,mooe,co,total
+```
+
+- One row per tree node except the synthetic `table_root`.
+- `row_index` matches the node's position in the JSON `nodes` array (0-based).
+- `tier_pdf` is the PDF layout indent depth; `depth_pdf` / `depth_prexc` are
+  hop counts from the root along each hierarchy.
+- `parent_id_pdf` / `parent_id_prexc` are node ids (blank on roots).
+- `prexc_identifier` is digit 7 when `code` is a valid 15-digit PREXC
+  (`1` Activity, `2` LFP, `3` FAP); otherwise blank.
+- Amount columns are numeric values (blank when the row carries none).
+
+**JSON node** (document order; no `children` array):
+
+```json
+{
+  "row_index": 42,
+  "id": "p28:r8",
+  "kind": "program",
+  "page": 28,
+  "tier_pdf": 1,
+  "label": "ASSET PRESERVATION PROGRAM",
+  "code": "310100000000000",
+  "parent_pdf": "p13:ph13",
+  "parent_prexc": "p28:r7",
+  "prexc": {
+    "prexc_code": "310100000000000",
+    "cost_structure": "3",
+    "organizational_outcome": "10",
+    "program": "10",
+    "subprogram": "1",
+    "identifier": "1",
+    "activity_project": "00000",
+    "reserved": "000"
+  },
+  "bbox": [72.1, 410.2, 520.0, 422.8],
+  "amounts": {
+    "PS": {"text": "1,234", "value": 1234},
+    "Total": {"text": "6,912", "value": 6912}
+  },
+  "total": null
+}
+```
+
+Tree envelope adds `format: 2`, `hierarchy_modes: ["pdf", "prexc"]`, and
+`default_hierarchy: "prexc"`. There is no ambiguous `parent` field on By-OU
+nodes.
+
+### PAP (`<prefix>-by-pap.{json,csv}`)
+
+**CSV headers**
+
+```text
+row_index,id,kind,page,tier_pdf,label,code,parent_id,amount
+```
+
+**JSON** keeps a single `parent` pointer and `children` id list (same document
+order as CSV). Tree envelope uses `format: 2` without dual hierarchy fields.
+
+### Schema format 1 (legacy)
+
+Format 1 packs remain readable by the viewer. By-OU nodes used `tier` (not
+`tier_pdf`), carried `parent` as an alias for `parent_prexc`, and CSV omitted
+hierarchy columns. New exports always emit format 2.
 
 ## Slim tree shape
 
 ```json
 {
-  "format": 1,
+  "format": 2,
   "id": "pap",
   "title": "Programs / Activities / Projects (PAP)",
   "columns": ["AMOUNT (Php)"],
   "roots": ["root"],
   "nodes": [
     {
+      "row_index": 0,
       "id": "root",
       "parent": null,
       "kind": "table_root",
+      "tier_pdf": 0,
       "label": "PAP table root",
       "code": null,
       "page": null,
       "bbox": null,
-      "amounts": {"Amount 1": {"text": "24, 685, 746, 000", "value": 24685746000}},
+      "amounts": {"AMOUNT (Php)": {"text": "24,685,746,000", "value": 24685746000}},
       "total": null,
       "children": ["n1", "n2"]
     }
@@ -141,11 +206,14 @@ the full hierarchy (`parent` / `children`).
 
 Node field rules:
 
-- `id` and `parent` are opaque strings; `parent` is `null` only for roots.
-- By-OU trees also carry `parent_pdf` (layout indent) and `parent_prexc`
-  (code-based indent among existing rows only). The viewer toggles these via
-  `hierarchy_modes: ["pdf", "prexc"]`; row order stays document order and only
-  indents change. Synthetic PREXC shell nodes are omitted from the export pack.
+- `row_index` is the 0-based document-order index; it matches CSV rows and
+  the position in `nodes[]`.
+- `id` is an opaque string. By-OU trees use `parent_pdf` (layout indent) and
+  `parent_prexc` (code-based indent among existing rows only). The viewer
+  toggles these via `hierarchy_modes: ["pdf", "prexc"]`; row order stays
+  document order and only indents change. Synthetic PREXC shell nodes are
+  omitted from the export pack. PAP trees use `parent` / `children`.
+- `tier_pdf` is the PDF layout indent depth (format 1 used the name `tier`).
 - `kind` uses the pipeline vocabulary (`table_root`, `section`, `program`,
   `activity`, `region`, `office`, `project`, `funding`, `subtotal`,
   `grand_total`, plus synthetic PREXC shells `prexc_oo`, `prexc_program`,
