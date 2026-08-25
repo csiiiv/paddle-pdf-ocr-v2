@@ -496,7 +496,11 @@ def main() -> int:
     prune_stale_tree_files(pack_dir / "trees", trees)
 
     viewer = read_json(run_root / "viewer.json")
-    pages = sorted({page for tree in trees for page in tree.pop("pages")})
+    pages = sorted({page for tree in trees for page in (tree.get("pages") or [])})
+    for tree in trees:
+        tree_pages = tree.pop("pages") or []
+        if tree_pages:
+            tree["page_span"] = [tree_pages[0], tree_pages[-1]]
     pdf_name = Path(viewer.get("pdf", "")).name
     pdf_href, pdf_remote, n_pdf_pages = "pdf/document.pdf", None, None
     pdf_linearized = None
