@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "cp ../image.png public/image.png",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run"
