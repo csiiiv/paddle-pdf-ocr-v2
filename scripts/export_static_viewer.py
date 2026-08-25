@@ -14,6 +14,7 @@ import csv
 import json
 import re
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -80,12 +81,53 @@ def parse_args() -> argparse.Namespace:
                         help="copy the PDF into the pack, record a remote URL, or omit")
     parser.add_argument("--pdf-url", default=None,
                         help="absolute URL used with --pdf url")
+    parser.add_argument("--no-linearize", action="store_true",
+                        help="with --pdf copy, skip Fast Web View rewriting "
+                             "(default: linearize via qpdf or pikepdf)")
     parser.add_argument("--file-prefix", "--csv-prefix", dest="file_prefix",
                         default=None,
                         help="public data filename prefix, e.g. 'NEP-VOL2B DPWH'"
                              " (kebab-cased into both .json and .csv names;"
                              " omit for short ids)")
     return parser.parse_args()
+
+
+def pdf_looks_linearized(path: Path) -> bool:
+    """True when the file header advertises /Linearized (Fast Web View)."""
+    with path.open("rb") as handle:
+        return b"/Linearized" in handle.read(2048)
+
+
+def copy_pdf_to_pack(source: Path, target: Path, *, linearize: bool = True) -> bool:
+    """Write ``source`` into ``target``. Returns whether the output is linearized.
+
+    Prefer the ``qpdf`` CLI when present; otherwise ``pikepdf``. Plain
+    ``shutil.copyfile`` when ``linearize`` is false.
+    """
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if not linearize:
+        shutil.copyfile(source, target)
+        return pdf_looks_linearized(target)
+
+    qpdf = shutil.which("qpdf")
+    if qpdf:
+        subprocess.run(
+            [qpdf, "--linearize", "--", str(source), str(target)],
+            check=True,
+        )
+        return pdf_looks_linearized(target)
+
+    try:
+        import pikepdf
+    except ImportError as exc:
+        raise SystemExit(
+            "PDF linearization needs `qpdf` on PATH or the `pikepdf` package. "
+            "Install one (e.g. `pip install pikepdf`), or pass --no-linearize."
+        ) from exc
+
+    with pikepdf.open(source) as pdf:
+        pdf.save(target, linearize=True)
+    return pdf_looks_linearized(target)
 
 
 def kebab_slug(value: str) -> str:
@@ -457,20 +499,30 @@ def main() -> int:
     pages = sorted({page for tree in trees for page in tree.pop("pages")})
     pdf_name = Path(viewer.get("pdf", "")).name
     pdf_href, pdf_remote, n_pdf_pages = "pdf/document.pdf", None, None
+    pdf_linearized = None
     pdf_source = PROJECT / "pdfs" / pdf_name
     if args.pdf == "copy":
         if not pdf_source.is_file():
             raise SystemExit(f"PDF not found: {pdf_source}")
         target = pack_dir / "pdf" / "document.pdf"
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(pdf_source, target)
+        pdf_linearized = copy_pdf_to_pack(
+            pdf_source, target, linearize=not args.no_linearize)
         n_pdf_pages = len(viewer.get("pages") or [])
+        if not args.no_linearize and not pdf_linearized:
+            raise SystemExit(
+                f"Linearization produced a PDF without /Linearized: {target}")
     elif args.pdf == "url":
         if not args.pdf_url:
             raise SystemExit("--pdf url requires --pdf-url")
         pdf_href, pdf_remote = None, args.pdf_url
     else:
         pdf_href = None
+
+    pdf_meta: dict[str, Any] = {
+        "href": pdf_href, "remote": pdf_remote, "pages": n_pdf_pages,
+    }
+    if pdf_linearized is not None:
+        pdf_meta["linearized"] = pdf_linearized
 
     manifest = {
         "format": MANIFEST_FORMAT,
@@ -483,7 +535,7 @@ def main() -> int:
                    if tree_id in requested},
         "pages": pages,
         "trees": trees,
-        "pdf": {"href": pdf_href, "remote": pdf_remote, "pages": n_pdf_pages},
+        "pdf": pdf_meta,
     }
     (pack_dir / "manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -498,7 +550,10 @@ def main() -> int:
         if tree.get("csv"):
             print(f"  {tree['csv']}  {human_size((pack_dir / tree['csv']).stat().st_size)}")
     if pdf_href:
-        print(f"  pdf/document.pdf  {human_size((pack_dir / 'pdf' / 'document.pdf').stat().st_size)}")
+        pdf_size = human_size((pack_dir / "pdf" / "document.pdf").stat().st_size)
+        linear_note = " linearized" if pdf_linearized else (
+            " (not linearized)" if pdf_linearized is False else "")
+        print(f"  pdf/document.pdf  {pdf_size}{linear_note}")
     print(f"  pages: {len(pages)} ({pages[0]}..{pages[-1]})" if pages else "  pages: none")
     print(f"  pack total: {human_size(total)}")
     return 0

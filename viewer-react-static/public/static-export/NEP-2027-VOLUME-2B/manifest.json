@@ -705,6 +705,7 @@
   "pdf": {
     "href": "pdf/document.pdf",
     "remote": null,
-    "pages": 722
+    "pages": 722,
+    "linearized": true
   }
 }

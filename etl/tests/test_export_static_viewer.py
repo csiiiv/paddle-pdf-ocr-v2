@@ -105,3 +105,24 @@ def test_validate_tree_rejects_ambiguous_parent_on_dual():
         raise AssertionError("expected validation failure")
     except ValueError as exc:
         assert "must not carry parent" in str(exc)
+
+
+def test_copy_pdf_to_pack_linearizes(tmp_path):
+    import pikepdf
+
+    export = load_export_module()
+    source = tmp_path / "src.pdf"
+    target = tmp_path / "out.pdf"
+    pdf = pikepdf.Pdf.new()
+    pdf.add_blank_page(page_size=(612, 792))
+    pdf.save(source)
+    assert not export.pdf_looks_linearized(source)
+
+    assert export.copy_pdf_to_pack(source, target, linearize=True) is True
+    assert target.is_file()
+    assert export.pdf_looks_linearized(target)
+
+    plain = tmp_path / "plain.pdf"
+    assert export.copy_pdf_to_pack(source, plain, linearize=False) is False
+    assert plain.is_file()
+    assert not export.pdf_looks_linearized(plain)
