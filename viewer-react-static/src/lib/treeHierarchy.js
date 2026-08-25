@@ -51,6 +51,42 @@ export function isRowVisible(nodeId, byId, mode, expanded, included) {
   return true;
 }
 
+/**
+ * Ancestor ids that must be expanded for `nodeIds` to be reachable.
+ * Uses `parent` for legacy trees; dual-hierarchy trees pass `mode`.
+ */
+export function collectExpandAncestors(nodeIds, byId, {
+  dualHierarchy = false,
+  hierarchyMode = "prexc",
+} = {}) {
+  const ancestors = new Set();
+  for (const id of nodeIds || []) {
+    let cursor = byId.get(id);
+    while (cursor) {
+      const pid = dualHierarchy ? parentId(cursor, hierarchyMode) : cursor.parent;
+      if (!pid || !byId.has(pid)) break;
+      ancestors.add(pid);
+      cursor = byId.get(pid);
+    }
+  }
+  return ancestors;
+}
+
+/** Merge ancestor ids into an expanded set; returns `value` unchanged when already complete. */
+export function withExpandedAncestors(value, ancestors) {
+  let changed = false;
+  for (const id of ancestors) {
+    if (!value.has(id)) {
+      changed = true;
+      break;
+    }
+  }
+  if (!changed) return value;
+  const next = new Set(value);
+  for (const id of ancestors) next.add(id);
+  return next;
+}
+
 /** Document-order rows: fixed node sequence, depth from the chosen parent field. */
 export function buildDocumentOrderRows(nodes, mode, expanded, included) {
   const {byId, children, depth} = buildHierarchyIndex(nodes, mode);

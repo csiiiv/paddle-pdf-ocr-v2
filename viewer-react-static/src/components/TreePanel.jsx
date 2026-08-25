@@ -3,8 +3,9 @@ import Icon from "./Icon.jsx";
 import {
   buildDocumentOrderRows,
   buildHierarchyIndex,
+  collectExpandAncestors,
   hasDualHierarchy,
-  parentId,
+  withExpandedAncestors,
 } from "../lib/treeHierarchy.js";
 import {DEFAULT_HIERARCHY} from "../lib/viewState.js";
 import {useResizableColumns} from "../lib/useResizableColumns.js";
@@ -106,17 +107,11 @@ export default function TreePanel({
   // Wait until the pane is visible (mobile Data tab) so scrollIntoView works.
   useEffect(() => {
     if (!selectedId || !tree || !active) return;
-    setExpanded((value) => {
-      const next = new Set(value);
-      let cursor = byId.get(selectedId);
-      while (cursor) {
-        const pid = dualHierarchy ? parentId(cursor, hierarchyMode) : cursor.parent;
-        if (!pid) break;
-        next.add(pid);
-        cursor = byId.get(pid);
-      }
-      return next;
+    const ancestors = collectExpandAncestors([selectedId], byId, {
+      dualHierarchy,
+      hierarchyMode,
     });
+    setExpanded((value) => withExpandedAncestors(value, ancestors));
     const frame = requestAnimationFrame(() => {
       document.querySelector(`tr[data-node-id="${CSS.escape(selectedId)}"]`)
         ?.scrollIntoView({block: "nearest"});
@@ -134,6 +129,17 @@ export default function TreePanel({
     }),
     [query, currentOnly, currentPage, nodes, dualHierarchy, hierarchyMode],
   );
+
+  // Search / "page only" must not bypass expand state (`|| included` used to).
+  // Open ancestor chains once when the filter set changes; chevrons still work.
+  useEffect(() => {
+    if (!included) return;
+    const ancestors = collectExpandAncestors(included, byId, {
+      dualHierarchy,
+      hierarchyMode,
+    });
+    setExpanded((value) => withExpandedAncestors(value, ancestors));
+  }, [included, byId, dualHierarchy, hierarchyMode]);
 
   useEffect(() => {
     onSearchFilterChange?.({
@@ -157,7 +163,8 @@ export default function TreePanel({
       const node = byId.get(id);
       if (!node || included && !included.has(id)) return;
       legacy.push({node, depth, hasChildren: Boolean(node.children?.length)});
-      if ((expanded.has(id) || included) && node.children?.length) {
+      // Respect expand/collapse even while a search or page filter is active.
+      if (expanded.has(id) && node.children?.length) {
         node.children.forEach((child) => visit(child, depth + 1));
       }
     };
