@@ -30,7 +30,7 @@ static-export/<doc>/
   trees/<prefix>-by-operating-units.csv
   trees/<prefix>-by-pap.json
   trees/<prefix>-by-pap.csv
-  pdf/document.pdf    # copied when --pdf copy; absent when a remote URL is set
+  pdf/document.pdf    # linearized Fast Web View copy when --pdf copy
   index.json          # multi-doc index (one entry per exported doc)
 ```
 
@@ -76,7 +76,8 @@ viewer reads exactly one index and exactly one manifest per open document.
   "pdf": {
     "href": "pdf/document.pdf",
     "remote": null,
-    "pages": 722
+    "pages": 722,
+    "linearized": true
   }
 }
 ```
@@ -91,6 +92,10 @@ Field rules:
   so covers, dividers, and other non-tree pages remain browsable.
 - `pdf.href` is pack-relative; `pdf.remote` is an absolute URL alternative.
   Exactly one must be non-null. The viewer tries `href` first, then `remote`.
+- `pdf.linearized` is set when `--pdf copy` runs: `true` after Fast Web View
+  rewrite (`qpdf` or `pikepdf`), `false` only with `--no-linearize` on a
+  non-linear source. Absent when the pack records a remote URL or omits the PDF.
+  Linearized packs let PDF.js use HTTP range requests for page-at-a-time fetch.
 - `trees[].file` paths are pack-relative. Tree ids are stable (`by-ou`,
   `pap`) and used in share links; public filenames use `--file-prefix`
   kebab-cased with the tree stem (e.g. `nep-vol2b-dpwh-by-operating-units.json`).
