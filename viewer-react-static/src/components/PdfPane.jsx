@@ -109,6 +109,12 @@ export default function PdfPane({
     el.width = Math.ceil(vp.width); el.height = Math.ceil(vp.height);
     el.style.width = `${vp.width}px`; el.style.height = `${vp.height}px`;
     const task = pdfPage.render({canvasContext:el.getContext("2d"), viewport:vp});
+    // pdf.js rejects with RenderingCancelledException when a newer render
+    // supersedes this one (page change, zoom, resize, Strict Mode remount).
+    task.promise.catch((reason) => {
+      if (reason?.name === "RenderingCancelledException") return;
+      console.warn("PDF page render failed", reason);
+    });
     return () => task.cancel();
   }, [pdfPage, size, zoom]);
 
