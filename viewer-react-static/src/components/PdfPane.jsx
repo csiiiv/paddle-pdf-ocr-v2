@@ -58,6 +58,9 @@ export default function PdfPane({
   const [pdf, setPdf] = useState(null), [pdfPage, setPdfPage] = useState(null);
   const [viewport, setViewport] = useState(null), [error, setError] = useState("");
   const [size, setSize] = useState({width:700, height:800});
+  const [loading, setLoading] = useState(false);
+  const [loadingLabel, setLoadingLabel] = useState("Loading PDF…");
+  const renderedPageRef = useRef(null);
 
   useEffect(() => {
     if (!host.current) return;
@@ -67,9 +70,18 @@ export default function PdfPane({
   }, []);
 
   useEffect(() => {
-    if (!pdfUrl) { setPdf(null); setPdfPage(null); setViewport(null); return; }
+    if (!pdfUrl) {
+      setPdf(null); setPdfPage(null); setViewport(null);
+      setLoading(false); setError("");
+      renderedPageRef.current = null;
+      return;
+    }
     let live = true, task;
     setError("");
+    setLoading(true);
+    setLoadingLabel("Opening PDF…");
+    setPdf(null); setPdfPage(null); setViewport(null);
+    renderedPageRef.current = null;
     (async () => {
       try {
         task = pdfjs.getDocument({url:pdfUrl, isEvalSupported:false, disableStream:true, disableAutoFetch:true, rangeChunkSize:65536});
@@ -79,7 +91,10 @@ export default function PdfPane({
           onDocumentLoad?.(doc.numPages);
         }
       } catch (reason) {
-        if (live) setError(`PDF failed to load. ${reason?.message || reason}`);
+        if (live) {
+          setError(`PDF failed to load. ${reason?.message || reason}`);
+          setLoading(false);
+        }
       }
     })();
     return () => { live = false; task?.destroy(); };
@@ -88,13 +103,37 @@ export default function PdfPane({
   useEffect(() => {
     if (!pdf || !page) { setPdfPage(null); return; }
     let live = true;
+    setError("");
+    setLoading(true);
+    setLoadingLabel(`Loading page ${page}…`);
     pdf.getPage(page).then((value) => { if (live) setPdfPage(value); })
-      .catch(() => { if (live) setPdfPage(null); });
+      .catch(() => {
+        if (live) {
+          setPdfPage(null);
+          setLoading(false);
+          setError(`Page ${page} failed to load.`);
+        }
+      });
     return () => { live = false; };
   }, [pdf, page]);
 
   useEffect(() => {
     if (!pdfPage || !canvas.current) return;
+    let live = true;
+    let delayTimer = null;
+    const pageNo = Number(page);
+    const isPageSwitch = renderedPageRef.current !== pageNo;
+    if (isPageSwitch) {
+      setLoading(true);
+      setLoadingLabel(page ? `Rendering page ${page}…` : "Rendering page…");
+    } else {
+      // Zoom/resize: only show the overlay if render is slow.
+      delayTimer = setTimeout(() => {
+        if (!live) return;
+        setLoading(true);
+        setLoadingLabel("Updating view…");
+      }, 180);
+    }
     const base = pdfPage.getViewport({scale:1});
     const fitW = Math.max(.25, (size.width - 28) / base.width);
     const fitH = Math.max(.25, (size.height - 28) / base.height);
@@ -109,14 +148,27 @@ export default function PdfPane({
     el.width = Math.ceil(vp.width); el.height = Math.ceil(vp.height);
     el.style.width = `${vp.width}px`; el.style.height = `${vp.height}px`;
     const task = pdfPage.render({canvasContext:el.getContext("2d"), viewport:vp});
+    const finish = () => {
+      if (delayTimer) clearTimeout(delayTimer);
+      if (!live) return;
+      renderedPageRef.current = pageNo;
+      setLoading(false);
+    };
     // pdf.js rejects with RenderingCancelledException when a newer render
     // supersedes this one (page change, zoom, resize, Strict Mode remount).
-    task.promise.catch((reason) => {
-      if (reason?.name === "RenderingCancelledException") return;
-      console.warn("PDF page render failed", reason);
-    });
-    return () => task.cancel();
-  }, [pdfPage, size, zoom]);
+    task.promise
+      .then(finish)
+      .catch((reason) => {
+        if (delayTimer) clearTimeout(delayTimer);
+        if (reason?.name === "RenderingCancelledException") return;
+        console.warn("PDF page render failed", reason);
+        if (live) {
+          setLoading(false);
+          setError(`Page render failed. ${reason?.message || reason}`);
+        }
+      });
+    return () => { live = false; if (delayTimer) clearTimeout(delayTimer); task.cancel(); };
+  }, [pdfPage, size, zoom, page]);
 
   const effectivePercent = (value) => {
     const {fitW, fitH} = fitScale.current;
@@ -283,6 +335,13 @@ export default function PdfPane({
 
   return <div className={`pdf-scroll${pinchZoom ? " pdf-scroll-pinch" : ""}`} ref={host} aria-label="PDF page">
     {error && <div className="pdf-error">{error}</div>}
+    {loading && !error &&
+      <div className="pdf-loading" role="status" aria-live="polite" aria-busy="true">
+        <div className="pdf-loading-card">
+          <span className="pdf-loading-spinner" aria-hidden="true"/>
+          <span className="pdf-loading-label">{loadingLabel}</span>
+        </div>
+      </div>}
     <div className="page-stage" ref={stage}>
       <canvas ref={canvas}/>
       {viewport && <svg ref={svg} className={`overlay ${clickable ? "clickable" : ""}`}

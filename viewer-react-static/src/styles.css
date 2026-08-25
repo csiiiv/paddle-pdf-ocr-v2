@@ -382,6 +382,7 @@ main {
   color: #dcefff;
 }
 .pdf-scroll {
+  position: relative;
   flex: 1;
   min-height: 0;
   overflow: auto;
@@ -430,6 +431,46 @@ main {
   stroke: #ff6b6b;
   stroke-width: 2.5;
   pointer-events: none;
+}
+.pdf-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #0e1115cc;
+  backdrop-filter: blur(2px);
+  pointer-events: all;
+}
+.pdf-loading-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: min(280px, 100%);
+  padding: 14px 18px;
+  color: #e8eef6;
+  background: #1b2129ee;
+  border: 1px solid #4a5a6e;
+  border-radius: 10px;
+  box-shadow: 0 12px 32px #00000088;
+  font-size: 13px;
+  font-weight: 500;
+}
+.pdf-loading-spinner {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #3a4a5c;
+  border-top-color: #6eb6ff;
+  border-radius: 50%;
+  animation: pdf-spin 0.7s linear infinite;
+}
+.pdf-loading-label {
+  min-width: 0;
+}
+@keyframes pdf-spin {
+  to { transform: rotate(360deg); }
 }
 .pdf-error {
   margin: 20px;
