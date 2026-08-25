@@ -49,7 +49,15 @@ export default function App() {
   const [error, setError] = useState("");
   const dragging = useRef(false);
   const toastTimer = useRef(null);
+  const pageDraftTimer = useRef(null);
   const searchFilter = useRef({active: false, included: null});
+
+  const clearPageDraftTimer = () => {
+    if (pageDraftTimer.current) {
+      clearTimeout(pageDraftTimer.current);
+      pageDraftTimer.current = null;
+    }
+  };
 
   // Load the multi-doc index once; fall back to the first document.
   useEffect(() => {
@@ -82,6 +90,18 @@ export default function App() {
       .catch((reason) => { if (live) setError(reason.message); });
     return () => { live = false; };
   }, [doc]);
+
+  // PDF overlays/clicks only include the active tree. When the page leaves that
+  // tree's span (e.g. By-OU 13–108 → PAP 115+), switch so sync keeps working.
+  useEffect(() => {
+    if (!manifest?.trees?.length || !page) return;
+    const covers = (span) => Array.isArray(span) && span.length === 2
+      && page >= span[0] && page <= span[1];
+    const current = manifest.trees.find((item) => item.id === treeId);
+    if (covers(current?.page_span)) return;
+    const match = manifest.trees.find((item) => covers(item.page_span));
+    if (match && match.id !== treeId) setTreeId(match.id);
+  }, [manifest, page, treeId]);
 
   // Lazy-load the active tree only when its tab is selected.
   useEffect(() => {
@@ -152,14 +172,27 @@ export default function App() {
     return Math.min(pdfPageCount, Math.max(1, n));
   };
   const goToPage = (value) => {
+    clearPageDraftTimer();
     const next = clampPage(value);
     if (next != null) setPage(next);
   };
 
   // Draft lets the field go empty while typing; committed page stays clamped.
+  // Debounce navigation so "347" does not load pages 3 → 34 → 347.
+  const PAGE_DRAFT_DEBOUNCE_MS = 400;
   const [pageDraft, setPageDraft] = useState(() => (initial.page == null ? "" : String(initial.page)));
   useEffect(() => { setPageDraft(page == null ? "" : String(page)); }, [page]);
   const commitPageDraft = () => goToPage(pageDraft === "" ? 1 : pageDraft);
+  const onPageDraftChange = (value) => {
+    setPageDraft(value);
+    clearPageDraftTimer();
+    if (value === "") return;
+    pageDraftTimer.current = setTimeout(() => {
+      pageDraftTimer.current = null;
+      const next = clampPage(value);
+      if (next != null) setPage(next);
+    }, PAGE_DRAFT_DEBOUNCE_MS);
+  };
 
   const keyboardNav = (event) => {
     if (event.target.matches("input,select,textarea")) return;
@@ -179,7 +212,10 @@ export default function App() {
     setToastTick((tick) => tick + 1);
     toastTimer.current = setTimeout(() => setToast(""), 2800);
   };
-  useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current); }, []);
+  useEffect(() => () => {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    clearPageDraftTimer();
+  }, []);
 
   const hasBbox = (node) => Array.isArray(node?.bbox) && node.bbox.length === 4;
 
@@ -235,7 +271,7 @@ export default function App() {
     overlayMode, syncEnabled,
     onPrev: () => goToPage(page - 1),
     onNext: () => goToPage(page + 1),
-    onPageChange: (value) => { setPageDraft(value); if (value !== "") goToPage(value); },
+    onPageChange: onPageDraftChange,
     onPageBlur: commitPageDraft,
     onZoom: setZoom,
     onOverlay: setOverlayMode,

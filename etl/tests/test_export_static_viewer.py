@@ -126,3 +126,21 @@ def test_copy_pdf_to_pack_linearizes(tmp_path):
     assert export.copy_pdf_to_pack(source, plain, linearize=False) is False
     assert plain.is_file()
     assert not export.pdf_looks_linearized(plain)
+
+
+def test_export_tree_pages_become_page_span():
+    """Manifest keeps [first, last] per tree after unioning pages."""
+    export = load_export_module()
+    trees = [
+        {"id": "by-ou", "pages": [13, 14, 108]},
+        {"id": "pap", "pages": [115, 200, 690]},
+    ]
+    pages = sorted({page for tree in trees for page in (tree.get("pages") or [])})
+    for tree in trees:
+        tree_pages = tree.pop("pages") or []
+        if tree_pages:
+            tree["page_span"] = [tree_pages[0], tree_pages[-1]]
+    assert pages[0] == 13 and pages[-1] == 690
+    assert trees[0]["page_span"] == [13, 108]
+    assert trees[1]["page_span"] == [115, 690]
+    assert "pages" not in trees[0]

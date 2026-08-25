@@ -690,7 +690,11 @@
       "file": "trees/nep-vol2b-dpwh-by-operating-units.json",
       "csv": "trees/nep-vol2b-dpwh-by-operating-units.csv",
       "schema_format": 2,
-      "n_nodes": 2262
+      "n_nodes": 2262,
+      "page_span": [
+        13,
+        108
+      ]
     },
     {
       "id": "pap",
@@ -699,7 +703,11 @@
       "file": "trees/nep-vol2b-dpwh-by-pap.json",
       "csv": "trees/nep-vol2b-dpwh-by-pap.csv",
       "schema_format": 2,
-      "n_nodes": 16453
+      "n_nodes": 16453,
+      "page_span": [
+        115,
+        690
+      ]
     }
   ],
   "pdf": {

@@ -62,7 +62,8 @@ viewer reads exactly one index and exactly one manifest per open document.
       "title": "New Appropriations, by Programs / Activities / Projects (Cash-Based), by Operating Units",
       "file": "trees/nep-vol2b-dpwh-by-operating-units.json",
       "csv": "trees/nep-vol2b-dpwh-by-operating-units.csv",
-      "schema_format": 2
+      "schema_format": 2,
+      "page_span": [13, 108]
     },
     {
       "id": "pap",
@@ -70,7 +71,8 @@ viewer reads exactly one index and exactly one manifest per open document.
       "title": "Programs / Activities / Projects (PAP)",
       "file": "trees/nep-vol2b-dpwh-by-pap.json",
       "csv": "trees/nep-vol2b-dpwh-by-pap.csv",
-      "schema_format": 2
+      "schema_format": 2,
+      "page_span": [115, 690]
     }
   ],
   "pdf": {
@@ -104,6 +106,10 @@ Field rules:
   or `null` when disabled. The CSV stem matches the JSON stem.
 - `trees[].schema_format` is the downloadable tree schema version (`2` for
   current exports). The viewer accepts formats `1` and `2`.
+- `trees[].page_span` is `[first, last]` PDF page that carries nodes for that
+  tree (inclusive). The viewer uses it to auto-switch the active tree when the
+  PDF page leaves the current tree's span so row overlays and click-sync keep
+  working.
 
 ## Public downloadable data
 
